@@ -18,41 +18,11 @@ interface LandingPageProps {
   };
 }
 
-export async function generateMetadata({ params }: LandingPageProps): Promise<Metadata> {
-  const { isEnabled: preview } = draftMode();
-  const gqlClient = preview ? previewClient : client;
-  const landingPageData = await gqlClient.pageLanding({ locale: params.locale, preview });
-  const page = landingPageData.pageLandingCollection?.items[0];
-  const languages = locales.length > 1 ? {} : undefined;
-
-  if (languages) {
-    for (const locale of locales) {
-      languages[locale] = `/${locale}`;
-    }
-  }
-
-  let metadata: Metadata = {
-    alternates: {
-      canonical: '/',
-      languages,
-    },
-    twitter: {
-      card: 'summary_large_image',
-    },
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Pattivana',
+    description: 'Pattivana',
   };
-
-  if (page?.seoFields) {
-    metadata = {
-      title: page.seoFields.pageTitle,
-      description: page.seoFields.pageDescription,
-      robots: {
-        follow: !page.seoFields.nofollow,
-        index: !page.seoFields.noindex,
-      },
-    };
-  }
-
-  return metadata;
 }
 
 export default async function Page({ params: { locale } }: LandingPageProps) {
