@@ -10,6 +10,7 @@ import initTranslations from '@src/i18n';
 import { locales } from '@src/i18n/config';
 import { PageBlogPostOrder } from '@src/lib/__generated/sdk';
 import { client, previewClient } from '@src/lib/client';
+import HomeSection from '@src/components/section/HomeSection';
 
 interface LandingPageProps {
   params: {
@@ -81,24 +82,27 @@ export default async function Page({ params: { locale } }: LandingPageProps) {
     return;
   }
 
-  return (
-    <TranslationsProvider locale={locale} resources={resources}>
-      <Container>
-        <Link href={`/${page.featuredBlogPost.slug}`}>
-          <ArticleHero article={page.featuredBlogPost} />
-        </Link>
-      </Container>
+  return <HomeSection />;
 
-      {/* Tutorial: contentful-and-the-starter-template.md */}
-      {/* Uncomment the line below to make the Greeting field available to render */}
-      {/*<Container>*/}
-      {/*  <div className="my-5 bg-colorTextLightest p-5 text-colorBlueLightest">{page.greeting}</div>*/}
-      {/*</Container>*/}
+  //   return (
+  //     <TranslationsProvider locale={locale} resources={resources}>
+  //       <Container>
+  //         <Link href={`/${page.featuredBlogPost.slug}`}>
+  //           <ArticleHero article={page.featuredBlogPost} />
+  //           asd
+  //         </Link>
+  //       </Container>
 
-      <Container className="my-8  md:mb-10 lg:mb-16">
-        <h2 className="mb-4 md:mb-6">{t('landingPage.latestArticles')}</h2>
-        <ArticleTileGrid className="md:grid-cols-2 lg:grid-cols-3" articles={posts} />
-      </Container>
-    </TranslationsProvider>
-  );
+  //       {/* Tutorial: contentful-and-the-starter-template.md */}
+  //       {/* Uncomment the line below to make the Greeting field available to render */}
+  //       {/*<Container>*/}
+  //       {/*  <div className="my-5 bg-colorTextLightest p-5 text-colorBlueLightest">{page.greeting}</div>*/}
+  //       {/*</Container>*/}
+
+  //       <Container className="my-8  md:mb-10 lg:mb-16">
+  //         <h2 className="mb-4 md:mb-6">{t('landingPage.latestArticles')}</h2>
+  //         <ArticleTileGrid className="md:grid-cols-2 lg:grid-cols-3" articles={posts} />
+  //       </Container>
+  //     </TranslationsProvider>
+  //   );
 }

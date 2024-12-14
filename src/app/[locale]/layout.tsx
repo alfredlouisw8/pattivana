@@ -54,11 +54,7 @@ export default async function PageLayout({ children, params }: LayoutProps) {
             enableLiveUpdates={preview}
             targetOrigin={allowedOriginList}
           >
-            <main className={`${urbanist.variable} font-sans`}>
-              <Header />
-              {children}
-              <Footer />
-            </main>
+            <main className={`${urbanist.variable} font-sans`}>{children}</main>
             <div id="portal" className={`${urbanist.variable} font-sans`} />
           </ContentfulPreviewProvider>
         </TranslationsProvider>
