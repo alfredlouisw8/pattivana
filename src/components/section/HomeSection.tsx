@@ -6,10 +6,9 @@ export default function HomeSection() {
   return (
     <section
       style={{ backgroundImage: `url('${bgImage}')` }}
-      className="h-screen w-screen bg-cover bg-center grayscale"
-    >
+      className="h-screen w-screen bg-cover bg-center grayscale">
       <div className="flex w-full justify-center pt-20">
-        <Image src="/assets/images/logo_white.png" width={400} height={200} alt="Pattivana" />
+        <Image src="/assets/images/logo_gray.png" width={400} height={200} alt="Pattivana" />
       </div>
       {/* Centered text */}
       <div className="absolute inset-0 flex items-center justify-center text-center">
