@@ -76,7 +76,7 @@ export default function MenuSection() {
                 key={index}
                 onMouseEnter={e => (e.currentTarget.style.backgroundImage = `url('${image}')`)}
                 onMouseLeave={e => (e.currentTarget.style.backgroundImage = 'none')}
-                className={`flex flex-1 flex-col justify-start gap-10 border-r border-r-cream bg-center p-5 pt-[20%] transition-all hover:grayscale active:grayscale-0`}>
+                className={`flex flex-1 flex-col justify-start gap-10 border-r border-r-cream bg-center p-5 pt-[20%] grayscale transition-all active:grayscale-0`}>
                 <h1 className="text-3xl uppercase tracking-wide text-cream-dark">{title}</h1>
                 <h3 className="text-xl text-cream-dark">{description}</h3>
               </div>
