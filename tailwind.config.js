@@ -23,6 +23,13 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-urbanist)', ...fontFamily.sans],
       },
+      colors: {
+        cream: {
+          light: '#e9e8e1',
+          DEFAULT: '#c6c3af',
+          dark: '#211f19',
+        },
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],

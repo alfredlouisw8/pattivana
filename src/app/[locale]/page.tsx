@@ -11,6 +11,7 @@ import { locales } from '@src/i18n/config';
 import { PageBlogPostOrder } from '@src/lib/__generated/sdk';
 import { client, previewClient } from '@src/lib/client';
 import HomeSection from '@src/components/section/HomeSection';
+import MenuSection from '@src/components/section/MenuSection';
 
 interface LandingPageProps {
   params: {
