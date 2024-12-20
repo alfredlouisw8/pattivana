@@ -7,13 +7,15 @@ export default function Sidebar() {
   return (
     <div className="flex h-screen w-52 flex-col items-center justify-between gap-5 bg-cream p-5">
       <div className="relative flex aspect-square h-[10vh] w-[10vh] items-center justify-center">
-        <Image
-          src={'/assets/images/logo_black.png'}
-          alt="Pattivana"
-          width={200}
-          height={200}
-          objectFit="cover"
-        />
+        <Link href="/">
+          <Image
+            src={'/assets/images/logo_black.png'}
+            alt="Pattivana"
+            width={200}
+            height={200}
+            objectFit="cover"
+          />
+        </Link>
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center gap-[1vh]">
