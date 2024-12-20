@@ -1,20 +1,22 @@
 import Image from 'next/image';
 import Sidebar from '../shared/sidebar/Sidebar';
-import CustomSlider from '../shared/slider/Slider';
+import DraggableSlider from '../shared/slider/Slider';
 
 export default function PackagesSection() {
-  const packages = [
+  const packages = [...Array(4)].flatMap((_, i) => [
     {
       title: 'Couple Documentary',
       image: '/assets/images/intimate.png',
       description: 'asdasd',
+      id: 'couple' + i,
     },
     {
       title: 'Engagement Package',
       image: '/assets/images/intimate.png',
       description: 'asdasd',
+      id: 'engagement' + i,
     },
-  ];
+  ]);
 
   return (
     <section className="flex bg-cream-light ">
@@ -29,30 +31,7 @@ export default function PackagesSection() {
           </h1>
         </div>
 
-        <div className="flex items-start gap-5">
-          {packages.map(({ image, title, description }, index) => (
-            <div className="flex flex-col gap-5" key={index}>
-              <h2 className="text-primary text-2xl">{title}</h2>
-              <div className="relative aspect-video">
-                <Image
-                  src={image}
-                  alt={title}
-                  fill
-                  objectFit="cover"
-                  className="grayscale transition hover:grayscale-0"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* <div className="w-full">
-          <CustomSlider>
-            <div>h1</div>
-            <div>h2</div>
-            <div>h3</div>
-          </CustomSlider>
-        </div> */}
+        <DraggableSlider items={packages} />
       </div>
     </section>
   );
