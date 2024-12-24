@@ -13,7 +13,7 @@ const menus = [
       'Engagement - Prewedding - Wedding - Behind The Wedding - Couple Documentary - Proposal - Wedding Anniversary',
   },
   {
-    link: '#',
+    link: '/portfolios',
     image: '/assets/images/intimate.png',
     show: true,
     title: 'Our\nPortfolios',
@@ -27,7 +27,7 @@ const menus = [
     description: "Don't miss our special offer, from bundling package, wedding fair, etc.",
   },
   {
-    link: '#',
+    link: '/love-profile-check',
     image: '/assets/images/intimate.png',
     title: 'Love Profile\nCheck',
     description: 'Still confused where to begin? Start here and take the test!',
