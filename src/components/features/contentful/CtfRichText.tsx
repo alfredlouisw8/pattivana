@@ -15,6 +15,7 @@ export interface ContentfulRichTextInterface {
         };
       }
     | any;
+  className?: string;
 }
 
 export const EmbeddedEntry = (entry: EmbeddedEntryType) => {
@@ -38,14 +39,16 @@ export const contentfulBaseRichTextOptions = ({ links }: ContentfulRichTextInter
       return <EmbeddedEntry {...entry} />;
     },
   },
+  renderText: text => {
+    // @ts-ignore
+    return text.split('\n').reduce((children, textSegment, index) => {
+      return [...children, index > 0 && <br key={index} />, textSegment];
+    }, []);
+  },
 });
 
-export const CtfRichText = ({ json, links }: ContentfulRichTextInterface) => {
+export const CtfRichText = ({ json, links, ...props }: ContentfulRichTextInterface) => {
   const baseOptions = contentfulBaseRichTextOptions({ links, json });
 
-  return (
-    <article className="prose prose-sm max-w-none">
-      {documentToReactComponents(json, baseOptions)}
-    </article>
-  );
+  return <article {...props}>{documentToReactComponents(json, baseOptions)}</article>;
 };

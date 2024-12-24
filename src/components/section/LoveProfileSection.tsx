@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import Sidebar from '../shared/sidebar/Sidebar';
 import Image from 'next/image';
+import { useState } from 'react';
+
+import Sidebar from '../shared/sidebar/Sidebar';
 
 export default function LoveProfileSection() {
   const [step, setStep] = useState(0);
@@ -130,43 +131,39 @@ export default function LoveProfileSection() {
 
   const pages = [formPage, ...quizzes.map((_, index) => questionPage(index))];
 
+  if (showCover) {
+    return coverPage;
+  }
+
   return (
-    <section className="flex">
-      <Sidebar />
+    <div className="flex w-full flex-col justify-between bg-cream-light p-10">
+      {headerText}
 
-      {showCover ? (
-        coverPage
-      ) : (
-        <div className="flex w-full flex-col justify-between bg-cream-light p-10">
-          {headerText}
+      {pages[step]}
 
-          {pages[step]}
-
-          <div className="flex flex-col gap-5">
-            {step === 0 && (
-              <div className="flex justify-end">
-                <div
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white"
-                  onClick={() => setStep(1)}>
-                  {'>'}
-                </div>
-              </div>
-            )}
-
-            <div className="flex w-full items-center">
-              {[...Array(indicatorsLength)].map((_, index) => (
-                <div
-                  key={index}
-                  style={{ flex: 1 / indicatorsLength }}
-                  className={`${index === step ? 'h-3 bg-cream-dark' : 'h-2 bg-cream'} `}
-                  onClick={() => handleIndicatorClick(index)}>
-                  &nbsp;
-                </div>
-              ))}
+      <div className="flex flex-col gap-5">
+        {step === 0 && (
+          <div className="flex justify-end">
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white"
+              onClick={() => setStep(1)}>
+              {'>'}
             </div>
           </div>
+        )}
+
+        <div className="flex w-full items-center">
+          {[...Array(indicatorsLength)].map((_, index) => (
+            <div
+              key={index}
+              style={{ flex: 1 / indicatorsLength }}
+              className={`${index === step ? 'h-3 bg-cream-dark' : 'h-2 bg-cream'} `}
+              onClick={() => handleIndicatorClick(index)}>
+              &nbsp;
+            </div>
+          ))}
         </div>
-      )}
-    </section>
+      </div>
+    </div>
   );
 }

@@ -1,0 +1,26 @@
+fragment PortfoliosFields on Portfolios {
+  sys {
+    id
+  }
+  title
+  slug
+  image {
+    ...ImageFields
+  }
+  description {
+    json
+  }
+  tagsCollection {
+    items {
+      ...TagFields
+    }
+  }
+}
+
+query GetPortfolios($locale: String, $preview: Boolean) {
+  portfoliosCollection(locale: $locale, preview: $preview) {
+    items {
+      ...PortfoliosFields
+    }
+  }
+}

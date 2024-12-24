@@ -1,4 +1,5 @@
 'use client';
+import { CtfImage, CtfRichText } from '@src/components/features/contentful';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
@@ -50,30 +51,36 @@ export default function DraggableSlider({ items }) {
         aria-label="Horizontal draggable slider"
         className="no-scrollbar flex items-start gap-5 overflow-auto scroll-smooth py-10 focus:outline-none"
         style={{ width: 'calc(100vw - 270px)' }}>
-        {items.map(({ image, title, description, id }, index) => {
-          const active = selectedItem === id;
+        {items.map(({ image, title, description, slug }, index) => {
+          const active = selectedItem === slug;
           return (
             <div
               className={`group flex flex-col gap-5 transition-all ${active && 'mt-[-30px]'}`}
               key={index}
-              onClick={() => setSelectedItem(id)}
-              id={id}>
-              <h2 className={`text-primary transition-all ${active ? 'text-3xl' : 'text2xl'}`}>
+              onClick={() => setSelectedItem(slug)}
+              id={slug}>
+              <h2 className={`text-primary transition-all ${active ? 'text-3xl' : 'text-2xl'}`}>
                 {title}
               </h2>
               <div
                 className={`relative aspect-video transition-all ${
                   active ? 'w-[400px]' : 'w-[300px]'
                 }`}>
-                <Image
-                  src={image}
-                  alt={title}
-                  fill
-                  objectFit="cover"
-                  className={`transition-all ${active ? 'grayscale-0' : 'grayscale'}`}
+                <CtfImage
+                  nextImageProps={{
+                    className: `transition-all object-cover ${
+                      active ? 'grayscale-0' : 'grayscale'
+                    }`,
+                    fill: true,
+                  }}
+                  {...image}
                 />
               </div>
-              <p className={`transition-all ${active && 'text-lg'}`}>{description}</p>
+              <CtfRichText
+                json={description?.json}
+                links={description?.links}
+                className={`transition-all ${active && 'text-lg'}`}
+              />
             </div>
           );
         })}
@@ -81,13 +88,13 @@ export default function DraggableSlider({ items }) {
 
       <div className="flex w-full justify-center">
         <div className="flex w-[50vw] items-center">
-          {items.map(({ id }, index) => {
-            const active = selectedItem === id;
+          {items.map(({ slug }, index) => {
+            const active = selectedItem === slug;
             return (
-              <a href={`#${id}`} key={index} style={{ flex: 1 / items.length }}>
+              <a href={`#${slug}`} key={index} style={{ flex: 1 / items.length }}>
                 <div
                   className={`${active ? 'h-3 bg-cream-dark' : 'h-2 bg-cream'} `}
-                  onClick={() => setSelectedItem(id)}>
+                  onClick={() => setSelectedItem(slug)}>
                   &nbsp;
                 </div>
               </a>

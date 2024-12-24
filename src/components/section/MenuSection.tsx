@@ -1,28 +1,34 @@
 'use client';
 
-import menus from '../shared/menu';
-import Sidebar from '../shared/sidebar/Sidebar';
+import { Menu } from 'types';
+import { CtfImage } from '../features/contentful';
+import Link from 'next/link';
 
-export default function MenuSection() {
+interface MenuSectionProps {
+  menus: Menu[];
+}
+export default function MenuSection({ menus }: MenuSectionProps) {
   return (
-    <section className="flex bg-cream-light ">
-      <Sidebar />
-
-      <div className="flex w-full">
-        {menus.map(
-          ({ image, title, description, show }, index) =>
-            show && (
+    <div className="flex w-full">
+      {menus.map(
+        ({ image, title, description, show, link }, index) =>
+          show && (
+            <Link href={link} key={index} className="flex-1">
               <div
-                key={index}
-                onMouseEnter={e => (e.currentTarget.style.backgroundImage = `url('${image}')`)}
-                onMouseLeave={e => (e.currentTarget.style.backgroundImage = 'none')}
-                className={`flex flex-1 flex-col justify-start gap-10 border-r border-r-cream bg-center p-5 pt-[18vh] grayscale transition-all active:grayscale-0`}>
+                className={`group relative flex h-full flex-col justify-start gap-10 border-r border-r-cream bg-center p-5 pt-[18vh] grayscale transition-all active:grayscale-0`}>
+                <CtfImage
+                  nextImageProps={{
+                    className: 'object-cover hidden group-hover:block z-[-1]',
+                    fill: true,
+                  }}
+                  {...image}
+                />
                 <h1 className="text-primary text-3xl">{title}</h1>
                 <h3 className="text-xl text-cream-dark">{description}</h3>
               </div>
-            ),
-        )}
-      </div>
-    </section>
+            </Link>
+          ),
+      )}
+    </div>
   );
 }

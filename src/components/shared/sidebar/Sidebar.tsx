@@ -1,9 +1,14 @@
+import { CtfImage } from '@src/components/features/contentful';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import menus from '../menu';
+import { Menu } from 'types';
 
-export default function Sidebar() {
+interface SidebarProps {
+  menus: Menu[];
+}
+
+export default function Sidebar({ menus }: SidebarProps) {
   return (
     <div className="flex h-screen w-52 flex-col items-center justify-between gap-5 bg-cream p-5">
       <div className="relative flex aspect-square h-[10vh] w-[10vh] items-center justify-center">
@@ -13,7 +18,7 @@ export default function Sidebar() {
             alt="Pattivana"
             width={200}
             height={200}
-            objectFit="cover"
+            className="object-cover"
           />
         </Link>
       </div>
@@ -21,10 +26,9 @@ export default function Sidebar() {
       <div className="flex flex-1 flex-col items-center justify-center gap-[1vh]">
         {menus.map(({ image, link }, index) => (
           <Link href={link} key={index}>
-            <div
-              className="position-relative aspect-square h-[10vh] w-[10vh] bg-cover bg-center"
-              style={{ backgroundImage: `url('${image}')` }}
-            />
+            <div className="relative aspect-square h-[10vh] w-[10vh] bg-cover bg-center">
+              <CtfImage nextImageProps={{ className: 'object-cover', fill: true }} {...image} />
+            </div>
           </Link>
         ))}
       </div>

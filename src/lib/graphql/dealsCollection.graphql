@@ -1,0 +1,21 @@
+fragment DealsFields on SpecialDeals {
+  sys {
+    id
+    spaceId
+  }
+  title
+  slug
+  image {
+    ...ImageFields
+  }
+  description {
+    json
+  }
+}
+query GetDeals($locale: String, $preview: Boolean) {
+  specialDealsCollection(locale: $locale, preview: $preview) {
+    items {
+      ...DealsFields
+    }
+  }
+}

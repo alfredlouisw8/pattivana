@@ -1,0 +1,6 @@
+fragment TagFields on Tag {
+  sys {
+    id
+  }
+  name
+}

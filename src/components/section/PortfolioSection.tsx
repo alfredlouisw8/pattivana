@@ -1,37 +1,19 @@
-import Sidebar from '../shared/sidebar/Sidebar';
+import { PortfoliosFieldsFragment } from '@src/lib/__generated/sdk';
+
 import DraggableSlider from '../shared/slider/Slider';
 
-export default function PortfolioSection() {
-  const packages = [...Array(4)].flatMap((_, i) => [
-    {
-      title: 'Couple Documentary',
-      image: '/assets/images/intimate.png',
-      description: 'asdasd',
-      id: 'couple' + i,
-    },
-    {
-      title: 'Engagement Package',
-      image: '/assets/images/intimate.png',
-      description: 'asdasd',
-      id: 'engagement' + i,
-    },
-  ]);
-
+export default function PortfolioSection({ portfolios }) {
   return (
-    <section className="flex bg-cream-light ">
-      <Sidebar />
-
-      <div className="flex w-full flex-col justify-between p-10">
-        <div className="flex justify-end">
-          <h1 className="text-primary text-right text-7xl">
-            Our
-            <br />
-            Portfolios
-          </h1>
-        </div>
-
-        <DraggableSlider items={packages} />
+    <div className="flex w-full flex-col justify-between p-10">
+      <div className="flex justify-end">
+        <h1 className="text-primary text-right text-7xl">
+          Our
+          <br />
+          Portfolios
+        </h1>
       </div>
-    </section>
+
+      <DraggableSlider items={portfolios} />
+    </div>
   );
 }

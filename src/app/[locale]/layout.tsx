@@ -9,6 +9,7 @@ import { Footer } from '@src/components/templates/footer';
 import { Header } from '@src/components/templates/header';
 import initTranslations from '@src/i18n';
 import { locales } from '@src/i18n/config';
+import { LayoutProps } from 'types';
 
 export async function generateMetadata() {
   const metatadata: Metadata = {
@@ -30,11 +31,6 @@ const urbanist = Urbanist({ subsets: ['latin'], variable: '--font-urbanist' });
 
 const allowedOriginList = ['https://app.contentful.com', 'https://app.eu.contentful.com'];
 
-interface LayoutProps {
-  children: React.ReactNode;
-  params: { locale: string };
-}
-
 export default async function PageLayout({ children, params }: LayoutProps) {
   const { isEnabled: preview } = draftMode();
   const { locale } = params;
@@ -52,8 +48,7 @@ export default async function PageLayout({ children, params }: LayoutProps) {
             locale={locale}
             enableInspectorMode={preview}
             enableLiveUpdates={preview}
-            targetOrigin={allowedOriginList}
-          >
+            targetOrigin={allowedOriginList}>
             <main className={`${urbanist.variable} font-sans`}>{children}</main>
             <div id="portal" className={`${urbanist.variable} font-sans`} />
           </ContentfulPreviewProvider>

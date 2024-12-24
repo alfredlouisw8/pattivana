@@ -1,0 +1,29 @@
+fragment ImagesFields on Images {
+  sys {
+    id
+    spaceId
+  }
+  homeImage {
+    ...ImageFields
+  }
+  packagesImage {
+    ...ImageFields
+  }
+  portfoliosImage {
+    ...ImageFields
+  }
+  dealsImage {
+    ...ImageFields
+  }
+  loveProfileImage {
+    ...ImageFields
+  }
+}
+
+query GetImages($locale: String, $preview: Boolean) {
+  imagesCollection(locale: $locale, preview: $preview) {
+    items {
+      ...ImagesFields
+    }
+  }
+}

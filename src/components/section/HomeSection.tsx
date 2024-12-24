@@ -3,17 +3,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function HomeSection() {
-  const bgImage = '/assets/images/intimate.png';
+import { CtfImage } from '../features/contentful';
 
+import { ImageFieldsFragment } from '@src/lib/__generated/sdk';
+
+export default function HomeSection({ homeImage }: { homeImage: ImageFieldsFragment }) {
   return (
-    <section
-      style={{ backgroundImage: `url('${bgImage}')` }}
-      className="h-screen w-screen bg-cover bg-center grayscale">
+    <section className="relative h-screen w-screen bg-cover bg-center grayscale">
+      <CtfImage nextImageProps={{ className: 'object-cover', fill: true }} {...homeImage} />
       <Link href="/menu">
         <div className="flex w-full justify-center pt-[5vh]">
           <div className="relative h-[15vh] w-[25vh]">
-            <Image src="/assets/images/logo_gray.png" layout="fill" alt="Pattivana" />
+            <Image src="/assets/images/logo_gray.png" fill alt="Pattivana" sizes="25vh" />
           </div>
         </div>
         {/* Centered text */}

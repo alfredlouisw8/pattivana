@@ -1,0 +1,21 @@
+fragment PackagesFields on Packages {
+  sys {
+    id
+    spaceId
+  }
+  title
+  slug
+  image {
+    ...ImageFields
+  }
+  description {
+    json
+  }
+}
+query GetPackages($locale: String, $preview: Boolean) {
+  packagesCollection(locale: $locale, preview: $preview) {
+    items {
+      ...PackagesFields
+    }
+  }
+}
