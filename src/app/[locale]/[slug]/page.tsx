@@ -6,28 +6,6 @@ import { Container } from '@src/components/shared/container';
 import initTranslations from '@src/i18n';
 import { client, previewClient } from '@src/lib/client';
 
-export async function generateStaticParams({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<BlogPageProps['params'][]> {
-  const gqlClient = client;
-  const { pageBlogPostCollection } = await gqlClient.pageBlogPostCollection({ locale, limit: 100 });
-
-  if (!pageBlogPostCollection?.items) {
-    throw new Error('No blog posts found');
-  }
-
-  return pageBlogPostCollection.items
-    .filter((blogPost): blogPost is NonNullable<typeof blogPost> => Boolean(blogPost?.slug))
-    .map(blogPost => {
-      return {
-        locale,
-        slug: blogPost.slug!,
-      };
-    });
-}
-
 interface BlogPageProps {
   params: {
     locale: string;
