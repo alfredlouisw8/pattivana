@@ -178,6 +178,7 @@ export type AssetLinkingCollections = {
   packagesCollection?: Maybe<PackagesCollection>;
   pageBlogPostCollection?: Maybe<PageBlogPostCollection>;
   portfoliosCollection?: Maybe<PortfoliosCollection>;
+  quizAnswerCollection?: Maybe<QuizAnswerCollection>;
   specialDealsCollection?: Maybe<SpecialDealsCollection>;
 };
 
@@ -239,6 +240,14 @@ export type AssetLinkingCollectionsPageBlogPostCollectionArgs = {
 
 
 export type AssetLinkingCollectionsPortfoliosCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type AssetLinkingCollectionsQuizAnswerCollectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   locale?: InputMaybe<Scalars['String']>;
   preview?: InputMaybe<Scalars['Boolean']>;
@@ -1764,6 +1773,10 @@ export type Query = {
   pageLandingCollection?: Maybe<PageLandingCollection>;
   portfolios?: Maybe<Portfolios>;
   portfoliosCollection?: Maybe<PortfoliosCollection>;
+  quiz?: Maybe<Quiz>;
+  quizAnswer?: Maybe<QuizAnswer>;
+  quizAnswerCollection?: Maybe<QuizAnswerCollection>;
+  quizCollection?: Maybe<QuizCollection>;
   specialDeals?: Maybe<SpecialDeals>;
   specialDealsCollection?: Maybe<SpecialDealsCollection>;
   tag?: Maybe<Tag>;
@@ -1941,6 +1954,40 @@ export type QueryPortfoliosCollectionArgs = {
 };
 
 
+export type QueryQuizArgs = {
+  id: Scalars['String'];
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type QueryQuizAnswerArgs = {
+  id: Scalars['String'];
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type QueryQuizAnswerCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<Array<InputMaybe<QuizAnswerOrder>>>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<QuizAnswerFilter>;
+};
+
+
+export type QueryQuizCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<Array<InputMaybe<QuizOrder>>>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<QuizFilter>;
+};
+
+
 export type QuerySpecialDealsArgs = {
   id: Scalars['String'];
   locale?: InputMaybe<Scalars['String']>;
@@ -1973,6 +2020,260 @@ export type QueryTagCollectionArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<TagFilter>;
 };
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quiz) */
+export type Quiz = Entry & _Node & {
+  __typename?: 'Quiz';
+  _id: Scalars['ID'];
+  answersCollection?: Maybe<QuizAnswersCollection>;
+  contentfulMetadata: ContentfulMetadata;
+  linkedFrom?: Maybe<QuizLinkingCollections>;
+  order?: Maybe<Scalars['Int']>;
+  question?: Maybe<Scalars['String']>;
+  sys: Sys;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quiz) */
+export type QuizAnswersCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<Array<InputMaybe<QuizAnswersCollectionOrder>>>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<QuizAnswerFilter>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quiz) */
+export type QuizLinkedFromArgs = {
+  allowedLocales?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quiz) */
+export type QuizOrderArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quiz) */
+export type QuizQuestionArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizAnswer) */
+export type QuizAnswer = Entry & _Node & {
+  __typename?: 'QuizAnswer';
+  _id: Scalars['ID'];
+  contentfulMetadata: ContentfulMetadata;
+  image?: Maybe<Asset>;
+  linkedFrom?: Maybe<QuizAnswerLinkingCollections>;
+  question?: Maybe<Entry>;
+  sys: Sys;
+  text?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizAnswer) */
+export type QuizAnswerImageArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizAnswer) */
+export type QuizAnswerLinkedFromArgs = {
+  allowedLocales?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizAnswer) */
+export type QuizAnswerQuestionArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizAnswer) */
+export type QuizAnswerTextArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizAnswer) */
+export type QuizAnswerValueArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+export type QuizAnswerCollection = {
+  __typename?: 'QuizAnswerCollection';
+  items: Array<Maybe<QuizAnswer>>;
+  limit: Scalars['Int'];
+  skip: Scalars['Int'];
+  total: Scalars['Int'];
+};
+
+export type QuizAnswerFilter = {
+  AND?: InputMaybe<Array<InputMaybe<QuizAnswerFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<QuizAnswerFilter>>>;
+  contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
+  image_exists?: InputMaybe<Scalars['Boolean']>;
+  question_exists?: InputMaybe<Scalars['Boolean']>;
+  sys?: InputMaybe<SysFilter>;
+  text?: InputMaybe<Scalars['String']>;
+  text_contains?: InputMaybe<Scalars['String']>;
+  text_exists?: InputMaybe<Scalars['Boolean']>;
+  text_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  text_not?: InputMaybe<Scalars['String']>;
+  text_not_contains?: InputMaybe<Scalars['String']>;
+  text_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  value?: InputMaybe<Scalars['String']>;
+  value_contains?: InputMaybe<Scalars['String']>;
+  value_exists?: InputMaybe<Scalars['Boolean']>;
+  value_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  value_not?: InputMaybe<Scalars['String']>;
+  value_not_contains?: InputMaybe<Scalars['String']>;
+  value_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type QuizAnswerLinkingCollections = {
+  __typename?: 'QuizAnswerLinkingCollections';
+  entryCollection?: Maybe<EntryCollection>;
+  quizCollection?: Maybe<QuizCollection>;
+};
+
+
+export type QuizAnswerLinkingCollectionsEntryCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QuizAnswerLinkingCollectionsQuizCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<Array<InputMaybe<QuizAnswerLinkingCollectionsQuizCollectionOrder>>>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+export enum QuizAnswerLinkingCollectionsQuizCollectionOrder {
+  OrderAsc = 'order_ASC',
+  OrderDesc = 'order_DESC',
+  QuestionAsc = 'question_ASC',
+  QuestionDesc = 'question_DESC',
+  SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+  SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+  SysIdAsc = 'sys_id_ASC',
+  SysIdDesc = 'sys_id_DESC',
+  SysPublishedAtAsc = 'sys_publishedAt_ASC',
+  SysPublishedAtDesc = 'sys_publishedAt_DESC',
+  SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+  SysPublishedVersionDesc = 'sys_publishedVersion_DESC'
+}
+
+export enum QuizAnswerOrder {
+  SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+  SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+  SysIdAsc = 'sys_id_ASC',
+  SysIdDesc = 'sys_id_DESC',
+  SysPublishedAtAsc = 'sys_publishedAt_ASC',
+  SysPublishedAtDesc = 'sys_publishedAt_DESC',
+  SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+  SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
+  TextAsc = 'text_ASC',
+  TextDesc = 'text_DESC',
+  ValueAsc = 'value_ASC',
+  ValueDesc = 'value_DESC'
+}
+
+export type QuizAnswersCollection = {
+  __typename?: 'QuizAnswersCollection';
+  items: Array<Maybe<QuizAnswer>>;
+  limit: Scalars['Int'];
+  skip: Scalars['Int'];
+  total: Scalars['Int'];
+};
+
+export enum QuizAnswersCollectionOrder {
+  SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+  SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+  SysIdAsc = 'sys_id_ASC',
+  SysIdDesc = 'sys_id_DESC',
+  SysPublishedAtAsc = 'sys_publishedAt_ASC',
+  SysPublishedAtDesc = 'sys_publishedAt_DESC',
+  SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+  SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
+  TextAsc = 'text_ASC',
+  TextDesc = 'text_DESC',
+  ValueAsc = 'value_ASC',
+  ValueDesc = 'value_DESC'
+}
+
+export type QuizCollection = {
+  __typename?: 'QuizCollection';
+  items: Array<Maybe<Quiz>>;
+  limit: Scalars['Int'];
+  skip: Scalars['Int'];
+  total: Scalars['Int'];
+};
+
+export type QuizFilter = {
+  AND?: InputMaybe<Array<InputMaybe<QuizFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<QuizFilter>>>;
+  answers?: InputMaybe<CfQuizAnswerNestedFilter>;
+  answersCollection_exists?: InputMaybe<Scalars['Boolean']>;
+  contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
+  order?: InputMaybe<Scalars['Int']>;
+  order_exists?: InputMaybe<Scalars['Boolean']>;
+  order_gt?: InputMaybe<Scalars['Int']>;
+  order_gte?: InputMaybe<Scalars['Int']>;
+  order_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  order_lt?: InputMaybe<Scalars['Int']>;
+  order_lte?: InputMaybe<Scalars['Int']>;
+  order_not?: InputMaybe<Scalars['Int']>;
+  order_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  question?: InputMaybe<Scalars['String']>;
+  question_contains?: InputMaybe<Scalars['String']>;
+  question_exists?: InputMaybe<Scalars['Boolean']>;
+  question_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  question_not?: InputMaybe<Scalars['String']>;
+  question_not_contains?: InputMaybe<Scalars['String']>;
+  question_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  sys?: InputMaybe<SysFilter>;
+};
+
+export type QuizLinkingCollections = {
+  __typename?: 'QuizLinkingCollections';
+  entryCollection?: Maybe<EntryCollection>;
+};
+
+
+export type QuizLinkingCollectionsEntryCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+export enum QuizOrder {
+  OrderAsc = 'order_ASC',
+  OrderDesc = 'order_DESC',
+  QuestionAsc = 'question_ASC',
+  QuestionDesc = 'question_DESC',
+  SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+  SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+  SysIdAsc = 'sys_id_ASC',
+  SysIdDesc = 'sys_id_DESC',
+  SysPublishedAtAsc = 'sys_publishedAt_ASC',
+  SysPublishedAtDesc = 'sys_publishedAt_DESC',
+  SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+  SysPublishedVersionDesc = 'sys_publishedVersion_DESC'
+}
 
 export type ResourceLink = {
   sys: ResourceSys;
@@ -2409,6 +2710,29 @@ export type CfPageBlogPostNestedFilter = {
   title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type CfQuizAnswerNestedFilter = {
+  AND?: InputMaybe<Array<InputMaybe<CfQuizAnswerNestedFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<CfQuizAnswerNestedFilter>>>;
+  contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
+  image_exists?: InputMaybe<Scalars['Boolean']>;
+  question_exists?: InputMaybe<Scalars['Boolean']>;
+  sys?: InputMaybe<SysFilter>;
+  text?: InputMaybe<Scalars['String']>;
+  text_contains?: InputMaybe<Scalars['String']>;
+  text_exists?: InputMaybe<Scalars['Boolean']>;
+  text_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  text_not?: InputMaybe<Scalars['String']>;
+  text_not_contains?: InputMaybe<Scalars['String']>;
+  text_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  value?: InputMaybe<Scalars['String']>;
+  value_contains?: InputMaybe<Scalars['String']>;
+  value_exists?: InputMaybe<Scalars['Boolean']>;
+  value_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  value_not?: InputMaybe<Scalars['String']>;
+  value_not_contains?: InputMaybe<Scalars['String']>;
+  value_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type CfTagNestedFilter = {
   AND?: InputMaybe<Array<InputMaybe<CfTagNestedFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<CfTagNestedFilter>>>;
@@ -2510,7 +2834,7 @@ export type PageBlogPostFieldsFragment = { __typename: 'PageBlogPost', internalN
   ) | null, content?: { __typename?: 'PageBlogPostContent', json: any, links: { __typename?: 'PageBlogPostContentLinks', entries: { __typename?: 'PageBlogPostContentEntries', block: Array<{ __typename?: 'ComponentAuthor' } | (
           { __typename?: 'ComponentRichImage' }
           & RichImageFieldsFragment
-        ) | { __typename?: 'ComponentSeo' } | { __typename?: 'Images' } | { __typename?: 'Packages' } | { __typename?: 'PageBlogPost' } | { __typename?: 'PageLanding' } | { __typename?: 'Portfolios' } | { __typename?: 'SpecialDeals' } | { __typename?: 'Tag' } | null> } } } | null, relatedBlogPostsCollection?: { __typename?: 'PageBlogPostRelatedBlogPostsCollection', items: Array<(
+        ) | { __typename?: 'ComponentSeo' } | { __typename?: 'Images' } | { __typename?: 'Packages' } | { __typename?: 'PageBlogPost' } | { __typename?: 'PageLanding' } | { __typename?: 'Portfolios' } | { __typename?: 'Quiz' } | { __typename?: 'QuizAnswer' } | { __typename?: 'SpecialDeals' } | { __typename?: 'Tag' } | null> } } } | null, relatedBlogPostsCollection?: { __typename?: 'PageBlogPostRelatedBlogPostsCollection', items: Array<(
       { __typename?: 'PageBlogPost' }
       & ReferencePageBlogPostFieldsFragment
     ) | null> } | null };
@@ -2588,6 +2912,27 @@ export type GetPortfoliosQueryVariables = Exact<{
 export type GetPortfoliosQuery = { __typename?: 'Query', portfoliosCollection?: { __typename?: 'PortfoliosCollection', items: Array<(
       { __typename?: 'Portfolios' }
       & PortfoliosFieldsFragment
+    ) | null> } | null };
+
+export type QuizAnswerFieldsFragment = { __typename?: 'QuizAnswer', value?: string | null, text?: string | null, sys: { __typename?: 'Sys', id: string }, image?: (
+    { __typename?: 'Asset' }
+    & ImageFieldsFragment
+  ) | null };
+
+export type QuizzesFieldsFragment = { __typename?: 'Quiz', question?: string | null, order?: number | null, sys: { __typename?: 'Sys', id: string }, answersCollection?: { __typename?: 'QuizAnswersCollection', items: Array<(
+      { __typename?: 'QuizAnswer' }
+      & QuizAnswerFieldsFragment
+    ) | null> } | null };
+
+export type GetQuizzesQueryVariables = Exact<{
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+
+export type GetQuizzesQuery = { __typename?: 'Query', quizCollection?: { __typename?: 'QuizCollection', items: Array<(
+      { __typename?: 'Quiz' }
+      & QuizzesFieldsFragment
     ) | null> } | null };
 
 export type RichImageFieldsFragment = { __typename: 'ComponentRichImage', internalName?: string | null, caption?: string | null, fullWidth?: boolean | null, sys: { __typename?: 'Sys', id: string }, image?: (
@@ -2825,6 +3170,32 @@ export const PortfoliosFieldsFragmentDoc = gql`
   }
 }
     `;
+export const QuizAnswerFieldsFragmentDoc = gql`
+    fragment QuizAnswerFields on QuizAnswer {
+  sys {
+    id
+  }
+  value
+  text
+  image {
+    ...ImageFields
+  }
+}
+    `;
+export const QuizzesFieldsFragmentDoc = gql`
+    fragment QuizzesFields on Quiz {
+  sys {
+    id
+  }
+  question
+  order
+  answersCollection(limit: 5) {
+    items {
+      ...QuizAnswerFields
+    }
+  }
+}
+    `;
 export const SitemapPagesFieldsFragmentDoc = gql`
     fragment sitemapPagesFields on Query {
   pageBlogPostCollection(limit: 100, locale: $locale) {
@@ -2950,6 +3321,17 @@ export const GetPortfoliosDocument = gql`
     ${PortfoliosFieldsFragmentDoc}
 ${ImageFieldsFragmentDoc}
 ${TagFieldsFragmentDoc}`;
+export const GetQuizzesDocument = gql`
+    query GetQuizzes($locale: String, $preview: Boolean) {
+  quizCollection(locale: $locale, preview: $preview, limit: 5, order: order_ASC) {
+    items {
+      ...QuizzesFields
+    }
+  }
+}
+    ${QuizzesFieldsFragmentDoc}
+${QuizAnswerFieldsFragmentDoc}
+${ImageFieldsFragmentDoc}`;
 export const SitemapPagesDocument = gql`
     query sitemapPages($locale: String!) {
   ...sitemapPagesFields
@@ -2986,6 +3368,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     GetPortfolios(variables?: GetPortfoliosQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetPortfoliosQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetPortfoliosQuery>(GetPortfoliosDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetPortfolios', 'query', variables);
+    },
+    GetQuizzes(variables?: GetQuizzesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetQuizzesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetQuizzesQuery>(GetQuizzesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetQuizzes', 'query', variables);
     },
     sitemapPages(variables: SitemapPagesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SitemapPagesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<SitemapPagesQuery>(SitemapPagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'sitemapPages', 'query', variables);

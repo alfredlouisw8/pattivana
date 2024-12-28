@@ -1,0 +1,31 @@
+fragment QuizAnswerFields on QuizAnswer {
+  sys {
+    id
+  }
+  value
+  text
+  image {
+    ...ImageFields
+  }
+}
+
+fragment QuizzesFields on Quiz {
+  sys {
+    id
+  }
+  question
+  order
+  answersCollection(limit: 5) {
+    items {
+      ...QuizAnswerFields
+    }
+  }
+}
+
+query GetQuizzes($locale: String, $preview: Boolean) {
+  quizCollection(locale: $locale, preview: $preview, limit: 5, order: order_ASC) {
+    items {
+      ...QuizzesFields
+    }
+  }
+}

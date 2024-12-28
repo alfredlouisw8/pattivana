@@ -4,10 +4,22 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import Sidebar from '../shared/sidebar/Sidebar';
+import { CtfImage } from '../features/contentful';
 
-export default function LoveProfileSection() {
+export default function LoveProfileSection({ quizzes }) {
   const [step, setStep] = useState(0);
   const [showCover, setShowCover] = useState(true);
+
+  const [formData, setFormData] = useState({
+    groom: '',
+    bride: '',
+    whatsapp: '',
+    answer_1: '',
+    answer_2: '',
+    answer_3: '',
+    answer_4: '',
+    answer_5: '',
+  });
 
   const headerText = (
     <div className="flex justify-end">
@@ -22,52 +34,18 @@ export default function LoveProfileSection() {
   const form = [
     {
       title: 'The lucky groom',
+      name: 'groom',
       placeholder: '(please insert your name)',
     },
     {
       title: 'The happy bride',
+      name: 'bride',
       placeholder: '(please insert your name)',
     },
     {
       title: 'Whatsapp number',
+      name: 'whatsapp',
       placeholder: '(please insert your number)',
-    },
-  ];
-
-  const quizzes = [
-    {
-      question: 'How do you describe the style of your relationship?',
-      options: [
-        {
-          image: '/assets/images/intimate.png',
-          value: '1',
-        },
-        {
-          image: '/assets/images/intimate.png',
-          value: '1',
-        },
-        {
-          image: '/assets/images/intimate.png',
-          value: '1',
-        },
-      ],
-    },
-    {
-      question: 'How do you describe the style of your relationship 2?',
-      options: [
-        {
-          image: '/assets/images/intimate.png',
-          value: '1',
-        },
-        {
-          image: '/assets/images/intimate.png',
-          value: '1',
-        },
-        {
-          image: '/assets/images/intimate.png',
-          value: '1',
-        },
-      ],
     },
   ];
 
@@ -88,12 +66,14 @@ export default function LoveProfileSection() {
 
   const formPage = (
     <div className="flex flex-col gap-10">
-      {form.map(({ title, placeholder }, index) => (
+      {form.map(({ title, name, placeholder }, index) => (
         <div key={index} className="flex items-center gap-10">
           <h4 className="w-[300px] text-3xl text-cream-dark">{title}</h4>
           <h4>:</h4>
           <input
             type="text"
+            name={name}
+            onChange={e => setFormData(prev => ({ ...prev, [name]: e.target.value }))}
             className="w-full border-0 bg-transparent text-3xl outline-none"
             placeholder={placeholder}
           />
@@ -106,21 +86,32 @@ export default function LoveProfileSection() {
     <div className="flex flex-col gap-10">
       <h4 className="text-right text-3xl text-cream-dark">{quizzes[step].question}</h4>
       <div className="flex items-center gap-10">
-        {quizzes[step].options.map((option, index) => (
-          <div className="relative aspect-square flex-1" key={index} onClick={handleOptionClick}>
-            <Image src={option.image} alt="Pattivana" layout="fill" objectFit="cover" />
+        {quizzes[step].answers.map(({ image, value, text }, index) => (
+          <div
+            className="relative aspect-square flex-1"
+            key={index}
+            onClick={() => handleOptionClick(value)}>
+            <CtfImage
+              nextImageProps={{
+                className: 'object-cover',
+                fill: true,
+                alt: text,
+              }}
+              {...image}
+            />
           </div>
         ))}
       </div>
     </div>
   );
 
-  function handleOptionClick() {
+  function handleOptionClick(value) {
     if (step === pages.length - 1) {
       console.log('asd');
     } else {
       setStep(prevStep => prevStep + 1);
     }
+    setFormData(prev => ({ ...prev, ['answer_' + step]: value }));
   }
 
   const indicatorsLength = quizzes.length + 1;

@@ -11,7 +11,5 @@ export default async function PortfolioPage({ params: { locale } }: LandingPageP
 
   const portfolios = portfoliosCollection?.portfoliosCollection?.items;
 
-  console.log('portfolios', portfolios);
-
   return <PortfolioSection portfolios={portfolios} />;
 }

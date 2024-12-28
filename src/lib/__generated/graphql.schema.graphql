@@ -100,6 +100,7 @@ type AssetLinkingCollections {
   packagesCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): PackagesCollection
   pageBlogPostCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): PageBlogPostCollection
   portfoliosCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): PortfoliosCollection
+  quizAnswerCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): QuizAnswerCollection
   specialDealsCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): SpecialDealsCollection
 }
 
@@ -1195,10 +1196,179 @@ type Query {
   pageLandingCollection(limit: Int = 100, locale: String, order: [PageLandingOrder], preview: Boolean, skip: Int = 0, where: PageLandingFilter): PageLandingCollection
   portfolios(id: String!, locale: String, preview: Boolean): Portfolios
   portfoliosCollection(limit: Int = 100, locale: String, order: [PortfoliosOrder], preview: Boolean, skip: Int = 0, where: PortfoliosFilter): PortfoliosCollection
+  quiz(id: String!, locale: String, preview: Boolean): Quiz
+  quizAnswer(id: String!, locale: String, preview: Boolean): QuizAnswer
+  quizAnswerCollection(limit: Int = 100, locale: String, order: [QuizAnswerOrder], preview: Boolean, skip: Int = 0, where: QuizAnswerFilter): QuizAnswerCollection
+  quizCollection(limit: Int = 100, locale: String, order: [QuizOrder], preview: Boolean, skip: Int = 0, where: QuizFilter): QuizCollection
   specialDeals(id: String!, locale: String, preview: Boolean): SpecialDeals
   specialDealsCollection(limit: Int = 100, locale: String, order: [SpecialDealsOrder], preview: Boolean, skip: Int = 0, where: SpecialDealsFilter): SpecialDealsCollection
   tag(id: String!, locale: String, preview: Boolean): Tag
   tagCollection(limit: Int = 100, locale: String, order: [TagOrder], preview: Boolean, skip: Int = 0, where: TagFilter): TagCollection
+}
+
+"""
+[See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quiz)
+"""
+type Quiz implements Entry & _Node {
+  _id: ID!
+  answersCollection(limit: Int = 100, locale: String, order: [QuizAnswersCollectionOrder], preview: Boolean, skip: Int = 0, where: QuizAnswerFilter): QuizAnswersCollection
+  contentfulMetadata: ContentfulMetadata!
+  linkedFrom(allowedLocales: [String]): QuizLinkingCollections
+  order(locale: String): Int
+  question(locale: String): String
+  sys: Sys!
+}
+
+"""
+[See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizAnswer)
+"""
+type QuizAnswer implements Entry & _Node {
+  _id: ID!
+  contentfulMetadata: ContentfulMetadata!
+  image(locale: String, preview: Boolean): Asset
+  linkedFrom(allowedLocales: [String]): QuizAnswerLinkingCollections
+  question(locale: String, preview: Boolean): Entry
+  sys: Sys!
+  text(locale: String): String
+  value(locale: String): String
+}
+
+type QuizAnswerCollection {
+  items: [QuizAnswer]!
+  limit: Int!
+  skip: Int!
+  total: Int!
+}
+
+input QuizAnswerFilter {
+  AND: [QuizAnswerFilter]
+  OR: [QuizAnswerFilter]
+  contentfulMetadata: ContentfulMetadataFilter
+  image_exists: Boolean
+  question_exists: Boolean
+  sys: SysFilter
+  text: String
+  text_contains: String
+  text_exists: Boolean
+  text_in: [String]
+  text_not: String
+  text_not_contains: String
+  text_not_in: [String]
+  value: String
+  value_contains: String
+  value_exists: Boolean
+  value_in: [String]
+  value_not: String
+  value_not_contains: String
+  value_not_in: [String]
+}
+
+type QuizAnswerLinkingCollections {
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
+  quizCollection(limit: Int = 100, locale: String, order: [QuizAnswerLinkingCollectionsQuizCollectionOrder], preview: Boolean, skip: Int = 0): QuizCollection
+}
+
+enum QuizAnswerLinkingCollectionsQuizCollectionOrder {
+  order_ASC
+  order_DESC
+  question_ASC
+  question_DESC
+  sys_firstPublishedAt_ASC
+  sys_firstPublishedAt_DESC
+  sys_id_ASC
+  sys_id_DESC
+  sys_publishedAt_ASC
+  sys_publishedAt_DESC
+  sys_publishedVersion_ASC
+  sys_publishedVersion_DESC
+}
+
+enum QuizAnswerOrder {
+  sys_firstPublishedAt_ASC
+  sys_firstPublishedAt_DESC
+  sys_id_ASC
+  sys_id_DESC
+  sys_publishedAt_ASC
+  sys_publishedAt_DESC
+  sys_publishedVersion_ASC
+  sys_publishedVersion_DESC
+  text_ASC
+  text_DESC
+  value_ASC
+  value_DESC
+}
+
+type QuizAnswersCollection {
+  items: [QuizAnswer]!
+  limit: Int!
+  skip: Int!
+  total: Int!
+}
+
+enum QuizAnswersCollectionOrder {
+  sys_firstPublishedAt_ASC
+  sys_firstPublishedAt_DESC
+  sys_id_ASC
+  sys_id_DESC
+  sys_publishedAt_ASC
+  sys_publishedAt_DESC
+  sys_publishedVersion_ASC
+  sys_publishedVersion_DESC
+  text_ASC
+  text_DESC
+  value_ASC
+  value_DESC
+}
+
+type QuizCollection {
+  items: [Quiz]!
+  limit: Int!
+  skip: Int!
+  total: Int!
+}
+
+input QuizFilter {
+  AND: [QuizFilter]
+  OR: [QuizFilter]
+  answers: cfQuizAnswerNestedFilter
+  answersCollection_exists: Boolean
+  contentfulMetadata: ContentfulMetadataFilter
+  order: Int
+  order_exists: Boolean
+  order_gt: Int
+  order_gte: Int
+  order_in: [Int]
+  order_lt: Int
+  order_lte: Int
+  order_not: Int
+  order_not_in: [Int]
+  question: String
+  question_contains: String
+  question_exists: Boolean
+  question_in: [String]
+  question_not: String
+  question_not_contains: String
+  question_not_in: [String]
+  sys: SysFilter
+}
+
+type QuizLinkingCollections {
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
+}
+
+enum QuizOrder {
+  order_ASC
+  order_DESC
+  question_ASC
+  question_DESC
+  sys_firstPublishedAt_ASC
+  sys_firstPublishedAt_DESC
+  sys_id_ASC
+  sys_id_DESC
+  sys_publishedAt_ASC
+  sys_publishedAt_DESC
+  sys_publishedVersion_ASC
+  sys_publishedVersion_DESC
 }
 
 interface ResourceLink {
@@ -1554,6 +1724,29 @@ input cfPageBlogPostNestedFilter {
   title_not: String
   title_not_contains: String
   title_not_in: [String]
+}
+
+input cfQuizAnswerNestedFilter {
+  AND: [cfQuizAnswerNestedFilter]
+  OR: [cfQuizAnswerNestedFilter]
+  contentfulMetadata: ContentfulMetadataFilter
+  image_exists: Boolean
+  question_exists: Boolean
+  sys: SysFilter
+  text: String
+  text_contains: String
+  text_exists: Boolean
+  text_in: [String]
+  text_not: String
+  text_not_contains: String
+  text_not_in: [String]
+  value: String
+  value_contains: String
+  value_exists: Boolean
+  value_in: [String]
+  value_not: String
+  value_not_contains: String
+  value_not_in: [String]
 }
 
 input cfTagNestedFilter {

@@ -1,6 +1,5 @@
 import { draftMode } from 'next/headers';
 
-import PackagesSection from '@src/components/section/PackagesSection';
 import { client, previewClient } from '@src/lib/client';
 import { LandingPageProps } from 'types';
 import DealsSection from '@src/components/section/DealsSection';
