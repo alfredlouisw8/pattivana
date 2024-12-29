@@ -1,6 +1,8 @@
 import DraggableSlider from '../shared/slider/Slider';
 
 export default function PackagesSection({ packages }) {
+  const multipliedPackages = [...packages, ...packages, ...packages, ...packages];
+
   return (
     <div className="flex w-full flex-col justify-between p-10">
       <div className="flex justify-end">
