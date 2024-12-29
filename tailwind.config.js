@@ -21,7 +21,7 @@ module.exports = {
         tighter: 1.1,
       },
       fontFamily: {
-        sans: ['var(--font-urbanist)', ...fontFamily.sans],
+        sans: ['Gotham', ...fontFamily.sans],
       },
       colors: {
         cream: {

@@ -13,7 +13,7 @@ export default function PackagesSection({ packages }) {
         </h1>
       </div>
 
-      <DraggableSlider items={packages} />
+      <DraggableSlider items={multipliedPackages} />
     </div>
   );
 }
