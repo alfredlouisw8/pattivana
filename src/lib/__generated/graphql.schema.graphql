@@ -1051,10 +1051,11 @@ type Portfolios implements Entry & _Node {
   description(locale: String): PortfoliosDescription
   image(locale: String, preview: Boolean): Asset
   linkedFrom(allowedLocales: [String]): PortfoliosLinkingCollections
+  shortDescription(locale: String): String
   slug(locale: String): String
   sys: Sys!
-  tagsCollection(limit: Int = 100, locale: String, order: [PortfoliosTagsCollectionOrder], preview: Boolean, skip: Int = 0, where: TagFilter): PortfoliosTagsCollection
   title(locale: String): String
+  youtube(locale: String): String
 }
 
 type PortfoliosCollection {
@@ -1112,6 +1113,13 @@ input PortfoliosFilter {
   description_exists: Boolean
   description_not_contains: String
   image_exists: Boolean
+  shortDescription: String
+  shortDescription_contains: String
+  shortDescription_exists: Boolean
+  shortDescription_in: [String]
+  shortDescription_not: String
+  shortDescription_not_contains: String
+  shortDescription_not_in: [String]
   slug: String
   slug_contains: String
   slug_exists: Boolean
@@ -1120,8 +1128,6 @@ input PortfoliosFilter {
   slug_not_contains: String
   slug_not_in: [String]
   sys: SysFilter
-  tags: cfTagNestedFilter
-  tagsCollection_exists: Boolean
   title: String
   title_contains: String
   title_exists: Boolean
@@ -1129,6 +1135,13 @@ input PortfoliosFilter {
   title_not: String
   title_not_contains: String
   title_not_in: [String]
+  youtube: String
+  youtube_contains: String
+  youtube_exists: Boolean
+  youtube_in: [String]
+  youtube_not: String
+  youtube_not_contains: String
+  youtube_not_in: [String]
 }
 
 type PortfoliosLinkingCollections {
@@ -1136,6 +1149,8 @@ type PortfoliosLinkingCollections {
 }
 
 enum PortfoliosOrder {
+  shortDescription_ASC
+  shortDescription_DESC
   slug_ASC
   slug_DESC
   sys_firstPublishedAt_ASC
@@ -1148,26 +1163,8 @@ enum PortfoliosOrder {
   sys_publishedVersion_DESC
   title_ASC
   title_DESC
-}
-
-type PortfoliosTagsCollection {
-  items: [Tag]!
-  limit: Int!
-  skip: Int!
-  total: Int!
-}
-
-enum PortfoliosTagsCollectionOrder {
-  name_ASC
-  name_DESC
-  sys_firstPublishedAt_ASC
-  sys_firstPublishedAt_DESC
-  sys_id_ASC
-  sys_id_DESC
-  sys_publishedAt_ASC
-  sys_publishedAt_DESC
-  sys_publishedVersion_ASC
-  sys_publishedVersion_DESC
+  youtube_ASC
+  youtube_DESC
 }
 
 """
@@ -1227,7 +1224,8 @@ type QuizAnswer implements Entry & _Node {
   contentfulMetadata: ContentfulMetadata!
   image(locale: String, preview: Boolean): Asset
   linkedFrom(allowedLocales: [String]): QuizAnswerLinkingCollections
-  question(locale: String, preview: Boolean): Entry
+  pdfLongText(locale: String): String
+  pdfText(locale: String): QuizAnswerPdfText
   sys: Sys!
   text(locale: String): String
   value(locale: String): String
@@ -1245,7 +1243,16 @@ input QuizAnswerFilter {
   OR: [QuizAnswerFilter]
   contentfulMetadata: ContentfulMetadataFilter
   image_exists: Boolean
-  question_exists: Boolean
+  pdfLongText: String
+  pdfLongText_contains: String
+  pdfLongText_exists: Boolean
+  pdfLongText_in: [String]
+  pdfLongText_not: String
+  pdfLongText_not_contains: String
+  pdfLongText_not_in: [String]
+  pdfText_contains: String
+  pdfText_exists: Boolean
+  pdfText_not_contains: String
   sys: SysFilter
   text: String
   text_contains: String
@@ -1296,6 +1303,46 @@ enum QuizAnswerOrder {
   text_DESC
   value_ASC
   value_DESC
+}
+
+type QuizAnswerPdfText {
+  json: JSON!
+  links: QuizAnswerPdfTextLinks!
+}
+
+type QuizAnswerPdfTextAssets {
+  block: [Asset]!
+  hyperlink: [Asset]!
+}
+
+type QuizAnswerPdfTextEntries {
+  block: [Entry]!
+  hyperlink: [Entry]!
+  inline: [Entry]!
+}
+
+type QuizAnswerPdfTextLinks {
+  assets: QuizAnswerPdfTextAssets!
+  entries: QuizAnswerPdfTextEntries!
+  resources: QuizAnswerPdfTextResources!
+}
+
+type QuizAnswerPdfTextResources {
+  block: [QuizAnswerPdfTextResourcesBlock!]!
+  hyperlink: [QuizAnswerPdfTextResourcesHyperlink!]!
+  inline: [QuizAnswerPdfTextResourcesInline!]!
+}
+
+type QuizAnswerPdfTextResourcesBlock implements ResourceLink {
+  sys: ResourceSys!
+}
+
+type QuizAnswerPdfTextResourcesHyperlink implements ResourceLink {
+  sys: ResourceSys!
+}
+
+type QuizAnswerPdfTextResourcesInline implements ResourceLink {
+  sys: ResourceSys!
 }
 
 type QuizAnswersCollection {
@@ -1568,22 +1615,6 @@ input TagFilter {
 
 type TagLinkingCollections {
   entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
-  portfoliosCollection(limit: Int = 100, locale: String, order: [TagLinkingCollectionsPortfoliosCollectionOrder], preview: Boolean, skip: Int = 0): PortfoliosCollection
-}
-
-enum TagLinkingCollectionsPortfoliosCollectionOrder {
-  slug_ASC
-  slug_DESC
-  sys_firstPublishedAt_ASC
-  sys_firstPublishedAt_DESC
-  sys_id_ASC
-  sys_id_DESC
-  sys_publishedAt_ASC
-  sys_publishedAt_DESC
-  sys_publishedVersion_ASC
-  sys_publishedVersion_DESC
-  title_ASC
-  title_DESC
 }
 
 enum TagOrder {
@@ -1731,7 +1762,16 @@ input cfQuizAnswerNestedFilter {
   OR: [cfQuizAnswerNestedFilter]
   contentfulMetadata: ContentfulMetadataFilter
   image_exists: Boolean
-  question_exists: Boolean
+  pdfLongText: String
+  pdfLongText_contains: String
+  pdfLongText_exists: Boolean
+  pdfLongText_in: [String]
+  pdfLongText_not: String
+  pdfLongText_not_contains: String
+  pdfLongText_not_in: [String]
+  pdfText_contains: String
+  pdfText_exists: Boolean
+  pdfText_not_contains: String
   sys: SysFilter
   text: String
   text_contains: String
@@ -1747,18 +1787,4 @@ input cfQuizAnswerNestedFilter {
   value_not: String
   value_not_contains: String
   value_not_in: [String]
-}
-
-input cfTagNestedFilter {
-  AND: [cfTagNestedFilter]
-  OR: [cfTagNestedFilter]
-  contentfulMetadata: ContentfulMetadataFilter
-  name: String
-  name_contains: String
-  name_exists: Boolean
-  name_in: [String]
-  name_not: String
-  name_not_contains: String
-  name_not_in: [String]
-  sys: SysFilter
 }

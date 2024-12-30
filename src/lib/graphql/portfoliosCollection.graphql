@@ -4,17 +4,20 @@ fragment PortfoliosFields on Portfolios {
   }
   title
   slug
+  contentfulMetadata {
+    tags {
+      id
+      name
+    }
+  }
   image {
     ...ImageFields
   }
   description {
     json
   }
-  tagsCollection {
-    items {
-      ...TagFields
-    }
-  }
+  youtube
+  shortDescription
 }
 
 query GetPortfolios($locale: String, $preview: Boolean) {

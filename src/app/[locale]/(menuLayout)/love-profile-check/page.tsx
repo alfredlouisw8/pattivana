@@ -14,12 +14,12 @@ export default async function LoveProfilePage({ params: { locale } }: LandingPag
 
   const quizzes = quizzesCollection?.quizCollection?.items.map(quiz => ({
     question: quiz?.question,
-    answers: quiz?.answersCollection?.items.map(answer => ({
-      image: answer?.image,
-      value: answer?.value,
-      text: answer?.text,
-    })),
+    answers: quiz?.answersCollection?.items,
   }));
 
-  return <LoveProfileSection quizzes={quizzes} />;
+  const portfoliosCollection = await gqlClient.GetPortfolios({ locale, preview });
+
+  const portfolios = portfoliosCollection?.portfoliosCollection?.items;
+
+  return <LoveProfileSection quizzes={quizzes} portfolios={portfolios} />;
 }

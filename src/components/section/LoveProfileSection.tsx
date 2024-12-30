@@ -5,21 +5,24 @@ import { useState } from 'react';
 
 import Sidebar from '../shared/sidebar/Sidebar';
 import { CtfImage } from '../features/contentful';
+import { getRecommendations } from '@src/app/helper/utils';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import PDFSection from './PDFSection';
 
-export default function LoveProfileSection({ quizzes }) {
+export default function LoveProfileSection({ quizzes, portfolios }) {
   const [step, setStep] = useState(0);
   const [showCover, setShowCover] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
+  const [recommendations, setRecommendations] = useState([]);
 
   const [formData, setFormData] = useState({
     groom: '',
     bride: '',
     whatsapp: '',
-    answer_1: '',
-    answer_2: '',
-    answer_3: '',
-    answer_4: '',
-    answer_5: '',
   });
+
+  const [answers, setAnswers] = useState({});
 
   const headerText = (
     <div className="flex justify-end">
@@ -85,19 +88,19 @@ export default function LoveProfileSection({ quizzes }) {
   const questionPage = step => (
     <div className="flex flex-col gap-10">
       <h4 className="text-right text-3xl text-cream-dark">{quizzes[step].question}</h4>
-      <div className="flex items-center gap-10">
-        {quizzes[step].answers.map(({ image, value, text }, index) => (
+      <div className="flex items-center justify-center gap-10">
+        {quizzes[step].answers.map((answer, index) => (
           <div
-            className="relative aspect-square flex-1"
+            className="relative aspect-square max-w-[30vw] flex-1"
             key={index}
-            onClick={() => handleOptionClick(value)}>
+            onClick={() => handleOptionClick(answer)}>
             <CtfImage
               nextImageProps={{
                 className: 'object-cover',
                 fill: true,
-                alt: text,
+                alt: answer.text,
               }}
-              {...image}
+              {...answer.image}
             />
           </div>
         ))}
@@ -105,13 +108,31 @@ export default function LoveProfileSection({ quizzes }) {
     </div>
   );
 
-  function handleOptionClick(value) {
-    if (step === pages.length - 1) {
-      console.log('asd');
-    } else {
-      setStep(prevStep => prevStep + 1);
+  const resultPage = (
+    <div className="flex items-center justify-center">
+      {showLoading ? (
+        <h4 className="animate-pulse text-6xl text-cream-dark">calculating your result. . .</h4>
+      ) : (
+        <h4 className="animate-fade-in text-6xl text-cream-dark">your pdf will be ready soon</h4>
+      )}
+    </div>
+  );
+
+  const startTimer = () => {
+    setTimeout(function () {
+      setShowLoading(false);
+      generatePDF();
+    }, 1500);
+  };
+
+  function handleOptionClick(answer) {
+    if (step === pages.length - 2) {
+      // @ts-ignore
+      setRecommendations(getRecommendations(answers, portfolios));
+      startTimer();
     }
-    setFormData(prev => ({ ...prev, ['answer_' + step]: value }));
+    setStep(prevStep => prevStep + 1);
+    setAnswers(prev => ({ ...prev, ['answer_' + step]: answer }));
   }
 
   const indicatorsLength = quizzes.length + 1;
@@ -120,10 +141,28 @@ export default function LoveProfileSection({ quizzes }) {
     setStep(index);
   };
 
-  const pages = [formPage, ...quizzes.map((_, index) => questionPage(index))];
+  const pages = [formPage, ...quizzes.map((_, index) => questionPage(index)), resultPage];
 
   if (showCover) {
     return coverPage;
+  }
+
+  function generatePDF() {
+    const content = document.getElementById('pdf-content'); // Target your div
+
+    if (!content) {
+      return;
+    }
+
+    html2canvas(content, { scale: 2 }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`${formData.groom} and ${formData.bride}.pdf`);
+    });
   }
 
   return (
@@ -143,7 +182,7 @@ export default function LoveProfileSection({ quizzes }) {
           </div>
         )}
 
-        <div className="flex w-full items-center">
+        <div className={`flex w-full items-center ${step === pages.length - 1 && 'invisible'}`}>
           {[...Array(indicatorsLength)].map((_, index) => (
             <div
               key={index}
@@ -155,6 +194,8 @@ export default function LoveProfileSection({ quizzes }) {
           ))}
         </div>
       </div>
+
+      <PDFSection answers={answers} recommendations={recommendations} formData={formData} />
     </div>
   );
 }

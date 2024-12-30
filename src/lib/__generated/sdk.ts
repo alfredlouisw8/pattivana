@@ -1571,10 +1571,11 @@ export type Portfolios = Entry & _Node & {
   description?: Maybe<PortfoliosDescription>;
   image?: Maybe<Asset>;
   linkedFrom?: Maybe<PortfoliosLinkingCollections>;
+  shortDescription?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
   sys: Sys;
-  tagsCollection?: Maybe<PortfoliosTagsCollection>;
   title?: Maybe<Scalars['String']>;
+  youtube?: Maybe<Scalars['String']>;
 };
 
 
@@ -1598,24 +1599,25 @@ export type PortfoliosLinkedFromArgs = {
 
 
 /** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/portfolios) */
+export type PortfoliosShortDescriptionArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/portfolios) */
 export type PortfoliosSlugArgs = {
   locale?: InputMaybe<Scalars['String']>;
 };
 
 
 /** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/portfolios) */
-export type PortfoliosTagsCollectionArgs = {
-  limit?: InputMaybe<Scalars['Int']>;
+export type PortfoliosTitleArgs = {
   locale?: InputMaybe<Scalars['String']>;
-  order?: InputMaybe<Array<InputMaybe<PortfoliosTagsCollectionOrder>>>;
-  preview?: InputMaybe<Scalars['Boolean']>;
-  skip?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<TagFilter>;
 };
 
 
 /** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/portfolios) */
-export type PortfoliosTitleArgs = {
+export type PortfoliosYoutubeArgs = {
   locale?: InputMaybe<Scalars['String']>;
 };
 
@@ -1683,6 +1685,13 @@ export type PortfoliosFilter = {
   description_exists?: InputMaybe<Scalars['Boolean']>;
   description_not_contains?: InputMaybe<Scalars['String']>;
   image_exists?: InputMaybe<Scalars['Boolean']>;
+  shortDescription?: InputMaybe<Scalars['String']>;
+  shortDescription_contains?: InputMaybe<Scalars['String']>;
+  shortDescription_exists?: InputMaybe<Scalars['Boolean']>;
+  shortDescription_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  shortDescription_not?: InputMaybe<Scalars['String']>;
+  shortDescription_not_contains?: InputMaybe<Scalars['String']>;
+  shortDescription_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   slug?: InputMaybe<Scalars['String']>;
   slug_contains?: InputMaybe<Scalars['String']>;
   slug_exists?: InputMaybe<Scalars['Boolean']>;
@@ -1691,8 +1700,6 @@ export type PortfoliosFilter = {
   slug_not_contains?: InputMaybe<Scalars['String']>;
   slug_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   sys?: InputMaybe<SysFilter>;
-  tags?: InputMaybe<CfTagNestedFilter>;
-  tagsCollection_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_contains?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
@@ -1700,6 +1707,13 @@ export type PortfoliosFilter = {
   title_not?: InputMaybe<Scalars['String']>;
   title_not_contains?: InputMaybe<Scalars['String']>;
   title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  youtube?: InputMaybe<Scalars['String']>;
+  youtube_contains?: InputMaybe<Scalars['String']>;
+  youtube_exists?: InputMaybe<Scalars['Boolean']>;
+  youtube_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  youtube_not?: InputMaybe<Scalars['String']>;
+  youtube_not_contains?: InputMaybe<Scalars['String']>;
+  youtube_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type PortfoliosLinkingCollections = {
@@ -1716,6 +1730,8 @@ export type PortfoliosLinkingCollectionsEntryCollectionArgs = {
 };
 
 export enum PortfoliosOrder {
+  ShortDescriptionAsc = 'shortDescription_ASC',
+  ShortDescriptionDesc = 'shortDescription_DESC',
   SlugAsc = 'slug_ASC',
   SlugDesc = 'slug_DESC',
   SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
@@ -1727,28 +1743,9 @@ export enum PortfoliosOrder {
   SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
   SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
   TitleAsc = 'title_ASC',
-  TitleDesc = 'title_DESC'
-}
-
-export type PortfoliosTagsCollection = {
-  __typename?: 'PortfoliosTagsCollection';
-  items: Array<Maybe<Tag>>;
-  limit: Scalars['Int'];
-  skip: Scalars['Int'];
-  total: Scalars['Int'];
-};
-
-export enum PortfoliosTagsCollectionOrder {
-  NameAsc = 'name_ASC',
-  NameDesc = 'name_DESC',
-  SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
-  SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
-  SysIdAsc = 'sys_id_ASC',
-  SysIdDesc = 'sys_id_DESC',
-  SysPublishedAtAsc = 'sys_publishedAt_ASC',
-  SysPublishedAtDesc = 'sys_publishedAt_DESC',
-  SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
-  SysPublishedVersionDesc = 'sys_publishedVersion_DESC'
+  TitleDesc = 'title_DESC',
+  YoutubeAsc = 'youtube_ASC',
+  YoutubeDesc = 'youtube_DESC'
 }
 
 export type Query = {
@@ -2069,7 +2066,8 @@ export type QuizAnswer = Entry & _Node & {
   contentfulMetadata: ContentfulMetadata;
   image?: Maybe<Asset>;
   linkedFrom?: Maybe<QuizAnswerLinkingCollections>;
-  question?: Maybe<Entry>;
+  pdfLongText?: Maybe<Scalars['String']>;
+  pdfText?: Maybe<QuizAnswerPdfText>;
   sys: Sys;
   text?: Maybe<Scalars['String']>;
   value?: Maybe<Scalars['String']>;
@@ -2090,9 +2088,14 @@ export type QuizAnswerLinkedFromArgs = {
 
 
 /** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizAnswer) */
-export type QuizAnswerQuestionArgs = {
+export type QuizAnswerPdfLongTextArgs = {
   locale?: InputMaybe<Scalars['String']>;
-  preview?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizAnswer) */
+export type QuizAnswerPdfTextArgs = {
+  locale?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -2120,7 +2123,16 @@ export type QuizAnswerFilter = {
   OR?: InputMaybe<Array<InputMaybe<QuizAnswerFilter>>>;
   contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
   image_exists?: InputMaybe<Scalars['Boolean']>;
-  question_exists?: InputMaybe<Scalars['Boolean']>;
+  pdfLongText?: InputMaybe<Scalars['String']>;
+  pdfLongText_contains?: InputMaybe<Scalars['String']>;
+  pdfLongText_exists?: InputMaybe<Scalars['Boolean']>;
+  pdfLongText_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  pdfLongText_not?: InputMaybe<Scalars['String']>;
+  pdfLongText_not_contains?: InputMaybe<Scalars['String']>;
+  pdfLongText_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  pdfText_contains?: InputMaybe<Scalars['String']>;
+  pdfText_exists?: InputMaybe<Scalars['Boolean']>;
+  pdfText_not_contains?: InputMaybe<Scalars['String']>;
   sys?: InputMaybe<SysFilter>;
   text?: InputMaybe<Scalars['String']>;
   text_contains?: InputMaybe<Scalars['String']>;
@@ -2190,6 +2202,54 @@ export enum QuizAnswerOrder {
   ValueAsc = 'value_ASC',
   ValueDesc = 'value_DESC'
 }
+
+export type QuizAnswerPdfText = {
+  __typename?: 'QuizAnswerPdfText';
+  json: Scalars['JSON'];
+  links: QuizAnswerPdfTextLinks;
+};
+
+export type QuizAnswerPdfTextAssets = {
+  __typename?: 'QuizAnswerPdfTextAssets';
+  block: Array<Maybe<Asset>>;
+  hyperlink: Array<Maybe<Asset>>;
+};
+
+export type QuizAnswerPdfTextEntries = {
+  __typename?: 'QuizAnswerPdfTextEntries';
+  block: Array<Maybe<Entry>>;
+  hyperlink: Array<Maybe<Entry>>;
+  inline: Array<Maybe<Entry>>;
+};
+
+export type QuizAnswerPdfTextLinks = {
+  __typename?: 'QuizAnswerPdfTextLinks';
+  assets: QuizAnswerPdfTextAssets;
+  entries: QuizAnswerPdfTextEntries;
+  resources: QuizAnswerPdfTextResources;
+};
+
+export type QuizAnswerPdfTextResources = {
+  __typename?: 'QuizAnswerPdfTextResources';
+  block: Array<QuizAnswerPdfTextResourcesBlock>;
+  hyperlink: Array<QuizAnswerPdfTextResourcesHyperlink>;
+  inline: Array<QuizAnswerPdfTextResourcesInline>;
+};
+
+export type QuizAnswerPdfTextResourcesBlock = ResourceLink & {
+  __typename?: 'QuizAnswerPdfTextResourcesBlock';
+  sys: ResourceSys;
+};
+
+export type QuizAnswerPdfTextResourcesHyperlink = ResourceLink & {
+  __typename?: 'QuizAnswerPdfTextResourcesHyperlink';
+  sys: ResourceSys;
+};
+
+export type QuizAnswerPdfTextResourcesInline = ResourceLink & {
+  __typename?: 'QuizAnswerPdfTextResourcesInline';
+  sys: ResourceSys;
+};
 
 export type QuizAnswersCollection = {
   __typename?: 'QuizAnswersCollection';
@@ -2534,7 +2594,6 @@ export type TagFilter = {
 export type TagLinkingCollections = {
   __typename?: 'TagLinkingCollections';
   entryCollection?: Maybe<EntryCollection>;
-  portfoliosCollection?: Maybe<PortfoliosCollection>;
 };
 
 
@@ -2544,30 +2603,6 @@ export type TagLinkingCollectionsEntryCollectionArgs = {
   preview?: InputMaybe<Scalars['Boolean']>;
   skip?: InputMaybe<Scalars['Int']>;
 };
-
-
-export type TagLinkingCollectionsPortfoliosCollectionArgs = {
-  limit?: InputMaybe<Scalars['Int']>;
-  locale?: InputMaybe<Scalars['String']>;
-  order?: InputMaybe<Array<InputMaybe<TagLinkingCollectionsPortfoliosCollectionOrder>>>;
-  preview?: InputMaybe<Scalars['Boolean']>;
-  skip?: InputMaybe<Scalars['Int']>;
-};
-
-export enum TagLinkingCollectionsPortfoliosCollectionOrder {
-  SlugAsc = 'slug_ASC',
-  SlugDesc = 'slug_DESC',
-  SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
-  SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
-  SysIdAsc = 'sys_id_ASC',
-  SysIdDesc = 'sys_id_DESC',
-  SysPublishedAtAsc = 'sys_publishedAt_ASC',
-  SysPublishedAtDesc = 'sys_publishedAt_DESC',
-  SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
-  SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
-  TitleAsc = 'title_ASC',
-  TitleDesc = 'title_DESC'
-}
 
 export enum TagOrder {
   NameAsc = 'name_ASC',
@@ -2715,7 +2750,16 @@ export type CfQuizAnswerNestedFilter = {
   OR?: InputMaybe<Array<InputMaybe<CfQuizAnswerNestedFilter>>>;
   contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
   image_exists?: InputMaybe<Scalars['Boolean']>;
-  question_exists?: InputMaybe<Scalars['Boolean']>;
+  pdfLongText?: InputMaybe<Scalars['String']>;
+  pdfLongText_contains?: InputMaybe<Scalars['String']>;
+  pdfLongText_exists?: InputMaybe<Scalars['Boolean']>;
+  pdfLongText_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  pdfLongText_not?: InputMaybe<Scalars['String']>;
+  pdfLongText_not_contains?: InputMaybe<Scalars['String']>;
+  pdfLongText_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  pdfText_contains?: InputMaybe<Scalars['String']>;
+  pdfText_exists?: InputMaybe<Scalars['Boolean']>;
+  pdfText_not_contains?: InputMaybe<Scalars['String']>;
   sys?: InputMaybe<SysFilter>;
   text?: InputMaybe<Scalars['String']>;
   text_contains?: InputMaybe<Scalars['String']>;
@@ -2731,20 +2775,6 @@ export type CfQuizAnswerNestedFilter = {
   value_not?: InputMaybe<Scalars['String']>;
   value_not_contains?: InputMaybe<Scalars['String']>;
   value_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-export type CfTagNestedFilter = {
-  AND?: InputMaybe<Array<InputMaybe<CfTagNestedFilter>>>;
-  OR?: InputMaybe<Array<InputMaybe<CfTagNestedFilter>>>;
-  contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
-  name?: InputMaybe<Scalars['String']>;
-  name_contains?: InputMaybe<Scalars['String']>;
-  name_exists?: InputMaybe<Scalars['Boolean']>;
-  name_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  name_not?: InputMaybe<Scalars['String']>;
-  name_not_contains?: InputMaybe<Scalars['String']>;
-  name_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  sys?: InputMaybe<SysFilter>;
 };
 
 export type AuthorFieldsFragment = { __typename: 'ComponentAuthor', name?: string | null, sys: { __typename?: 'Sys', id: string }, avatar?: (
@@ -2895,13 +2925,10 @@ export type PageLandingCollectionQuery = { __typename?: 'Query', pageLandingColl
       & PageLandingFieldsFragment
     ) | null> } | null };
 
-export type PortfoliosFieldsFragment = { __typename?: 'Portfolios', title?: string | null, slug?: string | null, sys: { __typename?: 'Sys', id: string }, image?: (
+export type PortfoliosFieldsFragment = { __typename?: 'Portfolios', title?: string | null, slug?: string | null, youtube?: string | null, shortDescription?: string | null, sys: { __typename?: 'Sys', id: string }, contentfulMetadata: { __typename?: 'ContentfulMetadata', tags: Array<{ __typename?: 'ContentfulTag', id?: string | null, name?: string | null } | null> }, image?: (
     { __typename?: 'Asset' }
     & ImageFieldsFragment
-  ) | null, description?: { __typename?: 'PortfoliosDescription', json: any } | null, tagsCollection?: { __typename?: 'PortfoliosTagsCollection', items: Array<(
-      { __typename?: 'Tag' }
-      & TagFieldsFragment
-    ) | null> } | null };
+  ) | null, description?: { __typename?: 'PortfoliosDescription', json: any } | null };
 
 export type GetPortfoliosQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['String']>;
@@ -2914,7 +2941,7 @@ export type GetPortfoliosQuery = { __typename?: 'Query', portfoliosCollection?: 
       & PortfoliosFieldsFragment
     ) | null> } | null };
 
-export type QuizAnswerFieldsFragment = { __typename?: 'QuizAnswer', value?: string | null, text?: string | null, sys: { __typename?: 'Sys', id: string }, image?: (
+export type QuizAnswerFieldsFragment = { __typename?: 'QuizAnswer', value?: string | null, text?: string | null, pdfLongText?: string | null, sys: { __typename?: 'Sys', id: string }, pdfText?: { __typename?: 'QuizAnswerPdfText', json: any } | null, image?: (
     { __typename?: 'Asset' }
     & ImageFieldsFragment
   ) | null };
@@ -3142,14 +3169,6 @@ export const PageLandingFieldsFragmentDoc = gql`
   }
 }
     `;
-export const TagFieldsFragmentDoc = gql`
-    fragment TagFields on Tag {
-  sys {
-    id
-  }
-  name
-}
-    `;
 export const PortfoliosFieldsFragmentDoc = gql`
     fragment PortfoliosFields on Portfolios {
   sys {
@@ -3157,17 +3176,20 @@ export const PortfoliosFieldsFragmentDoc = gql`
   }
   title
   slug
+  contentfulMetadata {
+    tags {
+      id
+      name
+    }
+  }
   image {
     ...ImageFields
   }
   description {
     json
   }
-  tagsCollection {
-    items {
-      ...TagFields
-    }
-  }
+  youtube
+  shortDescription
 }
     `;
 export const QuizAnswerFieldsFragmentDoc = gql`
@@ -3177,6 +3199,10 @@ export const QuizAnswerFieldsFragmentDoc = gql`
   }
   value
   text
+  pdfText {
+    json
+  }
+  pdfLongText
   image {
     ...ImageFields
   }
@@ -3213,6 +3239,14 @@ export const SitemapPagesFieldsFragmentDoc = gql`
       }
     }
   }
+}
+    `;
+export const TagFieldsFragmentDoc = gql`
+    fragment TagFields on Tag {
+  sys {
+    id
+  }
+  name
 }
     `;
 export const GetDealsDocument = gql`
@@ -3319,8 +3353,7 @@ export const GetPortfoliosDocument = gql`
   }
 }
     ${PortfoliosFieldsFragmentDoc}
-${ImageFieldsFragmentDoc}
-${TagFieldsFragmentDoc}`;
+${ImageFieldsFragmentDoc}`;
 export const GetQuizzesDocument = gql`
     query GetQuizzes($locale: String, $preview: Boolean) {
   quizCollection(locale: $locale, preview: $preview, limit: 5, order: order_ASC) {

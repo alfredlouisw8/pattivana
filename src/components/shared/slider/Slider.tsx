@@ -51,7 +51,7 @@ export default function DraggableSlider({ items }) {
         aria-label="Horizontal draggable slider"
         className="no-scrollbar flex items-start gap-5 overflow-auto scroll-smooth py-10 focus:outline-none"
         style={{ width: 'calc(100vw - 270px)' }}>
-        {items.map(({ image, title, description, slug, tagsCollection }, index) => {
+        {items.map(({ image, title, description, slug, contentfulMetadata }, index) => {
           const active = selectedItem === slug;
           return (
             <div
@@ -76,17 +76,19 @@ export default function DraggableSlider({ items }) {
                   {...image}
                 />
               </div>
-              {tagsCollection && tagsCollection.items && tagsCollection.items.length > 0 && (
-                <div className="flex flex-wrap">
-                  {tagsCollection.items.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="mr-2 mb-2 rounded bg-cream px-2 py-1 text-xs font-semibold uppercase leading-none tracking-widest text-cream-dark">
-                      {tag.name}
-                    </span>
-                  ))}
-                </div>
-              )}
+              {contentfulMetadata &&
+                contentfulMetadata.tags &&
+                contentfulMetadata.tags.length > 0 && (
+                  <div className="flex flex-wrap">
+                    {contentfulMetadata.tags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="mr-2 mb-2 rounded bg-cream px-2 py-1 text-xs font-semibold uppercase leading-none tracking-widest text-cream-dark">
+                        {tag.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
 
               <CtfRichText
                 json={description?.json}

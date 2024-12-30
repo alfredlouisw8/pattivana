@@ -4,6 +4,10 @@ fragment QuizAnswerFields on QuizAnswer {
   }
   value
   text
+  pdfText {
+    json
+  }
+  pdfLongText
   image {
     ...ImageFields
   }

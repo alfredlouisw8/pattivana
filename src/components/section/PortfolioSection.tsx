@@ -104,7 +104,7 @@ export default function PortfolioSection({ portfolios }) {
       portfolios.filter(portfolio => {
         if (selectedTags.length === 0) return true;
         return selectedTags.every(tag =>
-          portfolio.tagsCollection?.items.some(item => item.name === tag),
+          portfolio.contentfulMetadata?.tags.some(item => item.name === tag),
         );
       }),
     );
@@ -115,6 +115,8 @@ export default function PortfolioSection({ portfolios }) {
     setSelectedTags([]);
     setFilteredPortfolios(portfolios);
   };
+
+  console.log('portfolios', portfolios);
 
   return (
     <div className="flex w-full flex-col justify-between p-10">
