@@ -6,7 +6,6 @@ import { QRCodeSVG } from 'qrcode.react';
 import { CtfRichText } from '../features/contentful';
 
 export default function PDFSection({ answers, formData, recommendations }) {
-  console.log(answers, recommendations);
   return (
     <div id="pdf-content" className="fixed top-[2000px] flex w-full flex-col gap-12 py-10 px-20">
       <div className="flex flex-col">
