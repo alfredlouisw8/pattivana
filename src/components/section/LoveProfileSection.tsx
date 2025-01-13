@@ -113,7 +113,17 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
       {showLoading ? (
         <h4 className="animate-pulse text-6xl text-cream-dark">calculating your result. . .</h4>
       ) : (
-        <h4 className="animate-fade-in text-6xl text-cream-dark">your pdf will be ready soon</h4>
+        <div className="animate-fade-in">
+          <h4 className="text-6xl text-cream-dark">thank you</h4>
+          <div className="flex items-center gap-10">
+            <div className="button bg-cream-dark" onClick={() => generatePDF()}>
+              Download PDF
+            </div>
+            <div className="button bg-cream-dark" onClick={() => window.location.reload()}>
+              Retake Quiz
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

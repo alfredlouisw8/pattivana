@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { CtfImage } from '../features/contentful';
 
 import { ImageFieldsFragment } from '@src/lib/__generated/sdk';
+import { motion } from 'framer-motion';
 
 export default function HomeSection({ homeImage }: { homeImage: ImageFieldsFragment }) {
   return (
@@ -18,11 +19,11 @@ export default function HomeSection({ homeImage }: { homeImage: ImageFieldsFragm
           </div>
         </div>
         {/* Centered text */}
-        <div className="absolute inset-0 flex items-center justify-center text-center">
+        <motion.div className="absolute inset-0 flex animate-fade-in items-center justify-center text-center">
           <h1 className="text-2xl text-white md:text-4xl">
             Real memories were made from real experiences
           </h1>
-        </div>
+        </motion.div>
       </Link>
     </section>
   );

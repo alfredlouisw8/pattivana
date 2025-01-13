@@ -4,6 +4,14 @@ import Sidebar from '@src/components/shared/sidebar/Sidebar';
 import { getMenus } from '@src/app/helper/utils';
 import { client, previewClient } from '@src/lib/client';
 import { LayoutProps } from 'types';
+import { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Pattivana',
+    description: 'Pattivana',
+  };
+}
 
 export default async function MenuLayout({ children, params }: LayoutProps) {
   const { locale } = params;
