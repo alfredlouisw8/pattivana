@@ -4,12 +4,10 @@ import { Urbanist } from 'next/font/google';
 import { draftMode } from 'next/headers';
 
 import { ContentfulPreviewProvider } from '@src/components/features/contentful';
-import TranslationsProvider from '@src/components/shared/i18n/TranslationProvider';
-import { Footer } from '@src/components/templates/footer';
-import { Header } from '@src/components/templates/header';
 import initTranslations from '@src/i18n';
 import { locales } from '@src/i18n/config';
 import { LayoutProps } from 'types';
+import TranslationsProvider from '@src/components/shared/i18n/TranslationProvider';
 
 export async function generateMetadata() {
   const metatadata: Metadata = {
