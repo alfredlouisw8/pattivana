@@ -33,6 +33,7 @@
     "@contentful/rich-text-react-renderer": "^15.16.2",
     "@headlessui/react": "^2.2.0",
     "@next/bundle-analyzer": "^14.2.6",
+    "contentful-management": "^11.41.0",
     "date-fns": "^4.1.0",
     "dotenv": "^16.0.3",
     "framer-motion": "^11.17.0",

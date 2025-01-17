@@ -1,14 +1,15 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Sidebar from '../shared/sidebar/Sidebar';
 import { CtfImage } from '../features/contentful';
-import { getRecommendations } from '@src/app/helper/utils';
+import { getRecommendations, pushDataToContentful } from '@src/app/helper/utils';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import PDFSection from './PDFSection';
+import { useRouter } from 'next/navigation';
 
 export default function LoveProfileSection({ quizzes, portfolios }) {
   const [step, setStep] = useState(0);
@@ -16,11 +17,15 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
   const [showLoading, setShowLoading] = useState(true);
   const [recommendations, setRecommendations] = useState([]);
 
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     groom: '',
     bride: '',
     whatsapp: '',
   });
+
+  const isFormValid = formData.groom && formData.bride && formData.whatsapp;
 
   const [answers, setAnswers] = useState({});
 
@@ -52,9 +57,26 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
     },
   ];
 
+  const onFormSubmit = e => {
+    e.preventDefault();
+    if (isFormValid) {
+      setStep(1);
+    } else {
+      alert('Please fill out all fields.');
+    }
+  };
+
+  const onArrowClick = () => {
+    if (isFormValid) {
+      setStep(1);
+    } else {
+      alert('Please fill out all fields.');
+    }
+  };
+
   const coverPage = (
     <div
-      className="flex w-full flex-col justify-between bg-center p-10"
+      className="flex w-full cursor-pointer flex-col justify-between bg-center p-10"
       onClick={() => setShowCover(false)}
       style={{ backgroundImage: `url('/assets/images/intimate.png')` }}>
       {headerText}
@@ -69,19 +91,30 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
 
   const formPage = (
     <div className="flex flex-col gap-10">
-      {form.map(({ title, name, placeholder }, index) => (
-        <div key={index} className="flex items-center gap-10">
-          <h4 className="w-[300px] text-3xl text-cream-dark">{title}</h4>
-          <h4>:</h4>
-          <input
-            type="text"
-            name={name}
-            onChange={e => setFormData(prev => ({ ...prev, [name]: e.target.value }))}
-            className="w-full border-0 bg-transparent text-3xl outline-none"
-            placeholder={placeholder}
-          />
-        </div>
-      ))}
+      <form
+        className="flex flex-col gap-10"
+        onSubmit={onFormSubmit}
+        onKeyDown={e => {
+          if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent the default "Enter" key behavior
+            onFormSubmit(e); // Trigger your custom submit handler
+          }
+        }}>
+        {form.map(({ title, name, placeholder }, index) => (
+          <div key={index} className="flex items-center gap-10">
+            <h4 className="w-[300px] text-3xl text-cream-dark">{title}</h4>
+            <h4>:</h4>
+            <input
+              type="text"
+              name={name}
+              onChange={e => setFormData(prev => ({ ...prev, [name]: e.target.value }))}
+              className="w-full border-0 bg-transparent text-3xl outline-none autofill:bg-transparent"
+              required
+              placeholder={placeholder}
+            />
+          </div>
+        ))}
+      </form>
     </div>
   );
 
@@ -91,7 +124,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
       <div className="flex items-center justify-center gap-10">
         {quizzes[step].answers.map((answer, index) => (
           <div
-            className="relative aspect-square max-w-[30vw] flex-1"
+            className="relative aspect-[4/5] max-w-[25vw] flex-1 cursor-pointer"
             key={index}
             onClick={() => handleOptionClick(answer)}>
             <CtfImage
@@ -113,7 +146,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
       {showLoading ? (
         <h4 className="animate-pulse text-6xl text-cream-dark">calculating your result. . .</h4>
       ) : (
-        <div className="animate-fade-in">
+        <div className="flex animate-fade-in flex-col gap-5">
           <h4 className="text-6xl text-cream-dark">thank you</h4>
           <div className="flex items-center gap-10">
             <div className="button bg-cream-dark" onClick={() => generatePDF()}>
@@ -139,6 +172,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
     if (step === pages.length - 2) {
       // @ts-ignore
       setRecommendations(getRecommendations(answers, portfolios));
+      pushDataToContentful(formData, { ...answers, ['answer_' + step]: answer });
       startTimer();
     }
     setStep(prevStep => prevStep + 1);
@@ -148,7 +182,9 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
   const indicatorsLength = quizzes.length + 1;
 
   const handleIndicatorClick = index => {
-    setStep(index);
+    if (index < step) {
+      setStep(index);
+    }
   };
 
   const pages = [formPage, ...quizzes.map((_, index) => questionPage(index)), resultPage];
@@ -172,6 +208,11 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
 
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save(`${formData.groom} and ${formData.bride}.pdf`);
+
+      // Open the PDF in a new tab
+      const pdfBlob = pdf.output('blob'); // Get the PDF as a Blob
+      const pdfURL = URL.createObjectURL(pdfBlob); // Create a Blob URL
+      window.open(pdfURL, '_blank'); // Open the Blob URL in a new tab
     });
   }
 
@@ -185,8 +226,8 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
         {step === 0 && (
           <div className="flex justify-end">
             <div
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white"
-              onClick={() => setStep(1)}>
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white"
+              onClick={onArrowClick}>
               {'>'}
             </div>
           </div>
@@ -197,7 +238,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
             <div
               key={index}
               style={{ flex: 1 / indicatorsLength }}
-              className={`${index === step ? 'h-3 bg-cream-dark' : 'h-2 bg-cream'} `}
+              className={`cursor-pointer ${index === step ? 'h-3 bg-cream-dark' : 'h-2 bg-cream'} `}
               onClick={() => handleIndicatorClick(index)}>
               &nbsp;
             </div>

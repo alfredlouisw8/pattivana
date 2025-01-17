@@ -18,6 +18,7 @@ fragment PortfoliosFields on Portfolios {
   }
   youtube
   shortDescription
+  showPortfolio
 }
 
 query GetPortfolios($locale: String, $preview: Boolean) {

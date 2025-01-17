@@ -18,6 +18,9 @@ fragment ImagesFields on Images {
   loveProfileImage {
     ...ImageFields
   }
+  contactImage {
+    ...ImageFields
+  }
 }
 
 query GetImages($locale: String, $preview: Boolean) {

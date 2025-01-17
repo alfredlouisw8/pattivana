@@ -1,3 +1,5 @@
+import { createClient } from 'contentful-management';
+
 const shimmer = (w: number, h: number) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
@@ -60,13 +62,32 @@ export const getMenus = images => {
   ];
 };
 
+export const pushDataToContentful = async (formData, answers) => {
+  try {
+    await fetch('/api/quiz-result', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...formData,
+        // @ts-ignore
+        answers: Object.values(answers).map(answer => answer.value),
+        title: `${formData.groom} and ${formData.bride}'s Quiz Result`,
+      }),
+    });
+  } catch (error: any) {
+    console.error('Error creating entry:', error.message);
+  }
+};
+
 export const getRecommendations = (answers, portfolios) => {
   // Step 1: Flatten answers into an array
   // @ts-ignore
   const answerTags = Object.values(answers).map(answer => answer.value);
 
+  const publicPortfolios = portfolios.filter(portfolio => portfolio.showPortfolio === true);
+
   // Step 2: Count tag matches for each portfolio
-  const scoredPortfolios = portfolios.map(portfolio => {
+  const scoredPortfolios = publicPortfolios.map(portfolio => {
     const matchCount = portfolio.contentfulMetadata.tags.filter(tag =>
       answerTags.includes(tag.name),
     ).length;

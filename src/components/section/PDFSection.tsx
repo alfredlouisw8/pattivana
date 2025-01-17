@@ -10,12 +10,7 @@ export default function PDFSection({ answers, formData, recommendations }) {
     <div id="pdf-content" className="fixed top-[2000px] flex w-full flex-col gap-12 py-10 px-20">
       <div className="flex flex-col">
         <div className="flex w-full justify-end">
-          <Image
-            src={'/assets/images/logo_black_long.png'}
-            alt="Pattivana"
-            width={250}
-            height={200}
-          />
+          <Image src={'/assets/images/logo_gray.png'} alt="Pattivana" width={250} height={200} />
         </div>
         <div className="border-b-4 border-b-black" />
       </div>

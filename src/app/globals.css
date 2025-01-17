@@ -34,3 +34,22 @@
   -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
   scrollbar-width: none; /* Hide scrollbar in Firefox */
 }
+
+/* General autofill styling for WebKit browsers (Chrome, Edge, Safari) */
+input:-webkit-autofill {
+  background-color: transparent !important; /* Override background */
+  color: inherit !important; /* Ensure text color matches */
+  box-shadow: 0 0 0px 1000px transparent inset !important; /* Reset shadow */
+  transition: background-color 5000s ease-in-out 0s; /* Fix background override timing */
+}
+
+/* Firefox-specific autofill styling */
+input:-moz-autofill {
+  background-color: transparent !important; /* Override background */
+  color: inherit !important; /* Ensure text color matches */
+}
+
+/* General styling for all inputs (fallback) */
+input {
+  background: transparent;
+}

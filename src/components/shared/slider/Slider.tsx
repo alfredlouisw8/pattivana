@@ -37,6 +37,20 @@ export default function DraggableSlider({ items }) {
     }
   };
 
+  const handleSelectItem = slug => {
+    setSelectedItem(slug);
+
+    // Find the element and scroll it into view
+    const element = document.getElementById(slug);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
+    }
+  };
+
   return (
     <>
       <div
@@ -51,32 +65,35 @@ export default function DraggableSlider({ items }) {
         aria-label="Horizontal draggable slider"
         className="no-scrollbar flex items-start gap-5 overflow-auto scroll-smooth py-10 focus:outline-none"
         style={{ width: 'calc(100vw - 270px)' }}>
-        {items.map(({ image, title, description, slug, contentfulMetadata }, index) => {
+        {items.map(({ image, title, description, slug, contentfulMetadata, youtube }, index) => {
           const active = selectedItem === slug;
           return (
-            <div
-              className={`group flex flex-col gap-5 transition-all ${active && 'mt-[-30px]'}`}
-              key={index}
-              onClick={() => setSelectedItem(slug)}
-              id={slug}>
-              <h2 className={`text-primary transition-all ${active ? 'text-3xl' : 'text-2xl'}`}>
-                {title}
-              </h2>
+            <a href={youtube} target="_blank" rel="noopener noreferrer" key={index}>
               <div
-                className={`relative aspect-video transition-all ${
-                  active ? 'w-[400px]' : 'w-[300px]'
-                }`}>
-                <CtfImage
-                  nextImageProps={{
-                    className: `transition-all object-cover ${
-                      active ? 'grayscale-0' : 'grayscale'
-                    }`,
-                    fill: true,
-                  }}
-                  {...image}
-                />
-              </div>
-              {contentfulMetadata &&
+                className={`group flex cursor-pointer flex-col gap-5 transition-all ${
+                  active && 'mt-[-30px]'
+                }`}
+                key={index}
+                onClick={() => handleSelectItem(slug)}
+                id={slug}>
+                <h2 className={`text-primary transition-all ${active ? 'text-3xl' : 'text-2xl'}`}>
+                  {title}
+                </h2>
+                <div
+                  className={`relative aspect-video transition-all ${
+                    active ? 'w-[400px]' : 'w-[300px]'
+                  }`}>
+                  <CtfImage
+                    nextImageProps={{
+                      className: `transition-all object-cover  ${
+                        active ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'
+                      }`,
+                      fill: true,
+                    }}
+                    {...image}
+                  />
+                </div>
+                {/* {contentfulMetadata &&
                 contentfulMetadata.tags &&
                 contentfulMetadata.tags.length > 0 && (
                   <div className="flex flex-wrap">
@@ -88,14 +105,19 @@ export default function DraggableSlider({ items }) {
                       </span>
                     ))}
                   </div>
-                )}
+                )} */}
 
-              <CtfRichText
-                json={description?.json}
-                links={description?.links}
-                className={`transition-all ${active && 'text-lg'}`}
-              />
-            </div>
+                {active && (
+                  <div className="max-h-[30vh] overflow-auto">
+                    <CtfRichText
+                      json={description?.json}
+                      links={description?.links}
+                      className={`transition-all ${active && 'text-lg'}`}
+                    />
+                  </div>
+                )}
+              </div>
+            </a>
           );
         })}
       </div>

@@ -116,8 +116,6 @@ export default function PortfolioSection({ portfolios }) {
     setFilteredPortfolios(portfolios);
   };
 
-  console.log('portfolios', portfolios);
-
   return (
     <div className="flex w-full flex-col justify-between p-10">
       <div className="flex justify-end">

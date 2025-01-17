@@ -33,9 +33,11 @@ export default function Sidebar({ menus }: SidebarProps) {
         ))}
       </div>
 
-      <div className="w- flex h-14 w-14 flex-none items-center justify-center overflow-hidden rounded-full bg-white">
-        <Image src={'/assets/images/contact.jpg'} alt="Pattivana" width={200} height={200} />
-      </div>
+      <Link href="/contact">
+        <div className="w- flex h-14 w-14 flex-none cursor-pointer items-center justify-center overflow-hidden rounded-full">
+          <Image src={'/assets/images/contact.png'} alt="Pattivana" width={200} height={200} />
+        </div>
+      </Link>
     </div>
   );
 }
