@@ -10,7 +10,7 @@ interface SidebarProps {
 
 export default function Sidebar({ menus }: SidebarProps) {
   return (
-    <div className="flex h-screen w-52 flex-col items-center justify-between gap-5 bg-cream p-5">
+    <div className="hidden h-screen w-52 flex-col items-center justify-between gap-5 bg-cream p-5 lg:flex">
       <div className="relative flex aspect-square h-[10vh] w-[10vh] items-center justify-center">
         <Link href="/">
           <Image

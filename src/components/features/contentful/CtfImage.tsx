@@ -1,8 +1,8 @@
 import NextImage, { ImageProps as NextImageProps } from 'next/image';
-import { twMerge } from 'tailwind-merge';
 
 import { ImageFieldsFragment } from '@src/lib/__generated/sdk';
 import { getPlaceholderImage } from '@src/app/helper/utils';
+import { twMerge } from 'tailwind-merge';
 
 interface ImageProps extends Omit<ImageFieldsFragment, '__typename'> {
   nextImageProps?: Omit<NextImageProps, 'src' | 'alt'>;

@@ -63,20 +63,23 @@ export default function DraggableSlider({ items }) {
         tabIndex={0} // Make the div focusable
         role="region"
         aria-label="Horizontal draggable slider"
-        className="no-scrollbar flex items-start gap-5 overflow-auto scroll-smooth py-10 focus:outline-none"
+        className="no-scrollbar hidden items-start gap-5 overflow-auto scroll-smooth py-10 focus:outline-none lg:flex"
         style={{ width: 'calc(100vw - 270px)' }}>
         {items.map(({ image, title, description, slug, contentfulMetadata, youtube }, index) => {
           const active = selectedItem === slug;
           return (
             <a href={youtube} target="_blank" rel="noopener noreferrer" key={index}>
               <div
-                className={`group flex cursor-pointer flex-col gap-5 transition-all ${
+                className={`group flex cursor-pointer flex-col justify-between gap-5 transition-all ${
                   active && 'mt-[-30px]'
                 }`}
                 key={index}
                 onClick={() => handleSelectItem(slug)}
                 id={slug}>
-                <h2 className={`text-primary transition-all ${active ? 'text-3xl' : 'text-2xl'}`}>
+                <h2
+                  className={`text-primary h-[70px] transition-all ${
+                    active ? 'text-3xl' : 'text-2xl'
+                  }`}>
                   {title}
                 </h2>
                 <div
@@ -122,7 +125,7 @@ export default function DraggableSlider({ items }) {
         })}
       </div>
 
-      <div className="flex w-full justify-center">
+      <div className="hidden w-full justify-center lg:flex">
         <div className="flex w-[50vw] items-center">
           {items.map(({ slug }, index) => {
             const active = selectedItem === slug;

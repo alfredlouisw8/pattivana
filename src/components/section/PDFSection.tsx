@@ -10,13 +10,15 @@ export default function PDFSection({ answers, formData, recommendations }) {
     <div id="pdf-content" className="fixed top-[2000px] flex w-full flex-col gap-12 py-10 px-20">
       <div className="flex flex-col">
         <div className="flex w-full justify-end">
-          <Image src={'/assets/images/logo_gray.png'} alt="Pattivana" width={250} height={200} />
+          <div className="relative h-[100px] w-[200px]">
+            <Image src={'/assets/images/logo_gray.png'} alt="Pattivana" fill />
+          </div>
         </div>
         <div className="border-b-4 border-b-black" />
       </div>
 
       <div className="flex items-center justify-between">
-        <h1 className="mb-4 text-5xl font-bold">
+        <h1 className="mb-4 text-4xl font-bold">
           {formData.groom} & {formData.bride}
         </h1>
 
@@ -29,19 +31,19 @@ export default function PDFSection({ answers, formData, recommendations }) {
       </div>
       <div className="border-b-2 border-b-black" />
 
-      <h2 className="text-3xl font-semibold">Here is what we think about you as a couple:</h2>
+      <h2 className="text-2xl font-semibold">Here is what we think about you as a couple:</h2>
 
       {Object.values(answers).map((answer: any, i) => (
         <>
           <div className="flex items-start justify-between gap-20">
-            <CtfRichText json={answer.pdfText.json} className="flex-1 text-3xl" />
+            <CtfRichText json={answer.pdfText.json} className="flex-1 text-2xl" />
             <p className="flex-1 text-lg">{answer.pdfLongText}</p>
           </div>
           {i !== 4 && <div className="border-b-2 border-b-black" />}
         </>
       ))}
 
-      <h2 className="mt-14 text-3xl font-semibold">
+      <h2 className="mt-14 text-2xl font-semibold">
         Scan the QRs below to find some videos you might like
       </h2>
       <div className="flex items-start gap-20">
@@ -53,7 +55,7 @@ export default function PDFSection({ answers, formData, recommendations }) {
         ))}
       </div>
 
-      <div className="mt-20 flex w-full justify-end">
+      <div className="mt- flex w-full justify-end">
         <p className="text-right text-lg">
           This test is not a scientific procedure. <br />
           100% curated by PATTIVANA team - 2023 <br />

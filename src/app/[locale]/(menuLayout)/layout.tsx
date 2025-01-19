@@ -5,6 +5,8 @@ import { getMenus } from '@src/app/helper/utils';
 import { client, previewClient } from '@src/lib/client';
 import { LayoutProps } from 'types';
 import { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -27,6 +29,18 @@ export default async function MenuLayout({ children, params }: LayoutProps) {
   return (
     <section className="flex bg-cream-light">
       <Sidebar menus={menus} />
+
+      <div className="fixed top-0 right-0 z-10 flex h-[75px] w-[75px] items-center justify-center bg-cream p-3 lg:hidden">
+        <Link href="/menu">
+          <Image src={'/assets/images/logo_black.png'} alt="Pattivana" width={200} height={200} />
+        </Link>
+      </div>
+
+      <div className="fixed bottom-5 right-5 z-10 flex h-[50px] w-[50px] items-center justify-center lg:hidden">
+        <Link href="/contact">
+          <Image src={'/assets/images/contact.png'} alt="Pattivana" width={200} height={200} />
+        </Link>
+      </div>
       {children}
     </section>
   );

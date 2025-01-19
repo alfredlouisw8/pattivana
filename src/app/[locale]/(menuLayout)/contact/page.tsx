@@ -15,21 +15,25 @@ export default async function ContactPage({ params: { locale } }: LandingPagePro
 
   return (
     <div
-      className="flex w-full cursor-pointer flex-col justify-between bg-cover bg-center bg-no-repeat p-10"
+      className="flex h-screen w-full cursor-pointer flex-col justify-between bg-cover bg-center bg-no-repeat lg:p-10"
       style={{ backgroundImage: `url('${images?.contactImage?.url}')` }}>
-      <div className="flex justify-end">
+      <div className="hidden justify-end lg:flex">
         <h1 className="text-right text-7xl uppercase text-white">
           Contact <br /> Us
         </h1>
       </div>
 
-      <div className="flex justify-end">
-        <div className="flex items-end gap-10">
-          <h6 className="text-xl text-white">
+      <div className="sticky top-0 flex h-[75px] items-center border-b border-b-cream bg-cream-light pl-[5%] lg:hidden">
+        <h1 className="text-3xl text-primary">Contact Us</h1>
+      </div>
+
+      <div className="flex justify-center pb-20 lg:justify-end lg:pb-0">
+        <div className="flex items-end gap-10 opacity-75">
+          <h6 className="text-right text-white lg:text-xl">
             Based in Indonesia <br /> Available worldwide
           </h6>
           <div className=" border-r border-r-white" style={{ height: 'calc(100% + 50px)' }} />
-          <h6 className="text-xl text-white">
+          <h6 className="text-white lg:text-xl">
             We would love to know you,
             <br />
             <br />

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Sidebar from '../shared/sidebar/Sidebar';
 import { CtfImage } from '../features/contentful';
@@ -10,6 +10,11 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import PDFSection from './PDFSection';
 import { useRouter } from 'next/navigation';
+import { pdf } from '@react-pdf/renderer';
+import PDFDocument from './PDFDocument';
+import QRCode from 'qrcode';
+import { generate } from '@graphql-codegen/cli';
+import ReactDOM from 'react-dom';
 
 export default function LoveProfileSection({ quizzes, portfolios }) {
   const [step, setStep] = useState(0);
@@ -17,26 +22,37 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
   const [showLoading, setShowLoading] = useState(true);
   const [recommendations, setRecommendations] = useState([]);
 
-  const router = useRouter();
-
   const [formData, setFormData] = useState({
-    groom: '',
-    bride: '',
-    whatsapp: '',
+    groom: 'asd',
+    bride: 'qwe',
+    whatsapp: '123',
   });
 
   const isFormValid = formData.groom && formData.bride && formData.whatsapp;
 
   const [answers, setAnswers] = useState({});
 
+  const isMobile = window.innerWidth < 1024;
+  const divHeight = isMobile ? `calc(100vh - (76px + ${step === 0 ? '152px' : '92px'}))` : 'auto';
+
+  // Create a function to update heights
+
   const headerText = (
-    <div className="flex justify-end">
-      <h1 className="text-primary text-right text-7xl">
-        Love Profile
-        <br />
-        Check
-      </h1>
-    </div>
+    <>
+      <div className="hidden justify-end lg:flex">
+        <h1 className="text-right text-7xl text-primary">
+          Love Profile
+          <br />
+          Check
+        </h1>
+      </div>
+      <div
+        className={`sticky top-0  flex h-[76px] items-center border-b border-b-cream-dark pl-[5%] lg:hidden ${
+          !showCover && 'bg-cream-light'
+        } `}>
+        <h1 className="text-3xl text-primary">Love Profile Check</h1>
+      </div>
+    </>
   );
 
   const form = [
@@ -76,13 +92,13 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
 
   const coverPage = (
     <div
-      className="flex w-full cursor-pointer flex-col justify-between bg-center p-10"
+      className="relative flex h-screen w-full cursor-pointer flex-col justify-between bg-center lg:p-10"
       onClick={() => setShowCover(false)}
       style={{ backgroundImage: `url('/assets/images/intimate.png')` }}>
       {headerText}
 
-      <div className="flex justify-end">
-        <h1 className="mb-[5vh] text-right text-xl text-white">
+      <div className="absolute inset-0 mt-[10vh] flex items-center justify-center lg:static lg:mt-0 lg:justify-end ">
+        <h1 className=" text-2xl text-white opacity-75 lg:mb-[5vh]">
           Find out what type of couple are you?
         </h1>
       </div>
@@ -90,7 +106,11 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
   );
 
   const formPage = (
-    <div className="flex flex-col gap-10">
+    <div
+      className="flex flex-col gap-10 py-10 px-20 lg:px-10"
+      style={{
+        height: divHeight,
+      }}>
       <form
         className="flex flex-col gap-10"
         onSubmit={onFormSubmit}
@@ -101,9 +121,11 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
           }
         }}>
         {form.map(({ title, name, placeholder }, index) => (
-          <div key={index} className="flex items-center gap-10">
-            <h4 className="w-[300px] text-3xl text-cream-dark">{title}</h4>
-            <h4>:</h4>
+          <div key={index} className="flex flex-col gap-5 lg:flex-row">
+            <div className="flex items-center gap-5">
+              <h4 className="w-[300px] text-3xl text-cream-dark">{title}</h4>
+              <h4>:</h4>
+            </div>
             <input
               type="text"
               name={name}
@@ -119,12 +141,18 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
   );
 
   const questionPage = step => (
-    <div className="flex flex-col gap-10">
-      <h4 className="text-right text-3xl text-cream-dark">{quizzes[step].question}</h4>
-      <div className="flex items-center justify-center gap-10">
+    <div
+      className="flex flex-col gap-10 p-10"
+      style={{
+        height: divHeight,
+      }}>
+      <h4 className=" text-center text-2xl text-cream-dark lg:text-right lg:text-3xl">
+        {quizzes[step].question}
+      </h4>
+      <div className="flex flex-1 flex-col items-center justify-center gap-10 lg:flex-row">
         {quizzes[step].answers.map((answer, index) => (
           <div
-            className="relative aspect-[4/5] max-w-[25vw] flex-1 cursor-pointer"
+            className="relative aspect-video flex-1 cursor-pointer lg:aspect-[4/5] lg:max-w-[25vw]"
             key={index}
             onClick={() => handleOptionClick(answer)}>
             <CtfImage
@@ -135,6 +163,10 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
               }}
               {...answer.image}
             />
+
+            <p className="absolute left-[50%] bottom-[20%] max-w-[50%] translate-x-[-50%] text-center text-xs text-white opacity-75 lg:text-sm">
+              {answer.text}
+            </p>
           </div>
         ))}
       </div>
@@ -142,12 +174,18 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
   );
 
   const resultPage = (
-    <div className="flex items-center justify-center">
+    <div
+      className="flex items-center justify-center p-10"
+      style={{
+        height: divHeight,
+      }}>
       {showLoading ? (
-        <h4 className="animate-pulse text-6xl text-cream-dark">calculating your result. . .</h4>
+        <h4 className="animate-pulse text-3xl text-cream-dark lg:text-6xl">
+          calculating your result. . .
+        </h4>
       ) : (
         <div className="flex animate-fade-in flex-col gap-5">
-          <h4 className="text-6xl text-cream-dark">thank you</h4>
+          <h4 className="text-3xl text-cream-dark lg:text-6xl">thank you</h4>
           <div className="flex items-center gap-10">
             <div className="button bg-cream-dark" onClick={() => generatePDF()}>
               Download PDF
@@ -172,7 +210,9 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
     if (step === pages.length - 2) {
       // @ts-ignore
       setRecommendations(getRecommendations(answers, portfolios));
-      pushDataToContentful(formData, { ...answers, ['answer_' + step]: answer });
+      if (process.env.NODE_ENV !== 'development') {
+        pushDataToContentful(formData, { ...answers, ['answer_' + step]: answer });
+      }
       startTimer();
     }
     setStep(prevStep => prevStep + 1);
@@ -186,12 +226,6 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
       setStep(index);
     }
   };
-
-  const pages = [formPage, ...quizzes.map((_, index) => questionPage(index)), resultPage];
-
-  if (showCover) {
-    return coverPage;
-  }
 
   function generatePDF() {
     const content = document.getElementById('pdf-content'); // Target your div
@@ -216,13 +250,19 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
     });
   }
 
+  const pages = [formPage, ...quizzes.map((_, index) => questionPage(index)), resultPage];
+
+  if (showCover) {
+    return coverPage;
+  }
+
   return (
-    <div className="flex w-full flex-col justify-between bg-cream-light p-10">
+    <div className="flex w-full flex-col justify-between bg-cream-light lg:p-10">
       {headerText}
 
       {pages[step]}
 
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 px-20 pb-20 lg:p-10">
         {step === 0 && (
           <div className="flex justify-end">
             <div
@@ -238,7 +278,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
             <div
               key={index}
               style={{ flex: 1 / indicatorsLength }}
-              className={`cursor-pointer ${index === step ? 'h-3 bg-cream-dark' : 'h-2 bg-cream'} `}
+              className={`cursor-pointer ${index === step ? 'h-3 bg-cream' : 'h-2 bg-gray-300'} `}
               onClick={() => handleIndicatorClick(index)}>
               &nbsp;
             </div>
