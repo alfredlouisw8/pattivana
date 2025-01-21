@@ -15,6 +15,7 @@ import PDFDocument from './PDFDocument';
 import QRCode from 'qrcode';
 import { generate } from '@graphql-codegen/cli';
 import ReactDOM from 'react-dom';
+import { iframeCSS } from '@src/app/helper/css';
 
 export default function LoveProfileSection({ quizzes, portfolios }) {
   const [step, setStep] = useState(0);
@@ -32,7 +33,11 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
 
   const [answers, setAnswers] = useState({});
 
-  const isMobile = window.innerWidth < 1024;
+  let isMobile = false;
+
+  if (typeof window !== 'undefined') {
+    isMobile = window.innerWidth < 1024;
+  }
   const divHeight = isMobile ? `calc(100vh - (76px + ${step === 0 ? '152px' : '92px'}))` : 'auto';
 
   // Create a function to update heights
@@ -40,14 +45,14 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
   const headerText = (
     <>
       <div className="hidden justify-end lg:flex">
-        <h1 className="text-right text-7xl text-primary">
+        <h1 className="text-right text-5xl text-primary xl:text-6xl 2xl:text-7xl ">
           Love Profile
           <br />
           Check
         </h1>
       </div>
       <div
-        className={`sticky top-0  flex h-[76px] items-center border-b border-b-cream-dark pl-[5%] lg:hidden ${
+        className={`sticky top-0  z-10 flex h-[76px] items-center border-b border-b-cream-dark pl-[5%] lg:hidden ${
           !showCover && 'bg-cream-light'
         } `}>
         <h1 className="text-3xl text-primary">Love Profile Check</h1>
@@ -92,7 +97,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
 
   const coverPage = (
     <div
-      className="relative flex h-screen w-full cursor-pointer flex-col justify-between bg-center lg:p-10"
+      className="relative flex h-screen w-full cursor-pointer flex-col justify-between bg-cover bg-center bg-no-repeat lg:p-10"
       onClick={() => setShowCover(false)}
       style={{ backgroundImage: `url('/assets/images/intimate.png')` }}>
       {headerText}
@@ -107,7 +112,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
 
   const formPage = (
     <div
-      className="flex flex-col gap-10 py-10 px-20 lg:px-10"
+      className="flex flex-col gap-10 px-20 py-10 lg:px-10"
       style={{
         height: divHeight,
       }}>
@@ -149,10 +154,10 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
       <h4 className=" text-center text-2xl text-cream-dark lg:text-right lg:text-3xl">
         {quizzes[step].question}
       </h4>
-      <div className="flex flex-1 flex-col items-center justify-center gap-10 lg:flex-row">
+      <div className="flex flex-1 flex-col items-center justify-center gap-10 pb-10 lg:flex-row">
         {quizzes[step].answers.map((answer, index) => (
           <div
-            className="relative aspect-video flex-1 cursor-pointer lg:aspect-[4/5] lg:max-w-[25vw]"
+            className="relative aspect-video w-full flex-1 cursor-pointer lg:aspect-[4/5]"
             key={index}
             onClick={() => handleOptionClick(answer)}>
             <CtfImage
@@ -164,7 +169,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
               {...answer.image}
             />
 
-            <p className="absolute left-[50%] bottom-[20%] max-w-[50%] translate-x-[-50%] text-center text-xs text-white opacity-75 lg:text-sm">
+            <p className="absolute bottom-[20%] left-[50%] max-w-[50%] translate-x-[-50%] text-center text-xs text-white opacity-75 lg:text-sm">
               {answer.text}
             </p>
           </div>
@@ -199,21 +204,29 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
     </div>
   );
 
-  const startTimer = () => {
-    setTimeout(function () {
-      setShowLoading(false);
-      generatePDF();
-    }, 1500);
-  };
+  // const startTimer = async () => {
+  //   setShowLoading(true);
+  //   await generatePDF();
+  //   setShowLoading(false);
+  // };
+
+  useEffect(() => {
+    if (recommendations.length > 0) {
+      generatePDF().finally(() => {
+        setShowLoading(false);
+      });
+    }
+  }, [recommendations]);
 
   function handleOptionClick(answer) {
     if (step === pages.length - 2) {
+      const currentAnswers = { ...answers, ['answer_' + step]: answer };
       // @ts-ignore
-      setRecommendations(getRecommendations(answers, portfolios));
+      setRecommendations(getRecommendations(currentAnswers, portfolios));
       if (process.env.NODE_ENV !== 'development') {
-        pushDataToContentful(formData, { ...answers, ['answer_' + step]: answer });
+        pushDataToContentful(formData, currentAnswers);
       }
-      startTimer();
+      setShowLoading(true);
     }
     setStep(prevStep => prevStep + 1);
     setAnswers(prev => ({ ...prev, ['answer_' + step]: answer }));
@@ -227,28 +240,103 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
     }
   };
 
-  function generatePDF() {
+  async function generatePDF() {
     const content = document.getElementById('pdf-content'); // Target your div
 
     if (!content) {
+      console.error('Content not found!');
       return;
     }
 
-    html2canvas(content, { scale: 2 }).then(canvas => {
+    // Create an iframe with a fixed desktop-like viewport
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.top = '-10000px'; // Hide iframe off-screen
+    iframe.style.width = '1600px'; // Set desktop-like width
+    iframe.style.height = '900px'; // Set desktop-like height
+    iframe.style.visibility = 'hidden'; // Ensure it's completely hidden
+    document.body.appendChild(iframe);
+
+    // Write the content into the iframe
+    iframe.srcdoc = `
+      <html>
+        <head>
+          <style>
+            ${iframeCSS}
+          </style>
+        </head>
+        <body>${content.outerHTML}</body>
+      </html>
+    `;
+
+    // Wait for iframe content to load
+    try {
+      await new Promise((resolve, reject) => {
+        //@ts-ignore
+        iframe.onload = () => resolve();
+        setTimeout(() => reject(new Error('iframe loading timeout')), 5000); // Add a timeout for loading
+      });
+    } catch (error) {
+      console.error('Error loading iframe:', error);
+      document.body.removeChild(iframe);
+      return;
+    }
+
+    const iframeDocument = iframe.contentDocument;
+
+    // Generate the PDF
+    try {
+      //@ts-ignore
+      const iframeContent = iframeDocument.body;
+      const canvas = await html2canvas(iframeContent, { scale: 2 });
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+      // Create a Blob URL for the PDF
+      const pdfBlob = pdf.output('blob'); // Generate a Blob from the PDF
+      const pdfURL = URL.createObjectURL(pdfBlob); // Create a URL for the Blob
+
+      // Download the PDF
       pdf.save(`${formData.groom} and ${formData.bride}.pdf`);
 
       // Open the PDF in a new tab
-      const pdfBlob = pdf.output('blob'); // Get the PDF as a Blob
-      const pdfURL = URL.createObjectURL(pdfBlob); // Create a Blob URL
-      window.open(pdfURL, '_blank'); // Open the Blob URL in a new tab
-    });
+      window.open(pdfURL, '_blank');
+
+      // Optionally revoke the Blob URL after some time (to release memory)
+      setTimeout(() => URL.revokeObjectURL(pdfURL), 10000);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    } finally {
+      // Remove the iframe after generating the PDF
+      document.body.removeChild(iframe);
+    }
   }
+
+  // const generatePDF = async () => {
+  //   // Create a Blob from the PDFDocument component
+  //   const blob = await pdf(
+  //     <PDFDocument answers={answers} formData={formData} recommendations={recommendations} />,
+  //   ).toBlob();
+
+  //   // Create a URL for the Blob
+  //   const url = URL.createObjectURL(blob);
+
+  //   // Trigger download
+  //   const link = document.createElement('a');
+  //   link.href = url;
+  //   link.download = `${formData.groom} and ${formData.bride}.pdf`;
+  //   link.click();
+
+  //   // Open the PDF in a new tab (optional)
+  //   window.open(url, '_blank');
+
+  //   // Clean up the Blob URL
+  //   URL.revokeObjectURL(url);
+  // };
 
   const pages = [formPage, ...quizzes.map((_, index) => questionPage(index)), resultPage];
 

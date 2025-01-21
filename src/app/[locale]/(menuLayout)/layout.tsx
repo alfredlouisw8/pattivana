@@ -30,13 +30,13 @@ export default async function MenuLayout({ children, params }: LayoutProps) {
     <section className="flex bg-cream-light">
       <Sidebar menus={menus} />
 
-      <div className="fixed top-0 right-0 z-10 flex h-[75px] w-[75px] items-center justify-center bg-cream p-3 lg:hidden">
+      <div className="fixed right-0 top-0 z-20 flex h-[75px] w-[75px] items-center justify-center bg-cream p-3 lg:hidden">
         <Link href="/menu">
           <Image src={'/assets/images/logo_black.png'} alt="Pattivana" width={200} height={200} />
         </Link>
       </div>
 
-      <div className="fixed bottom-5 right-5 z-10 flex h-[50px] w-[50px] items-center justify-center lg:hidden">
+      <div className="fixed bottom-5 right-5 z-20 flex h-[50px] w-[50px] items-center justify-center lg:hidden">
         <Link href="/contact">
           <Image src={'/assets/images/contact.png'} alt="Pattivana" width={200} height={200} />
         </Link>
