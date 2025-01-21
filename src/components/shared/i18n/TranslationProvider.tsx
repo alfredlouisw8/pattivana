@@ -7,7 +7,6 @@ import { I18nextProvider } from 'react-i18next';
 import initTranslations, { type InitTranslationsProps } from '@src/i18n/';
 
 interface TranslationProviderProps {
-  children: ReactNode;
   locale: InitTranslationsProps['locale'];
   namespaces?: InitTranslationsProps['namespaces'];
   resources: InitTranslationsProps['resources'];
@@ -18,7 +17,7 @@ export default function TranslationsProvider({
   locale,
   namespaces,
   resources,
-}: TranslationProviderProps) {
+}: React.PropsWithChildren<TranslationProviderProps>) {
   const i18n = createInstance();
 
   initTranslations({ locale, namespaces, i18nInstance: i18n, resources });

@@ -1,6 +1,5 @@
 import { dir } from 'i18next';
 import type { Metadata, Viewport } from 'next';
-import { Urbanist } from 'next/font/google';
 import { draftMode } from 'next/headers';
 
 import { ContentfulPreviewProvider } from '@src/components/features/contentful';
@@ -25,8 +24,6 @@ export async function generateStaticParams(): Promise<LayoutProps['params'][]> {
   return locales.map(locale => ({ locale }));
 }
 
-const urbanist = Urbanist({ subsets: ['latin'], variable: '--font-urbanist' });
-
 const allowedOriginList = ['https://app.contentful.com', 'https://app.eu.contentful.com'];
 
 export default async function PageLayout({ children, params }: LayoutProps) {
@@ -47,8 +44,8 @@ export default async function PageLayout({ children, params }: LayoutProps) {
             enableInspectorMode={preview}
             enableLiveUpdates={preview}
             targetOrigin={allowedOriginList}>
-            <main className={`${urbanist.variable} font-sans`}>{children}</main>
-            <div id="portal" className={`${urbanist.variable} font-sans`} />
+            <main className={`font-sans`}>{children}</main>
+            <div id="portal" className={`font-sans`} />
           </ContentfulPreviewProvider>
         </TranslationsProvider>
       </body>
