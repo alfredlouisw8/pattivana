@@ -9,9 +9,23 @@ import { ImageFieldsFragment } from '@src/lib/__generated/sdk';
 import { motion } from 'framer-motion';
 
 export default function HomeSection({ homeImage }: { homeImage: ImageFieldsFragment }) {
+  const isVideo = homeImage?.contentType?.includes('video');
+  console.log('homeImage', homeImage);
+
   return (
     <section className="relative h-screen w-screen bg-cover bg-center grayscale">
-      <CtfImage nextImageProps={{ className: 'object-cover', fill: true }} {...homeImage} />
+      {isVideo ? (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover">
+          <source src={homeImage.url} type="video/mp4" />
+        </video>
+      ) : (
+        <CtfImage nextImageProps={{ className: 'object-cover', fill: true }} {...homeImage} />
+      )}
       <Link href="/menu">
         <div className="flex w-full justify-center pt-[5vh]">
           <div className="relative h-[15vh] w-[25vh]">
