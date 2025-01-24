@@ -22,18 +22,18 @@ export function getPlaceholderImage(): `data:image/${string}` {
   return ('data:image/svg+xml;base64,' + toBase64(shimmer(1000, 1000))) as `data:image/${string}`;
 }
 
-export const getMenus = images => {
+export const getMenus = (images, isMobile) => {
   return [
     {
       link: '/',
-      image: images?.homeImage,
+      image: images?.menuImage,
       show: false,
       title: 'Home',
       description: 'Home',
     },
     {
       link: '/packages',
-      image: images?.packagesImage,
+      image: isMobile ? images?.packagesMobileImage : images?.packagesImage,
       show: true,
       title: 'The\nPackages',
       description:
@@ -41,21 +41,21 @@ export const getMenus = images => {
     },
     {
       link: '/portfolios',
-      image: images?.portfoliosImage,
+      image: isMobile ? images?.portfolioMobileImage : images?.portfoliosImage,
       show: true,
       title: 'Our\nPortfolios',
       description: 'Find out videos that makes you laugh and cry at the same time',
     },
     {
       link: '/special-deals',
-      image: images?.dealsImage,
+      image: isMobile ? images?.dealsMobileImage : images?.dealsImage,
       show: true,
       title: 'Special\nDeals',
       description: "Don't miss our special offer, from bundling package, wedding fair, etc.",
     },
     {
       link: '/love-profile-check',
-      image: images?.loveProfileImage,
+      image: isMobile ? images?.loveProfileMobileImage : images?.loveProfileImage,
       title: 'Love Profile\nCheck',
       description: 'Still confused where to begin? Start here and take the test!',
       show: true,

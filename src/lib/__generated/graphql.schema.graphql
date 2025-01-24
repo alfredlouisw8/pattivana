@@ -1,10 +1,5 @@
 directive @contentSourceMaps on QUERY
 
-"""
-Indicates exactly one field must be supplied and this field must not be `null`.
-"""
-directive @oneOf on INPUT_OBJECT
-
 """Represents a binary file in a space. An asset can be any file type."""
 type Asset {
   contentType(locale: String): String
@@ -350,11 +345,15 @@ type Images implements Entry & _Node {
   contactImage(locale: String, preview: Boolean): Asset
   contentfulMetadata: ContentfulMetadata!
   dealsImage(locale: String, preview: Boolean): Asset
+  dealsMobileImage(locale: String, preview: Boolean): Asset
   homeImage(locale: String, preview: Boolean): Asset
   linkedFrom(allowedLocales: [String]): ImagesLinkingCollections
   loveProfileImage(locale: String, preview: Boolean): Asset
+  loveProfileMobileImage(locale: String, preview: Boolean): Asset
   menuImage(locale: String, preview: Boolean): Asset
   packagesImage(locale: String, preview: Boolean): Asset
+  packagesMobileImage(locale: String, preview: Boolean): Asset
+  portfolioMobileImage(locale: String, preview: Boolean): Asset
   portfoliosImage(locale: String, preview: Boolean): Asset
   sys: Sys!
   title(locale: String): String
@@ -373,10 +372,14 @@ input ImagesFilter {
   contactImage_exists: Boolean
   contentfulMetadata: ContentfulMetadataFilter
   dealsImage_exists: Boolean
+  dealsMobileImage_exists: Boolean
   homeImage_exists: Boolean
   loveProfileImage_exists: Boolean
+  loveProfileMobileImage_exists: Boolean
   menuImage_exists: Boolean
   packagesImage_exists: Boolean
+  packagesMobileImage_exists: Boolean
+  portfolioMobileImage_exists: Boolean
   portfoliosImage_exists: Boolean
   sys: SysFilter
   title: String
@@ -666,6 +669,8 @@ type Query {
   quizAnswer(id: String!, locale: String, preview: Boolean): QuizAnswer
   quizAnswerCollection(limit: Int = 100, locale: String, order: [QuizAnswerOrder], preview: Boolean, skip: Int = 0, where: QuizAnswerFilter): QuizAnswerCollection
   quizCollection(limit: Int = 100, locale: String, order: [QuizOrder], preview: Boolean, skip: Int = 0, where: QuizFilter): QuizCollection
+  quizResult(id: String!, locale: String, preview: Boolean): QuizResult
+  quizResultCollection(limit: Int = 100, locale: String, order: [QuizResultOrder], preview: Boolean, skip: Int = 0, where: QuizResultFilter): QuizResultCollection
   specialDeals(id: String!, locale: String, preview: Boolean): SpecialDeals
   specialDealsCollection(limit: Int = 100, locale: String, order: [SpecialDealsOrder], preview: Boolean, skip: Int = 0, where: SpecialDealsFilter): SpecialDealsCollection
   tag(id: String!, locale: String, preview: Boolean): Tag
@@ -887,6 +892,87 @@ enum QuizOrder {
   sys_publishedVersion_DESC
 }
 
+"""
+[See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizResult)
+"""
+type QuizResult implements Entry & _Node {
+  _id: ID!
+  answers(locale: String): JSON
+  bride(locale: String): String
+  contentfulMetadata: ContentfulMetadata!
+  groom(locale: String): String
+  linkedFrom(allowedLocales: [String]): QuizResultLinkingCollections
+  sys: Sys!
+  title(locale: String): String
+  whatsapp(locale: String): String
+}
+
+type QuizResultCollection {
+  items: [QuizResult]!
+  limit: Int!
+  skip: Int!
+  total: Int!
+}
+
+input QuizResultFilter {
+  AND: [QuizResultFilter]
+  OR: [QuizResultFilter]
+  answers_exists: Boolean
+  bride: String
+  bride_contains: String
+  bride_exists: Boolean
+  bride_in: [String]
+  bride_not: String
+  bride_not_contains: String
+  bride_not_in: [String]
+  contentfulMetadata: ContentfulMetadataFilter
+  groom: String
+  groom_contains: String
+  groom_exists: Boolean
+  groom_in: [String]
+  groom_not: String
+  groom_not_contains: String
+  groom_not_in: [String]
+  sys: SysFilter
+  title: String
+  title_contains: String
+  title_exists: Boolean
+  title_in: [String]
+  title_not: String
+  title_not_contains: String
+  title_not_in: [String]
+  whatsapp: String
+  whatsapp_contains: String
+  whatsapp_exists: Boolean
+  whatsapp_in: [String]
+  whatsapp_not: String
+  whatsapp_not_contains: String
+  whatsapp_not_in: [String]
+}
+
+type QuizResultLinkingCollections {
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
+}
+
+enum QuizResultOrder {
+  bride_ASC
+  bride_DESC
+  groom_ASC
+  groom_DESC
+  sys_firstPublishedAt_ASC
+  sys_firstPublishedAt_DESC
+  sys_id_ASC
+  sys_id_DESC
+  sys_publishedAt_ASC
+  sys_publishedAt_DESC
+  sys_publishedVersion_ASC
+  sys_publishedVersion_DESC
+  title_ASC
+  title_DESC
+  whatsapp_ASC
+  whatsapp_DESC
+}
+
 interface ResourceLink {
   sys: ResourceSys!
 }
@@ -1100,7 +1186,7 @@ enum TagOrder {
 }
 
 """
-Represents a tag entity for finding and organizing content easily.
+Represents a taxonomy concept entity for finding and organizing content easily.
         Find out more here: https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/content-concepts
 """
 type TaxonomyConcept {

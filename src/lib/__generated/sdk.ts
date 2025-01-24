@@ -424,11 +424,15 @@ export type Images = Entry & _Node & {
   contactImage?: Maybe<Asset>;
   contentfulMetadata: ContentfulMetadata;
   dealsImage?: Maybe<Asset>;
+  dealsMobileImage?: Maybe<Asset>;
   homeImage?: Maybe<Asset>;
   linkedFrom?: Maybe<ImagesLinkingCollections>;
   loveProfileImage?: Maybe<Asset>;
+  loveProfileMobileImage?: Maybe<Asset>;
   menuImage?: Maybe<Asset>;
   packagesImage?: Maybe<Asset>;
+  packagesMobileImage?: Maybe<Asset>;
+  portfolioMobileImage?: Maybe<Asset>;
   portfoliosImage?: Maybe<Asset>;
   sys: Sys;
   title?: Maybe<Scalars['String']>;
@@ -444,6 +448,13 @@ export type ImagesContactImageArgs = {
 
 /** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
 export type ImagesDealsImageArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
+export type ImagesDealsMobileImageArgs = {
   locale?: InputMaybe<Scalars['String']>;
   preview?: InputMaybe<Scalars['Boolean']>;
 };
@@ -470,6 +481,13 @@ export type ImagesLoveProfileImageArgs = {
 
 
 /** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
+export type ImagesLoveProfileMobileImageArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
 export type ImagesMenuImageArgs = {
   locale?: InputMaybe<Scalars['String']>;
   preview?: InputMaybe<Scalars['Boolean']>;
@@ -478,6 +496,20 @@ export type ImagesMenuImageArgs = {
 
 /** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
 export type ImagesPackagesImageArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
+export type ImagesPackagesMobileImageArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
+export type ImagesPortfolioMobileImageArgs = {
   locale?: InputMaybe<Scalars['String']>;
   preview?: InputMaybe<Scalars['Boolean']>;
 };
@@ -509,10 +541,14 @@ export type ImagesFilter = {
   contactImage_exists?: InputMaybe<Scalars['Boolean']>;
   contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
   dealsImage_exists?: InputMaybe<Scalars['Boolean']>;
+  dealsMobileImage_exists?: InputMaybe<Scalars['Boolean']>;
   homeImage_exists?: InputMaybe<Scalars['Boolean']>;
   loveProfileImage_exists?: InputMaybe<Scalars['Boolean']>;
+  loveProfileMobileImage_exists?: InputMaybe<Scalars['Boolean']>;
   menuImage_exists?: InputMaybe<Scalars['Boolean']>;
   packagesImage_exists?: InputMaybe<Scalars['Boolean']>;
+  packagesMobileImage_exists?: InputMaybe<Scalars['Boolean']>;
+  portfolioMobileImage_exists?: InputMaybe<Scalars['Boolean']>;
   portfoliosImage_exists?: InputMaybe<Scalars['Boolean']>;
   sys?: InputMaybe<SysFilter>;
   title?: InputMaybe<Scalars['String']>;
@@ -916,6 +952,8 @@ export type Query = {
   quizAnswer?: Maybe<QuizAnswer>;
   quizAnswerCollection?: Maybe<QuizAnswerCollection>;
   quizCollection?: Maybe<QuizCollection>;
+  quizResult?: Maybe<QuizResult>;
+  quizResultCollection?: Maybe<QuizResultCollection>;
   specialDeals?: Maybe<SpecialDeals>;
   specialDealsCollection?: Maybe<SpecialDealsCollection>;
   tag?: Maybe<Tag>;
@@ -1039,6 +1077,23 @@ export type QueryQuizCollectionArgs = {
   preview?: InputMaybe<Scalars['Boolean']>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<QuizFilter>;
+};
+
+
+export type QueryQuizResultArgs = {
+  id: Scalars['String'];
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type QueryQuizResultCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<Array<InputMaybe<QuizResultOrder>>>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<QuizResultFilter>;
 };
 
 
@@ -1392,6 +1447,132 @@ export enum QuizOrder {
   SysPublishedVersionDesc = 'sys_publishedVersion_DESC'
 }
 
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizResult) */
+export type QuizResult = Entry & _Node & {
+  __typename?: 'QuizResult';
+  _id: Scalars['ID'];
+  answers?: Maybe<Scalars['JSON']>;
+  bride?: Maybe<Scalars['String']>;
+  contentfulMetadata: ContentfulMetadata;
+  groom?: Maybe<Scalars['String']>;
+  linkedFrom?: Maybe<QuizResultLinkingCollections>;
+  sys: Sys;
+  title?: Maybe<Scalars['String']>;
+  whatsapp?: Maybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizResult) */
+export type QuizResultAnswersArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizResult) */
+export type QuizResultBrideArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizResult) */
+export type QuizResultGroomArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizResult) */
+export type QuizResultLinkedFromArgs = {
+  allowedLocales?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizResult) */
+export type QuizResultTitleArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/quizResult) */
+export type QuizResultWhatsappArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+export type QuizResultCollection = {
+  __typename?: 'QuizResultCollection';
+  items: Array<Maybe<QuizResult>>;
+  limit: Scalars['Int'];
+  skip: Scalars['Int'];
+  total: Scalars['Int'];
+};
+
+export type QuizResultFilter = {
+  AND?: InputMaybe<Array<InputMaybe<QuizResultFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<QuizResultFilter>>>;
+  answers_exists?: InputMaybe<Scalars['Boolean']>;
+  bride?: InputMaybe<Scalars['String']>;
+  bride_contains?: InputMaybe<Scalars['String']>;
+  bride_exists?: InputMaybe<Scalars['Boolean']>;
+  bride_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  bride_not?: InputMaybe<Scalars['String']>;
+  bride_not_contains?: InputMaybe<Scalars['String']>;
+  bride_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
+  groom?: InputMaybe<Scalars['String']>;
+  groom_contains?: InputMaybe<Scalars['String']>;
+  groom_exists?: InputMaybe<Scalars['Boolean']>;
+  groom_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  groom_not?: InputMaybe<Scalars['String']>;
+  groom_not_contains?: InputMaybe<Scalars['String']>;
+  groom_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  sys?: InputMaybe<SysFilter>;
+  title?: InputMaybe<Scalars['String']>;
+  title_contains?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not?: InputMaybe<Scalars['String']>;
+  title_not_contains?: InputMaybe<Scalars['String']>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  whatsapp?: InputMaybe<Scalars['String']>;
+  whatsapp_contains?: InputMaybe<Scalars['String']>;
+  whatsapp_exists?: InputMaybe<Scalars['Boolean']>;
+  whatsapp_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  whatsapp_not?: InputMaybe<Scalars['String']>;
+  whatsapp_not_contains?: InputMaybe<Scalars['String']>;
+  whatsapp_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type QuizResultLinkingCollections = {
+  __typename?: 'QuizResultLinkingCollections';
+  entryCollection?: Maybe<EntryCollection>;
+};
+
+
+export type QuizResultLinkingCollectionsEntryCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+export enum QuizResultOrder {
+  BrideAsc = 'bride_ASC',
+  BrideDesc = 'bride_DESC',
+  GroomAsc = 'groom_ASC',
+  GroomDesc = 'groom_DESC',
+  SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+  SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+  SysIdAsc = 'sys_id_ASC',
+  SysIdDesc = 'sys_id_DESC',
+  SysPublishedAtAsc = 'sys_publishedAt_ASC',
+  SysPublishedAtDesc = 'sys_publishedAt_DESC',
+  SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+  SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
+  TitleAsc = 'title_ASC',
+  TitleDesc = 'title_DESC',
+  WhatsappAsc = 'whatsapp_ASC',
+  WhatsappDesc = 'whatsapp_DESC'
+}
+
 export type ResourceLink = {
   sys: ResourceSys;
 };
@@ -1675,7 +1856,7 @@ export enum TagOrder {
 }
 
 /**
- * Represents a tag entity for finding and organizing content easily.
+ * Represents a taxonomy concept entity for finding and organizing content easily.
  *         Find out more here: https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/content-concepts
  */
 export type TaxonomyConcept = {
@@ -1753,6 +1934,21 @@ export type ImagesFieldsFragment = { __typename?: 'Images', sys: { __typename?: 
     { __typename?: 'Asset' }
     & ImageFieldsFragment
   ) | null, contactImage?: (
+    { __typename?: 'Asset' }
+    & ImageFieldsFragment
+  ) | null, menuImage?: (
+    { __typename?: 'Asset' }
+    & ImageFieldsFragment
+  ) | null, dealsMobileImage?: (
+    { __typename?: 'Asset' }
+    & ImageFieldsFragment
+  ) | null, packagesMobileImage?: (
+    { __typename?: 'Asset' }
+    & ImageFieldsFragment
+  ) | null, loveProfileMobileImage?: (
+    { __typename?: 'Asset' }
+    & ImageFieldsFragment
+  ) | null, portfolioMobileImage?: (
     { __typename?: 'Asset' }
     & ImageFieldsFragment
   ) | null };
@@ -1875,6 +2071,21 @@ export const ImagesFieldsFragmentDoc = gql`
     ...ImageFields
   }
   contactImage {
+    ...ImageFields
+  }
+  menuImage {
+    ...ImageFields
+  }
+  dealsMobileImage {
+    ...ImageFields
+  }
+  packagesMobileImage {
+    ...ImageFields
+  }
+  loveProfileMobileImage {
+    ...ImageFields
+  }
+  portfolioMobileImage {
     ...ImageFields
   }
 }

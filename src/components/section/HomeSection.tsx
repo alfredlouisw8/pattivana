@@ -29,7 +29,7 @@ export default function HomeSection({ homeImage }: { homeImage: ImageFieldsFragm
       <Link href="/menu">
         <div className="flex w-full justify-center pt-[5vh]">
           <div className="relative h-[15vh] w-[25vh]">
-            <Image src="/assets/images/logo_gray.png" fill alt="Pattivana" sizes="25vh" />
+            <Image src="/assets/images/logo_white.png" fill alt="Pattivana" sizes="25vh" />
           </div>
         </div>
         {/* Centered text */}

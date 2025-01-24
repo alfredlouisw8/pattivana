@@ -21,6 +21,21 @@ fragment ImagesFields on Images {
   contactImage {
     ...ImageFields
   }
+  menuImage {
+    ...ImageFields
+  }
+  dealsMobileImage {
+    ...ImageFields
+  }
+  packagesMobileImage {
+    ...ImageFields
+  }
+  loveProfileMobileImage {
+    ...ImageFields
+  }
+  portfolioMobileImage {
+    ...ImageFields
+  }
 }
 
 query GetImages($locale: String, $preview: Boolean) {

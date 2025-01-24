@@ -6,7 +6,7 @@ export default function DealsSection({ deals }) {
     <div className="flex w-full flex-col justify-between lg:p-10">
       <div className="hidden justify-end lg:flex">
         <div className="flex flex-col gap-5">
-          <h1 className="text-primary text-right text-7xl">
+          <h1 className="text-right text-7xl text-primary">
             Special
             <br />
             Deals
@@ -14,9 +14,9 @@ export default function DealsSection({ deals }) {
         </div>
       </div>
       <div className="sticky top-0  flex h-[75px] items-center border-b border-b-cream bg-cream-light pl-[5%] lg:hidden">
-        <h1 className="text-primary text-3xl">Special Deals</h1>
+        <h1 className="text-3xl text-primary">Special Deals</h1>
       </div>
-      <DraggableSlider items={deals} />
+      <DraggableSlider items={deals} portrait />
 
       {/* @ts-ignore */}
       <MobileList items={deals} />

@@ -13,7 +13,5 @@ export default async function MenuPage({ params: { locale } }: LandingPageProps)
 
   const images = imagesCollection?.imagesCollection?.items[0];
 
-  const menus = getMenus(images);
-
-  return <MenuSection menus={menus} />;
+  return <MenuSection images={images} />;
 }

@@ -1,6 +1,7 @@
 import { CtfImage } from '@src/components/features/contentful';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../ui/tooltip';
 
 import { Menu } from 'types';
 
@@ -24,12 +25,27 @@ export default function Sidebar({ menus }: SidebarProps) {
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center gap-[1vh]">
-        {menus.map(({ image, link }, index) => (
-          <Link href={link} key={index}>
-            <div className="relative aspect-square h-[10vh] w-[10vh] bg-cover bg-center">
-              <CtfImage nextImageProps={{ className: 'object-cover', fill: true }} {...image} />
-            </div>
-          </Link>
+        {menus.map(({ image, link, title }, index) => (
+          <div key={index}>
+            {/* @ts-ignore */}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Link href={link}>
+                    <div className="relative aspect-square h-[10vh] w-[10vh] bg-cover bg-center">
+                      <CtfImage
+                        nextImageProps={{ className: 'object-cover', fill: true }}
+                        {...image}
+                      />
+                    </div>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="text-xl">{title}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         ))}
       </div>
 

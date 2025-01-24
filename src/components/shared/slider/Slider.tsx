@@ -3,7 +3,7 @@ import { CtfImage, CtfRichText } from '@src/components/features/contentful';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
-export default function DraggableSlider({ items }) {
+export default function DraggableSlider({ items, portrait }) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -37,7 +37,7 @@ export default function DraggableSlider({ items }) {
     }
   };
 
-  const handleSelectItem = slug => {
+  const handleSelectItem = (slug, active, youtube) => {
     setSelectedItem(slug);
 
     // Find the element and scroll it into view
@@ -48,6 +48,10 @@ export default function DraggableSlider({ items }) {
         block: 'center',
         inline: 'center',
       });
+    }
+
+    if (active && youtube) {
+      window.open(youtube, '_blank');
     }
   };
 
@@ -67,36 +71,31 @@ export default function DraggableSlider({ items }) {
         style={{ width: 'calc(100vw - 270px)' }}>
         {items.map(({ image, title, description, slug, contentfulMetadata, youtube }, index) => {
           const active = selectedItem === slug;
+          const activeWidth = portrait ? 'w-[300px]' : 'w-[200px]';
+          const nonActiveWidth = portrait ? 'w-[200px]' : 'w-[150px]';
           return (
-            <a href={youtube} target="_blank" rel="noopener noreferrer" key={index}>
+            <div
+              className={`group flex cursor-pointer flex-col justify-between gap-5 transition-all ${
+                active && 'mt-[-30px]'
+              }`}
+              key={index}
+              onClick={() => handleSelectItem(slug, active, youtube)}
+              id={slug}>
               <div
-                className={`group flex cursor-pointer flex-col justify-between gap-5 transition-all ${
-                  active && 'mt-[-30px]'
-                }`}
-                key={index}
-                onClick={() => handleSelectItem(slug)}
-                id={slug}>
-                <h2
-                  className={`text-primary h-[70px] transition-all ${
-                    active ? 'text-3xl' : 'text-2xl'
-                  }`}>
-                  {title}
-                </h2>
-                <div
-                  className={`relative aspect-video transition-all ${
-                    active ? 'w-[400px]' : 'w-[300px]'
-                  }`}>
-                  <CtfImage
-                    nextImageProps={{
-                      className: `transition-all object-cover  ${
-                        active ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'
-                      }`,
-                      fill: true,
-                    }}
-                    {...image}
-                  />
-                </div>
-                {/* {contentfulMetadata &&
+                className={`relative ${portrait ? 'aspect-[4/5]' : 'aspect-video'} transition-all ${
+                  active ? activeWidth : nonActiveWidth
+                }`}>
+                <CtfImage
+                  nextImageProps={{
+                    className: `transition-all object-cover  ${
+                      active ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'
+                    }`,
+                    fill: true,
+                  }}
+                  {...image}
+                />
+              </div>
+              {/* {contentfulMetadata &&
                 contentfulMetadata.tags &&
                 contentfulMetadata.tags.length > 0 && (
                   <div className="flex flex-wrap">
@@ -110,17 +109,21 @@ export default function DraggableSlider({ items }) {
                   </div>
                 )} */}
 
-                {active && (
-                  <div className="max-h-[30vh] overflow-auto">
+              {active && (
+                <div className="flex flex-col gap-5">
+                  <h2 className={`text-primary transition-all ${active ? 'text-2xl' : 'text-xl'}`}>
+                    {title}
+                  </h2>
+                  <div className=" max-h-[30vh] overflow-y-auto scrollbar-thin scrollbar-track-cream scrollbar-thumb-cream-dark">
                     <CtfRichText
                       json={description?.json}
                       links={description?.links}
-                      className={`transition-all ${active && 'text-lg'}`}
+                      className={`transition-all ${!active && 'text-sm'}`}
                     />
                   </div>
-                )}
-              </div>
-            </a>
+                </div>
+              )}
+            </div>
           );
         })}
       </div>
