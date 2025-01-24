@@ -22,7 +22,7 @@ export function getPlaceholderImage(): `data:image/${string}` {
   return ('data:image/svg+xml;base64,' + toBase64(shimmer(1000, 1000))) as `data:image/${string}`;
 }
 
-export const getMenus = (images, isMobile) => {
+export const getMenus = (images, isMobile = false) => {
   return [
     {
       link: '/',
