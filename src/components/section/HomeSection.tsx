@@ -10,7 +10,6 @@ import { motion } from 'framer-motion';
 
 export default function HomeSection({ homeImage }: { homeImage: ImageFieldsFragment }) {
   const isVideo = homeImage?.contentType?.includes('video');
-  console.log('homeImage', homeImage);
 
   return (
     <section className="relative h-screen w-screen bg-cover bg-center grayscale">
