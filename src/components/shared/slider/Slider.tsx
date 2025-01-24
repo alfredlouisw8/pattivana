@@ -3,7 +3,7 @@ import { CtfImage, CtfRichText } from '@src/components/features/contentful';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
-export default function DraggableSlider({ items, portrait }) {
+export default function DraggableSlider({ items, portrait = false }) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
