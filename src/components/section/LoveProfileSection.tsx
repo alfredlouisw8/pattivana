@@ -281,7 +281,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
     // Wait for iframe content to load
     try {
       await new Promise((resolve, reject) => {
-        //@ts-ignore
+        // @ts-ignore
         iframe.onload = () => resolve();
         setTimeout(() => reject(new Error('iframe loading timeout')), 5000); // Add a timeout for loading
       });
@@ -295,7 +295,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
 
     // Generate the PDF
     try {
-      //@ts-ignore
+      // @ts-ignore
       const iframeContent = iframeDocument.body;
       const canvas = await html2canvas(iframeContent, { scale: 2 });
       const imgData = canvas.toDataURL('image/png');
@@ -309,11 +309,15 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
       const pdfBlob = pdf.output('blob'); // Generate a Blob from the PDF
       const pdfURL = URL.createObjectURL(pdfBlob); // Create a URL for the Blob
 
-      // Download the PDF
-      pdf.save(`${formData.groom} and ${formData.bride}.pdf`);
+      // Create an anchor element to trigger the download
+      const a = document.createElement('a');
+      a.href = pdfURL;
+      a.download = `${formData.groom} and ${formData.bride}.pdf`;
+      document.body.appendChild(a);
+      a.click();
 
-      // Open the PDF in a new tab
-      window.open(pdfURL, '_blank');
+      // Clean up
+      document.body.removeChild(a);
 
       // Optionally revoke the Blob URL after some time (to release memory)
       setTimeout(() => URL.revokeObjectURL(pdfURL), 10000);
