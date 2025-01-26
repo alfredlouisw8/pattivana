@@ -33,8 +33,8 @@ export default function MenuSection({ images }: MenuSectionProps) {
                   }}
                   {...image}
                 />
-                <h1 className="text-3xl text-primary">{title}</h1>
-                <h3 className="max-w-[50%] text-cream-dark lg:max-w-full lg:text-xl">
+                <h1 className="text-lg text-primary lg:text-3xl">{title}</h1>
+                <h3 className="max-w-[50%] text-sm text-cream-dark lg:max-w-full lg:text-xl">
                   {description}
                 </h3>
               </div>

@@ -64,7 +64,9 @@ export default function PackagesSection({ packages }) {
       <div className="sticky top-0  flex h-[75px] items-center border-b border-b-cream bg-cream-light pl-[5%] lg:hidden">
         <h1 className="text-3xl text-primary">The Packages</h1>
       </div>
-      {selectedFilter && <DraggableSlider items={filteredPackages} />}
+      {selectedFilter && (
+        <DraggableSlider items={filteredPackages} title={selectedFilter + ' Package'} />
+      )}
 
       {/* @ts-ignore */}
       <MobileList items={filteredPackages} filter={filters} />

@@ -22,7 +22,6 @@ export default function PDFSection({ answers, formData, recommendations }) {
 
         <p className="text-right text-xl">
           Submitted on {format(new Date(), 'Pp')} <br />
-          Bridesday Market, ICE BSD <br />
           Couple Test: FUN <br />
           091234567890
         </p>

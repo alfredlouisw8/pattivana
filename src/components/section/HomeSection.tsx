@@ -32,8 +32,8 @@ export default function HomeSection({ homeImage }: { homeImage: ImageFieldsFragm
           </div>
         </div>
         {/* Centered text */}
-        <motion.div className="absolute inset-0 flex animate-fade-in items-center justify-center text-center">
-          <h1 className="text-2xl text-white opacity-75 lg:text-4xl">
+        <motion.div className="absolute inset-0 flex animate-fade-in items-center justify-center px-10 text-center">
+          <h1 className="text-lg text-white opacity-75 lg:text-4xl">
             Real memories were made from real experiences
           </h1>
         </motion.div>

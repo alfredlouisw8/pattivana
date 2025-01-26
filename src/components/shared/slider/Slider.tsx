@@ -3,7 +3,7 @@ import { CtfImage, CtfRichText } from '@src/components/features/contentful';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
-export default function DraggableSlider({ items, portrait = false }) {
+export default function DraggableSlider({ items, portrait = false, title = '' }) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -57,45 +57,47 @@ export default function DraggableSlider({ items, portrait = false }) {
 
   return (
     <>
-      <div
-        ref={sliderRef}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
-        onKeyDown={handleKeyDown}
-        tabIndex={0} // Make the div focusable
-        role="region"
-        aria-label="Horizontal draggable slider"
-        className="no-scrollbar hidden items-start gap-5 overflow-auto scroll-smooth py-10 focus:outline-none lg:flex"
-        style={{ width: 'calc(100vw - 270px)' }}>
-        {items.map(({ image, title, description, slug, contentfulMetadata, youtube }, index) => {
-          const active = selectedItem === slug;
-          const activeWidth = portrait ? 'w-[300px]' : 'w-[200px]';
-          const nonActiveWidth = portrait ? 'w-[200px]' : 'w-[150px]';
-          return (
-            <div
-              className={`group flex cursor-pointer flex-col justify-between gap-5 transition-all ${
-                active && 'mt-[-30px]'
-              }`}
-              key={index}
-              onClick={() => handleSelectItem(slug, active, youtube)}
-              id={slug}>
+      <div className="hidden flex-col gap-10 lg:flex">
+        {title && <h1 className="text-2xl text-primary">{title}</h1>}
+        <div
+          ref={sliderRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+          onKeyDown={handleKeyDown}
+          tabIndex={0} // Make the div focusable
+          role="region"
+          aria-label="Horizontal draggable slider"
+          className="no-scrollbar hidden items-start gap-5 overflow-auto scroll-smooth py-10 focus:outline-none lg:flex"
+          style={{ width: 'calc(100vw - 270px)' }}>
+          {items.map(({ image, title, description, slug, contentfulMetadata, youtube }, index) => {
+            const active = selectedItem === slug;
+            const activeWidth = portrait ? 'w-[300px]' : 'w-[300px]';
+            const nonActiveWidth = portrait ? 'w-[200px]' : 'w-[250px]';
+            return (
               <div
-                className={`relative ${portrait ? 'aspect-[4/5]' : 'aspect-video'} transition-all ${
-                  active ? activeWidth : nonActiveWidth
-                }`}>
-                <CtfImage
-                  nextImageProps={{
-                    className: `transition-all object-cover  ${
-                      active ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'
-                    }`,
-                    fill: true,
-                  }}
-                  {...image}
-                />
-              </div>
-              {/* {contentfulMetadata &&
+                className={`group flex cursor-pointer flex-col justify-between gap-5 transition-all ${
+                  active && 'mt-[-30px]'
+                }`}
+                key={index}
+                onClick={() => handleSelectItem(slug, active, youtube)}
+                id={slug}>
+                <div
+                  className={`relative ${
+                    portrait ? 'aspect-[4/5]' : 'aspect-video'
+                  } transition-all ${active ? activeWidth : nonActiveWidth}`}>
+                  <CtfImage
+                    nextImageProps={{
+                      className: `transition-all object-cover  ${
+                        active ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'
+                      }`,
+                      fill: true,
+                    }}
+                    {...image}
+                  />
+                </div>
+                {/* {contentfulMetadata &&
                 contentfulMetadata.tags &&
                 contentfulMetadata.tags.length > 0 && (
                   <div className="flex flex-wrap">
@@ -109,23 +111,25 @@ export default function DraggableSlider({ items, portrait = false }) {
                   </div>
                 )} */}
 
-              {active && (
-                <div className="flex flex-col gap-5">
-                  <h2 className={`text-primary transition-all ${active ? 'text-2xl' : 'text-xl'}`}>
-                    {title}
-                  </h2>
-                  <div className=" max-h-[30vh] overflow-y-auto scrollbar-thin scrollbar-track-cream scrollbar-thumb-cream-dark">
-                    <CtfRichText
-                      json={description?.json}
-                      links={description?.links}
-                      className={`transition-all ${!active && 'text-sm'}`}
-                    />
+                {active && (
+                  <div className="flex flex-col gap-5">
+                    <h2
+                      className={`text-primary transition-all ${active ? 'text-2xl' : 'text-xl'}`}>
+                      {title}
+                    </h2>
+                    <div className=" max-h-[30vh] overflow-y-auto scrollbar-thin scrollbar-track-cream scrollbar-thumb-cream-dark">
+                      <CtfRichText
+                        json={description?.json}
+                        links={description?.links}
+                        className={`transition-all ${!active && 'text-sm'}`}
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <div className="hidden w-full justify-center lg:flex">

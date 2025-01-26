@@ -24,9 +24,9 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
   const [recommendations, setRecommendations] = useState([]);
 
   const [formData, setFormData] = useState({
-    groom: 'asd',
-    bride: 'qwe',
-    whatsapp: '123',
+    groom: '',
+    bride: '',
+    whatsapp: '',
   });
 
   const isFormValid = formData.groom && formData.bride && formData.whatsapp;
@@ -40,7 +40,10 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
   }
   const divHeight = isMobile ? `calc(100vh - (76px + ${step === 0 ? '152px' : '92px'}))` : 'auto';
 
-  // Create a function to update heights
+  function formatWhatsappNumber(number) {
+    const newNumber = number[0] === '0' ? number.slice(1) : number;
+    return `62${newNumber}`;
+  }
 
   const headerText = (
     <>
@@ -55,7 +58,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
         className={`sticky top-0  z-10 flex h-[76px] items-center border-b border-b-cream-dark pl-[5%] lg:hidden ${
           !showCover && 'bg-cream-light'
         } `}>
-        <h1 className="text-3xl text-primary">Love Profile Check</h1>
+        <h1 className="text-xl text-primary">Love Profile Check</h1>
       </div>
     </>
   );
@@ -102,8 +105,8 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
       style={{ backgroundImage: `url('/assets/images/intimate.png')` }}>
       {headerText}
 
-      <div className="absolute inset-0 mt-[10vh] flex items-center justify-center lg:static lg:mt-0 lg:justify-end ">
-        <h1 className=" text-2xl text-white opacity-75 lg:mb-[5vh]">
+      <div className="absolute inset-0 mt-[10vh] flex items-center justify-center px-10 lg:static lg:mt-0 lg:justify-end">
+        <h1 className="text-lg text-white opacity-75 lg:mb-[5vh] lg:text-2xl">
           Find out what type of couple are you?
         </h1>
       </div>
@@ -112,7 +115,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
 
   const formPage = (
     <div
-      className="flex flex-col gap-10 px-20 py-10 lg:px-10"
+      className="flex flex-col gap-10 px-5 py-10 lg:px-10"
       style={{
         height: divHeight,
       }}>
@@ -128,14 +131,14 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
         {form.map(({ title, name, placeholder }, index) => (
           <div key={index} className="flex flex-col gap-5 lg:flex-row">
             <div className="flex items-center gap-5">
-              <h4 className="w-[300px] text-3xl text-cream-dark">{title}</h4>
+              <h4 className="w-[300px] text-lg text-cream-dark lg:text-3xl">{title}</h4>
               <h4>:</h4>
             </div>
             <input
               type="text"
               name={name}
               onChange={e => setFormData(prev => ({ ...prev, [name]: e.target.value }))}
-              className="w-full border-0 bg-transparent text-3xl outline-none autofill:bg-transparent"
+              className="w-full border-0 bg-transparent text-lg outline-none autofill:bg-transparent lg:text-3xl"
               required
               placeholder={placeholder}
             />
@@ -195,6 +198,12 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
             <div className="button bg-cream-dark" onClick={() => generatePDF()}>
               Download PDF
             </div>
+            <a
+              href={`https://wa.me/${formatWhatsappNumber}?text=`}
+              className="button bg-cream-dark"
+              onClick={() => generatePDF()}>
+              Send to Whatsapp
+            </a>
             <div className="button bg-cream-dark" onClick={() => window.location.reload()}>
               Retake Quiz
             </div>
@@ -350,7 +359,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
 
       {pages[step]}
 
-      <div className="flex flex-col gap-5 px-20 pb-20 lg:p-10">
+      <div className="flex flex-col gap-5 px-5 pb-20 lg:p-10">
         {step === 0 && (
           <div className="flex justify-end">
             <div
