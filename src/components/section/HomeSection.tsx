@@ -7,6 +7,7 @@ import { CtfImage } from '../features/contentful';
 
 import { ImageFieldsFragment } from '@src/lib/__generated/sdk';
 import { motion } from 'framer-motion';
+import { fadeUpAnimation } from '@src/app/helper/animation';
 
 export default function HomeSection({ homeImage }: { homeImage: ImageFieldsFragment }) {
   const isVideo = homeImage?.contentType?.includes('video');
@@ -32,7 +33,9 @@ export default function HomeSection({ homeImage }: { homeImage: ImageFieldsFragm
           </div>
         </div>
         {/* Centered text */}
-        <motion.div className="absolute inset-0 flex animate-fade-in items-center justify-center px-10 text-center">
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center px-10 text-center"
+          {...fadeUpAnimation}>
           <h1 className="text-lg text-white opacity-75 lg:text-4xl">
             Real memories were made from real experiences
           </h1>

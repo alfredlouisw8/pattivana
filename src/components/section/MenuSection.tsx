@@ -5,6 +5,8 @@ import { CtfImage } from '../features/contentful';
 import Link from 'next/link';
 import { getMenus } from '@src/app/helper/utils';
 import { ImagesFieldsFragment } from '@src/lib/__generated/sdk';
+import { motion } from 'framer-motion';
+import { listContainerVariants } from '@src/app/helper/animation';
 
 interface MenuSectionProps {
   images: ImagesFieldsFragment | undefined | null;
@@ -19,7 +21,7 @@ export default function MenuSection({ images }: MenuSectionProps) {
   const menus = getMenus(images, isMobile);
 
   return (
-    <div className="flex h-screen w-full flex-col lg:flex-row">
+    <motion.div className="flex h-screen w-full flex-col lg:flex-row">
       {menus.map(
         ({ image, title, description, show, link }, index) =>
           show && (
@@ -41,6 +43,6 @@ export default function MenuSection({ images }: MenuSectionProps) {
             </Link>
           ),
       )}
-    </div>
+    </motion.div>
   );
 }

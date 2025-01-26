@@ -1,3 +1,4 @@
+import Template from '@src/app/Template';
 import LoveProfileSection from '@src/components/section/LoveProfileSection';
 import { client, previewClient } from '@src/lib/client';
 import { draftMode } from 'next/headers';

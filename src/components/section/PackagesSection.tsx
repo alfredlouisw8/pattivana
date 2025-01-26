@@ -6,6 +6,7 @@ import { CtfRichText } from '../features/contentful';
 import Image from 'next/image';
 import MobileList from '../shared/mobile-list/MobileList';
 import { ArrowLeft, X } from 'lucide-react';
+import Template from '@src/app/Template';
 
 export default function PackagesSection({ packages }) {
   const [filteredPackages, setFilteredPackages] = useState(packages);
@@ -27,6 +28,11 @@ export default function PackagesSection({ packages }) {
 
   const filters = (
     <>
+      {selectedFilter && (
+        <div className="cursor-pointer" onClick={handleClearFilter}>
+          <ArrowLeft />
+        </div>
+      )}
       <div
         className={`w-fit cursor-pointer bg-cream-dark px-5 transition-all lg:px-7 ${
           selectedFilter === 'photo' && 'scale-110'
@@ -45,7 +51,7 @@ export default function PackagesSection({ packages }) {
   );
 
   return (
-    <div
+    <Template
       className={`flex w-full flex-col ${
         selectedFilter ? 'justify-between' : 'justify-center'
       } lg:p-10`}>
@@ -70,6 +76,6 @@ export default function PackagesSection({ packages }) {
 
       {/* @ts-ignore */}
       <MobileList items={filteredPackages} filter={filters} />
-    </div>
+    </Template>
   );
 }

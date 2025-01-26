@@ -16,6 +16,7 @@ import QRCode from 'qrcode';
 import { generate } from '@graphql-codegen/cli';
 import ReactDOM from 'react-dom';
 import { iframeCSS } from '@src/app/helper/css';
+import Template from '@src/app/Template';
 
 export default function LoveProfileSection({ quizzes, portfolios }) {
   const [step, setStep] = useState(0);
@@ -48,7 +49,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
   const headerText = (
     <>
       <div className="hidden justify-end lg:flex">
-        <h1 className="text-right text-5xl text-primary xl:text-6xl 2xl:text-7xl ">
+        <h1 className="text-right text-5xl text-primary xl:text-6xl">
           Love Profile
           <br />
           Check
@@ -150,34 +151,85 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
 
   const questionPage = step => (
     <div
-      className="flex flex-col gap-10 p-10"
+      className="flex flex-col gap-10 p-5 lg:p-10"
       style={{
         height: divHeight,
       }}>
-      <h4 className=" text-center text-2xl text-cream-dark lg:text-right lg:text-3xl">
+      <h4 className=" text-center text-lg text-cream-dark lg:text-right lg:text-2xl lg:text-3xl">
         {quizzes[step].question}
       </h4>
-      <div className="flex flex-1 flex-col items-center justify-center gap-10 pb-10 lg:flex-row">
-        {quizzes[step].answers.map((answer, index) => (
-          <div
-            className="relative aspect-video w-full flex-1 cursor-pointer lg:aspect-[4/5]"
-            key={index}
-            onClick={() => handleOptionClick(answer)}>
-            <CtfImage
-              nextImageProps={{
-                className: 'object-cover',
-                fill: true,
-                alt: answer.text,
-              }}
-              {...answer.image}
-            />
 
-            <p className="absolute bottom-[20%] left-[50%] max-w-[50%] translate-x-[-50%] text-center text-xs text-white opacity-75 lg:text-sm">
-              {answer.text}
-            </p>
-          </div>
-        ))}
-      </div>
+      {quizzes[step].answers.length === 3 && (
+        <div className="flex flex-1 flex-col items-center justify-center gap-3 lg:flex-row lg:gap-10">
+          {quizzes[step].answers.map((answer, index) => (
+            <div
+              className="relative w-full flex-1 cursor-pointer lg:aspect-[4/5]"
+              key={index}
+              onClick={() => handleOptionClick(answer)}>
+              <CtfImage
+                nextImageProps={{
+                  className: 'object-cover',
+                  fill: true,
+                  alt: answer.text,
+                }}
+                {...answer.image}
+              />
+
+              <p className="absolute bottom-[20%] left-[50%] max-w-[50%] translate-x-[-50%] text-center text-[8px] text-white opacity-75 lg:text-sm">
+                {answer.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {quizzes[step].answers.length === 2 && (
+        <div className="flex flex-1 items-center justify-center gap-3 lg:flex-row lg:gap-10">
+          {quizzes[step].answers.map((answer, index) => (
+            <div
+              className="relative aspect-[4/5] w-full flex-1 cursor-pointer"
+              key={index}
+              onClick={() => handleOptionClick(answer)}>
+              <CtfImage
+                nextImageProps={{
+                  className: 'object-contain',
+                  fill: true,
+                  alt: answer.text,
+                }}
+                {...answer.image}
+              />
+
+              <p className="absolute bottom-[20%] left-[50%] max-w-[50%] translate-x-[-50%] text-center text-[8px] text-white opacity-75 lg:text-sm">
+                {answer.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {quizzes[step].answers.length === 4 && (
+        <div className="grid grid-cols-2 items-center justify-center gap-3 lg:flex lg:flex-1 lg:flex-row lg:gap-10">
+          {quizzes[step].answers.map((answer, index) => (
+            <div
+              className="relative aspect-[4/5] w-full flex-1 cursor-pointer"
+              key={index}
+              onClick={() => handleOptionClick(answer)}>
+              <CtfImage
+                nextImageProps={{
+                  className: 'object-cover',
+                  fill: true,
+                  alt: answer.text,
+                }}
+                {...answer.image}
+              />
+
+              <p className="absolute bottom-[20%] left-[50%] max-w-[50%] translate-x-[-50%] text-center text-[8px] text-white opacity-75 lg:text-sm">
+                {answer.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 
@@ -194,17 +246,19 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
       ) : (
         <div className="flex animate-fade-in flex-col gap-5">
           <h4 className="text-3xl text-cream-dark lg:text-6xl">thank you</h4>
-          <div className="flex items-center gap-10">
-            <div className="button bg-cream-dark" onClick={() => generatePDF()}>
+          <div className="flex flex-col items-center gap-10 lg:flex-row">
+            <div className="button w-[200px] bg-cream-dark" onClick={() => generatePDF()}>
               Download PDF
             </div>
-            <a
+            {/* <a
               href={`https://wa.me/${formatWhatsappNumber}?text=`}
               className="button bg-cream-dark"
               onClick={() => generatePDF()}>
               Send to Whatsapp
-            </a>
-            <div className="button bg-cream-dark" onClick={() => window.location.reload()}>
+            </a> */}
+            <div
+              className="button w-[200px] bg-cream-dark"
+              onClick={() => window.location.reload()}>
               Retake Quiz
             </div>
           </div>
@@ -358,7 +412,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
   }
 
   return (
-    <div className="flex w-full flex-col justify-between bg-cream-light lg:p-10">
+    <Template className="flex min-h-screen w-full flex-col justify-between bg-cream-light lg:p-10">
       {headerText}
 
       {pages[step]}
@@ -388,6 +442,6 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
       </div>
 
       <PDFSection answers={answers} recommendations={recommendations} formData={formData} />
-    </div>
+    </Template>
   );
 }

@@ -3,6 +3,7 @@ import { draftMode } from 'next/headers';
 import PackagesSection from '@src/components/section/PackagesSection';
 import { client, previewClient } from '@src/lib/client';
 import { LandingPageProps } from 'types';
+import Template from '@src/app/Template';
 
 export default async function PackagesPage({ params: { locale } }: LandingPageProps) {
   const { isEnabled: preview } = draftMode();

@@ -1,32 +1,20 @@
-import { CtfRichText } from '@src/components/features/contentful';
-import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { useEffect, useState, useRef } from 'react';
+import { listContainerVariants } from '@src/app/helper/animation';
+import MobileListItem from './MobileListItem';
 
 export default function MobileList({ items, showImage = false, filter = null }) {
   return (
     <div
-      className="flex flex-col gap-10 overflow-auto px-[5%] py-5 lg:hidden"
-      style={{ height: 'calc(100vh - 75px)' }}>
+      className="flex flex-col gap-5 overflow-auto px-[5%] py-5 lg:hidden"
+      style={{ minHeight: 'calc(100vh - 75px)', height: '100%' }}>
       <div className="flex justify-end gap-3 p-3">{filter}</div>
-      {items.map((item, index) => (
-        <div key={index} className="flex flex-col gap-5">
-          <div className={`grid ${showImage ? 'grid-cols-2' : 'grid-cols-1'} gap-5`}>
-            {showImage && (
-              <div className="relative aspect-video w-full">
-                <Image src={item.image?.url} alt={item.title} fill style={{ objectFit: 'cover' }} />
-              </div>
-            )}
-
-            <div className="flex flex-col gap-3">
-              <h2 className="text-lg">{item.title}</h2>
-              <CtfRichText
-                json={item.description?.json}
-                links={item.description?.links}
-                className="text-sm"
-              />
-            </div>
-          </div>
-        </div>
-      ))}
+      <motion.div className="flex flex-col gap-5">
+        {items.map((item, index) => (
+          //@ts-ignore
+          <MobileListItem key={index} item={item} showImage={showImage} index={index} />
+        ))}
+      </motion.div>
     </div>
   );
 }

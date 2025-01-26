@@ -2,6 +2,8 @@
 import { CtfImage, CtfRichText } from '@src/components/features/contentful';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { listContainerVariants, listItemVariants } from '@src/app/helper/animation';
 
 export default function DraggableSlider({ items, portrait = false, title = '' }) {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -59,7 +61,7 @@ export default function DraggableSlider({ items, portrait = false, title = '' })
     <>
       <div className="hidden flex-col gap-10 lg:flex">
         {title && <h1 className="text-2xl text-primary">{title}</h1>}
-        <div
+        <motion.div
           ref={sliderRef}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
@@ -70,14 +72,18 @@ export default function DraggableSlider({ items, portrait = false, title = '' })
           role="region"
           aria-label="Horizontal draggable slider"
           className="no-scrollbar hidden items-start gap-5 overflow-auto scroll-smooth py-10 focus:outline-none lg:flex"
+          initial="hidden"
+          animate="visible"
+          variants={listContainerVariants}
           style={{ width: 'calc(100vw - 270px)' }}>
           {items.map(({ image, title, description, slug, contentfulMetadata, youtube }, index) => {
             const active = selectedItem === slug;
             const activeWidth = portrait ? 'w-[300px]' : 'w-[300px]';
             const nonActiveWidth = portrait ? 'w-[200px]' : 'w-[250px]';
             return (
-              <div
-                className={`group flex cursor-pointer flex-col justify-between gap-5 transition-all ${
+              <motion.div
+                variants={listItemVariants} // Attach the item variants
+                className={`group flex cursor-pointer flex-col justify-between gap-5 ${
                   active && 'mt-[-30px]'
                 }`}
                 key={index}
@@ -126,10 +132,10 @@ export default function DraggableSlider({ items, portrait = false, title = '' })
                     </div>
                   </div>
                 )}
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
 
       <div className="hidden w-full justify-center lg:flex">

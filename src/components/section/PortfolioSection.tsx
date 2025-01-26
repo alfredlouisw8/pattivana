@@ -27,6 +27,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 
 import MobileList from '../shared/mobile-list/MobileList';
 import { Checkbox } from '../ui/checkbox';
+import Template from '@src/app/Template';
 
 export default function PortfolioSection({ portfolios }) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -199,7 +200,7 @@ export default function PortfolioSection({ portfolios }) {
   );
 
   return (
-    <div className="flex w-full flex-col justify-between lg:p-10">
+    <Template className="flex w-full flex-col justify-between lg:p-10">
       <div className="hidden justify-end lg:flex">
         <div className="flex flex-col gap-5">
           <h1 className="text-right text-7xl text-primary">
@@ -266,7 +267,7 @@ export default function PortfolioSection({ portfolios }) {
           </div>
         </div>
       </div>
-      <div className="sticky top-0  flex h-[75px] items-center border-b border-b-cream bg-cream-light pl-[5%] lg:hidden">
+      <div className="sticky top-0  z-10 flex h-[75px] items-center border-b border-b-cream bg-cream-light pl-[5%] lg:hidden">
         <h1 className="text-3xl text-primary">Our Portfolio</h1>
       </div>
 
@@ -274,6 +275,6 @@ export default function PortfolioSection({ portfolios }) {
 
       {/* @ts-ignore */}
       <MobileList items={filteredPortfolios} showImage filter={filters} />
-    </div>
+    </Template>
   );
 }

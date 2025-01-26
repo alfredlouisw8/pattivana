@@ -4,6 +4,7 @@ import MenuSection from '@src/components/section/MenuSection';
 import { getMenus } from '@src/app/helper/utils';
 import { client, previewClient } from '@src/lib/client';
 import { LandingPageProps } from 'types';
+import Template from '@src/app/Template';
 
 export default async function ContactPage({ params: { locale } }: LandingPageProps) {
   const { isEnabled: preview } = draftMode();
@@ -14,7 +15,7 @@ export default async function ContactPage({ params: { locale } }: LandingPagePro
   const images = imagesCollection?.imagesCollection?.items[0];
 
   return (
-    <div
+    <Template
       className="flex h-screen w-full cursor-pointer flex-col justify-between bg-cover bg-center bg-no-repeat lg:p-10"
       style={{ backgroundImage: `url('${images?.contactImage?.url}')` }}>
       <div className="hidden justify-end lg:flex">
@@ -29,11 +30,11 @@ export default async function ContactPage({ params: { locale } }: LandingPagePro
 
       <div className="flex justify-center pb-20 lg:justify-end lg:pb-0">
         <div className="flex items-end gap-10 opacity-75">
-          <h6 className="text-right text-white lg:text-xl">
+          <h6 className="text-right text-sm text-white lg:text-xl">
             Based in Indonesia <br /> Available worldwide
           </h6>
           <div className=" border-r border-r-white" style={{ height: 'calc(100% + 50px)' }} />
-          <h6 className="text-white lg:text-xl">
+          <h6 className="text-sm text-white lg:text-xl">
             We would love to know you,
             <br />
             <br />
@@ -47,6 +48,6 @@ export default async function ContactPage({ params: { locale } }: LandingPagePro
           </h6>
         </div>
       </div>
-    </div>
+    </Template>
   );
 }

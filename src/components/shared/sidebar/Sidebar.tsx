@@ -32,7 +32,7 @@ export default function Sidebar({ menus }: SidebarProps) {
               <Tooltip>
                 <TooltipTrigger>
                   <Link href={link}>
-                    <div className="relative aspect-square h-[10vh] w-[10vh] bg-cover bg-center">
+                    <div className="relative aspect-square h-[10vh] w-[10vh] bg-cover bg-center transition-all hover:h-[12vh] hover:w-[12vh]">
                       <CtfImage
                         nextImageProps={{ className: 'object-cover', fill: true }}
                         {...image}
