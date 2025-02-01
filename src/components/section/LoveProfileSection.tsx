@@ -164,7 +164,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
           {quizzes[step].answers.map((answer, index) => (
             <div
               key={index}
-              className={`relative aspect-[4/5] w-[48%] cursor-pointer sm:max-h-[40vh] lg:max-h-max lg:w-full lg:flex-1 ${
+              className={`relative aspect-[4/5] w-[48%] cursor-pointer sm:max-h-[30vh] lg:max-h-[40vh] lg:w-full lg:flex-1 ${
                 index === 2 ? 'flex justify-center' : ''
               }`}
               onClick={() => handleOptionClick(answer)}>
@@ -189,13 +189,14 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
         <div className="flex flex-1 items-center justify-center gap-3 lg:flex-row lg:gap-10">
           {quizzes[step].answers.map((answer, index) => (
             <div
-              className="relative aspect-[4/5] w-full flex-1 cursor-pointer"
+              className="relative cursor-pointer"
               key={index}
               onClick={() => handleOptionClick(answer)}>
               <CtfImage
                 nextImageProps={{
-                  className: 'object-contain',
-                  fill: true,
+                  className: 'object-cover',
+                  width: 300,
+                  height: 300,
                   alt: answer.text,
                 }}
                 {...answer.image}
