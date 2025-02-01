@@ -19,16 +19,18 @@ export default function MobileListItem({ item, showImage, index }) {
       custom={index}>
       <div className={`grid ${showImage ? 'grid-cols-2' : 'grid-cols-1'} gap-5`}>
         {showImage && (
-          <div className="relative aspect-video w-full">
-            <CtfImage
-              nextImageProps={{
-                className: 'object-cover',
-                fill: true,
-                alt: item.title,
-              }}
-              {...item.image}
-            />
-          </div>
+          <a href={item.youtube} target="_blank" rel="noopener noreferrer">
+            <div className="relative aspect-video w-full">
+              <CtfImage
+                nextImageProps={{
+                  className: 'object-cover',
+                  fill: true,
+                  alt: item.title,
+                }}
+                {...item.image}
+              />
+            </div>
+          </a>
         )}
 
         <div className="flex flex-col gap-3">

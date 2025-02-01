@@ -160,11 +160,13 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
       </h4>
 
       {quizzes[step].answers.length === 3 && (
-        <div className="flex flex-1 flex-col items-center justify-center gap-3 lg:flex-row lg:gap-10">
+        <div className="flex flex-wrap justify-center gap-3 lg:flex-row lg:gap-10">
           {quizzes[step].answers.map((answer, index) => (
             <div
-              className="relative w-full flex-1 cursor-pointer lg:aspect-[4/5]"
               key={index}
+              className={`relative aspect-[4/5] w-[48%] cursor-pointer sm:max-h-[40vh] lg:max-h-max lg:w-full lg:flex-1 ${
+                index === 2 ? 'flex justify-center' : ''
+              }`}
               onClick={() => handleOptionClick(answer)}>
               <CtfImage
                 nextImageProps={{
@@ -211,7 +213,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
         <div className="grid grid-cols-2 items-center justify-center gap-3 lg:flex lg:flex-1 lg:flex-row lg:gap-10">
           {quizzes[step].answers.map((answer, index) => (
             <div
-              className="relative aspect-[4/5] w-full flex-1 cursor-pointer"
+              className="relative aspect-[4/5] w-full flex-1 cursor-pointer sm:max-h-[30vh]"
               key={index}
               onClick={() => handleOptionClick(answer)}>
               <CtfImage
@@ -246,18 +248,27 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
       ) : (
         <div className="flex animate-fade-in flex-col gap-5">
           <h4 className="text-3xl text-cream-dark lg:text-6xl">thank you</h4>
-          <div className="flex flex-col items-center gap-10 lg:flex-row">
-            <div className="button w-[200px] bg-cream-dark" onClick={() => generatePDF()}>
+          <div className="flex flex-col items-center gap-5 lg:flex-row">
+            <div className="button w-[250px] bg-cream-dark" onClick={() => generatePDF()}>
               Download PDF
             </div>
-            {/* <a
-              href={`https://wa.me/${formatWhatsappNumber}?text=`}
-              className="button bg-cream-dark"
-              onClick={() => generatePDF()}>
+            <a
+              href={`https://wa.me/${formatWhatsappNumber(
+                formData.whatsapp,
+              )}?text=${encodeURIComponent(
+                `${formData.groom} & ${formData.bride}\nAnswers: ${Object.values(answers)
+                  .map((answer: any) => answer.value)
+                  .join(', ')}\nRecommendations:\n- ${recommendations
+                  .map((recommendation: any) => recommendation.youtube)
+                  .join('\n- ')}`,
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="button w-[250px] bg-cream-dark">
               Send to Whatsapp
-            </a> */}
+            </a>
             <div
-              className="button w-[200px] bg-cream-dark"
+              className="button w-[250px] bg-cream-dark"
               onClick={() => window.location.reload()}>
               Retake Quiz
             </div>
