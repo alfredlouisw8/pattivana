@@ -1,6 +1,4 @@
-import { createClient } from 'contentful-management';
-
-import { BLOCKS, MARKS, Document } from '@contentful/rich-text-types';
+import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 const shimmer = (w: number, h: number) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
@@ -14,6 +12,43 @@ const shimmer = (w: number, h: number) => `
   <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
   <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
 </svg>`;
+
+export function extractWhatsAppText(richText) {
+  if (!richText || !richText.content) return '';
+
+  return richText.content
+    .map(node => processNode(node))
+    .join(' ')
+    .trim();
+}
+
+function processNode(node) {
+  if (node.nodeType === BLOCKS.PARAGRAPH || node.nodeType.includes('heading')) {
+    return node.content.map(processNode).join(' ') + '\n';
+  }
+
+  if (node.nodeType === 'text') {
+    let text = node.value;
+
+    // Apply bold formatting
+    if (node.marks?.some(mark => mark.type === MARKS.BOLD)) {
+      text = `*${text}*`;
+    }
+
+    // Apply italic formatting
+    if (node.marks?.some(mark => mark.type === MARKS.ITALIC)) {
+      text = `_${text}_`;
+    }
+
+    return text;
+  }
+
+  if (node.nodeType === INLINES.HYPERLINK) {
+    return node.content.map(processNode).join(' ') + ` (${node.data.uri})`;
+  }
+
+  return '';
+}
 
 const toBase64 = (str: string) =>
   typeof window === 'undefined' ? Buffer.from(str).toString('base64') : window.btoa(str);
@@ -78,6 +113,24 @@ export const pushDataToContentful = async (formData, answers) => {
   } catch (error: any) {
     console.error('Error creating entry:', error.message);
   }
+};
+
+export const getWhatsappMessage = (formData, answers, recommendations) => {
+  const answerArray = Object.values(answers);
+
+  return encodeURIComponent(
+    `Dear *${formData.groom}* & *${
+      formData.bride
+    },*\n\n*Here's what we think about you as a couple:*\n${answerArray
+      .map((answer: any) => {
+        return `${extractWhatsAppText(answer.pdfText.json)}\n${answer.pdfLongText}\n`;
+      })
+      .join('\n')}\n*Here are some videos we think you might like*\n- ${recommendations
+      .map((recommendation: any) => recommendation.youtube)
+      .join(
+        '\n- ',
+      )}\n\n_This test is not a scientific procedure_\n_100% curated by PATTIVANA Team - 2023_\n_Get to know us by visiting pattivana.com_\n_Instagram @pattivana.film_`,
+  );
 };
 
 export const getRecommendations = (answers, portfolios) => {

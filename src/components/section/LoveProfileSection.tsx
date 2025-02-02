@@ -5,7 +5,11 @@ import { useEffect, useRef, useState } from 'react';
 
 import Sidebar from '../shared/sidebar/Sidebar';
 import { CtfImage } from '../features/contentful';
-import { getRecommendations, pushDataToContentful } from '@src/app/helper/utils';
+import {
+  getRecommendations,
+  getWhatsappMessage,
+  pushDataToContentful,
+} from '@src/app/helper/utils';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import PDFSection from './PDFSection';
@@ -256,13 +260,7 @@ export default function LoveProfileSection({ quizzes, portfolios }) {
             <a
               href={`https://wa.me/${formatWhatsappNumber(
                 formData.whatsapp,
-              )}?text=${encodeURIComponent(
-                `${formData.groom} & ${formData.bride}\nAnswers: ${Object.values(answers)
-                  .map((answer: any) => answer.value)
-                  .join(', ')}\nRecommendations:\n- ${recommendations
-                  .map((recommendation: any) => recommendation.youtube)
-                  .join('\n- ')}`,
-              )}`}
+              )}?text=${getWhatsappMessage(formData, answers, recommendations)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="button w-[250px] bg-cream-dark">
