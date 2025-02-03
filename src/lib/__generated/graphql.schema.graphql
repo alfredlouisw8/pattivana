@@ -348,6 +348,7 @@ type Images implements Entry & _Node {
   dealsMobileImage(locale: String, preview: Boolean): Asset
   homeImage(locale: String, preview: Boolean): Asset
   linkedFrom(allowedLocales: [String]): ImagesLinkingCollections
+  linksImage(locale: String, preview: Boolean): Asset
   loveProfileImage(locale: String, preview: Boolean): Asset
   loveProfileMobileImage(locale: String, preview: Boolean): Asset
   menuImage(locale: String, preview: Boolean): Asset
@@ -355,6 +356,7 @@ type Images implements Entry & _Node {
   packagesMobileImage(locale: String, preview: Boolean): Asset
   portfolioMobileImage(locale: String, preview: Boolean): Asset
   portfoliosImage(locale: String, preview: Boolean): Asset
+  priceListImage(locale: String, preview: Boolean): Asset
   sys: Sys!
   title(locale: String): String
 }
@@ -374,6 +376,7 @@ input ImagesFilter {
   dealsImage_exists: Boolean
   dealsMobileImage_exists: Boolean
   homeImage_exists: Boolean
+  linksImage_exists: Boolean
   loveProfileImage_exists: Boolean
   loveProfileMobileImage_exists: Boolean
   menuImage_exists: Boolean
@@ -381,6 +384,7 @@ input ImagesFilter {
   packagesMobileImage_exists: Boolean
   portfolioMobileImage_exists: Boolean
   portfoliosImage_exists: Boolean
+  priceListImage_exists: Boolean
   sys: SysFilter
   title: String
   title_contains: String
@@ -650,6 +654,109 @@ enum PortfoliosOrder {
 }
 
 """
+[See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/priceList)
+"""
+type PriceList implements Entry & _Node {
+  _id: ID!
+  contentfulMetadata: ContentfulMetadata!
+  description(locale: String): PriceListDescription
+  linkedFrom(allowedLocales: [String]): PriceListLinkingCollections
+  slug(locale: String): String
+  sys: Sys!
+  title(locale: String): String
+}
+
+type PriceListCollection {
+  items: [PriceList]!
+  limit: Int!
+  skip: Int!
+  total: Int!
+}
+
+type PriceListDescription {
+  json: JSON!
+  links: PriceListDescriptionLinks!
+}
+
+type PriceListDescriptionAssets {
+  block: [Asset]!
+  hyperlink: [Asset]!
+}
+
+type PriceListDescriptionEntries {
+  block: [Entry]!
+  hyperlink: [Entry]!
+  inline: [Entry]!
+}
+
+type PriceListDescriptionLinks {
+  assets: PriceListDescriptionAssets!
+  entries: PriceListDescriptionEntries!
+  resources: PriceListDescriptionResources!
+}
+
+type PriceListDescriptionResources {
+  block: [PriceListDescriptionResourcesBlock!]!
+  hyperlink: [PriceListDescriptionResourcesHyperlink!]!
+  inline: [PriceListDescriptionResourcesInline!]!
+}
+
+type PriceListDescriptionResourcesBlock implements ResourceLink {
+  sys: ResourceSys!
+}
+
+type PriceListDescriptionResourcesHyperlink implements ResourceLink {
+  sys: ResourceSys!
+}
+
+type PriceListDescriptionResourcesInline implements ResourceLink {
+  sys: ResourceSys!
+}
+
+input PriceListFilter {
+  AND: [PriceListFilter]
+  OR: [PriceListFilter]
+  contentfulMetadata: ContentfulMetadataFilter
+  description_contains: String
+  description_exists: Boolean
+  description_not_contains: String
+  slug: String
+  slug_contains: String
+  slug_exists: Boolean
+  slug_in: [String]
+  slug_not: String
+  slug_not_contains: String
+  slug_not_in: [String]
+  sys: SysFilter
+  title: String
+  title_contains: String
+  title_exists: Boolean
+  title_in: [String]
+  title_not: String
+  title_not_contains: String
+  title_not_in: [String]
+}
+
+type PriceListLinkingCollections {
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
+}
+
+enum PriceListOrder {
+  slug_ASC
+  slug_DESC
+  sys_firstPublishedAt_ASC
+  sys_firstPublishedAt_DESC
+  sys_id_ASC
+  sys_id_DESC
+  sys_publishedAt_ASC
+  sys_publishedAt_DESC
+  sys_publishedVersion_ASC
+  sys_publishedVersion_DESC
+  title_ASC
+  title_DESC
+}
+
+"""
 The 'Quality' type represents quality as whole numeric values between `1` and `100`.
 """
 scalar Quality
@@ -665,6 +772,8 @@ type Query {
   packagesCollection(limit: Int = 100, locale: String, order: [PackagesOrder], preview: Boolean, skip: Int = 0, where: PackagesFilter): PackagesCollection
   portfolios(id: String!, locale: String, preview: Boolean): Portfolios
   portfoliosCollection(limit: Int = 100, locale: String, order: [PortfoliosOrder], preview: Boolean, skip: Int = 0, where: PortfoliosFilter): PortfoliosCollection
+  priceList(id: String!, locale: String, preview: Boolean): PriceList
+  priceListCollection(limit: Int = 100, locale: String, order: [PriceListOrder], preview: Boolean, skip: Int = 0, where: PriceListFilter): PriceListCollection
   quiz(id: String!, locale: String, preview: Boolean): Quiz
   quizAnswer(id: String!, locale: String, preview: Boolean): QuizAnswer
   quizAnswerCollection(limit: Int = 100, locale: String, order: [QuizAnswerOrder], preview: Boolean, skip: Int = 0, where: QuizAnswerFilter): QuizAnswerCollection

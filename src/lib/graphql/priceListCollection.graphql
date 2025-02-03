@@ -1,0 +1,18 @@
+fragment PriceListFields on PriceList {
+  sys {
+    id
+    spaceId
+  }
+  title
+  slug
+  description {
+    json
+  }
+}
+query GetPriceList($locale: String, $preview: Boolean) {
+  priceListCollection(locale: $locale, preview: $preview) {
+    items {
+      ...PriceListFields
+    }
+  }
+}

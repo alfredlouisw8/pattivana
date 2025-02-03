@@ -427,6 +427,7 @@ export type Images = Entry & _Node & {
   dealsMobileImage?: Maybe<Asset>;
   homeImage?: Maybe<Asset>;
   linkedFrom?: Maybe<ImagesLinkingCollections>;
+  linksImage?: Maybe<Asset>;
   loveProfileImage?: Maybe<Asset>;
   loveProfileMobileImage?: Maybe<Asset>;
   menuImage?: Maybe<Asset>;
@@ -434,6 +435,7 @@ export type Images = Entry & _Node & {
   packagesMobileImage?: Maybe<Asset>;
   portfolioMobileImage?: Maybe<Asset>;
   portfoliosImage?: Maybe<Asset>;
+  priceListImage?: Maybe<Asset>;
   sys: Sys;
   title?: Maybe<Scalars['String']>;
 };
@@ -470,6 +472,13 @@ export type ImagesHomeImageArgs = {
 /** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
 export type ImagesLinkedFromArgs = {
   allowedLocales?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
+export type ImagesLinksImageArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -523,6 +532,13 @@ export type ImagesPortfoliosImageArgs = {
 
 
 /** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
+export type ImagesPriceListImageArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
 export type ImagesTitleArgs = {
   locale?: InputMaybe<Scalars['String']>;
 };
@@ -543,6 +559,7 @@ export type ImagesFilter = {
   dealsImage_exists?: InputMaybe<Scalars['Boolean']>;
   dealsMobileImage_exists?: InputMaybe<Scalars['Boolean']>;
   homeImage_exists?: InputMaybe<Scalars['Boolean']>;
+  linksImage_exists?: InputMaybe<Scalars['Boolean']>;
   loveProfileImage_exists?: InputMaybe<Scalars['Boolean']>;
   loveProfileMobileImage_exists?: InputMaybe<Scalars['Boolean']>;
   menuImage_exists?: InputMaybe<Scalars['Boolean']>;
@@ -550,6 +567,7 @@ export type ImagesFilter = {
   packagesMobileImage_exists?: InputMaybe<Scalars['Boolean']>;
   portfolioMobileImage_exists?: InputMaybe<Scalars['Boolean']>;
   portfoliosImage_exists?: InputMaybe<Scalars['Boolean']>;
+  priceListImage_exists?: InputMaybe<Scalars['Boolean']>;
   sys?: InputMaybe<SysFilter>;
   title?: InputMaybe<Scalars['String']>;
   title_contains?: InputMaybe<Scalars['String']>;
@@ -936,6 +954,150 @@ export enum PortfoliosOrder {
   YoutubeDesc = 'youtube_DESC'
 }
 
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/priceList) */
+export type PriceList = Entry & _Node & {
+  __typename?: 'PriceList';
+  _id: Scalars['ID'];
+  contentfulMetadata: ContentfulMetadata;
+  description?: Maybe<PriceListDescription>;
+  linkedFrom?: Maybe<PriceListLinkingCollections>;
+  slug?: Maybe<Scalars['String']>;
+  sys: Sys;
+  title?: Maybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/priceList) */
+export type PriceListDescriptionArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/priceList) */
+export type PriceListLinkedFromArgs = {
+  allowedLocales?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/priceList) */
+export type PriceListSlugArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/priceList) */
+export type PriceListTitleArgs = {
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+export type PriceListCollection = {
+  __typename?: 'PriceListCollection';
+  items: Array<Maybe<PriceList>>;
+  limit: Scalars['Int'];
+  skip: Scalars['Int'];
+  total: Scalars['Int'];
+};
+
+export type PriceListDescription = {
+  __typename?: 'PriceListDescription';
+  json: Scalars['JSON'];
+  links: PriceListDescriptionLinks;
+};
+
+export type PriceListDescriptionAssets = {
+  __typename?: 'PriceListDescriptionAssets';
+  block: Array<Maybe<Asset>>;
+  hyperlink: Array<Maybe<Asset>>;
+};
+
+export type PriceListDescriptionEntries = {
+  __typename?: 'PriceListDescriptionEntries';
+  block: Array<Maybe<Entry>>;
+  hyperlink: Array<Maybe<Entry>>;
+  inline: Array<Maybe<Entry>>;
+};
+
+export type PriceListDescriptionLinks = {
+  __typename?: 'PriceListDescriptionLinks';
+  assets: PriceListDescriptionAssets;
+  entries: PriceListDescriptionEntries;
+  resources: PriceListDescriptionResources;
+};
+
+export type PriceListDescriptionResources = {
+  __typename?: 'PriceListDescriptionResources';
+  block: Array<PriceListDescriptionResourcesBlock>;
+  hyperlink: Array<PriceListDescriptionResourcesHyperlink>;
+  inline: Array<PriceListDescriptionResourcesInline>;
+};
+
+export type PriceListDescriptionResourcesBlock = ResourceLink & {
+  __typename?: 'PriceListDescriptionResourcesBlock';
+  sys: ResourceSys;
+};
+
+export type PriceListDescriptionResourcesHyperlink = ResourceLink & {
+  __typename?: 'PriceListDescriptionResourcesHyperlink';
+  sys: ResourceSys;
+};
+
+export type PriceListDescriptionResourcesInline = ResourceLink & {
+  __typename?: 'PriceListDescriptionResourcesInline';
+  sys: ResourceSys;
+};
+
+export type PriceListFilter = {
+  AND?: InputMaybe<Array<InputMaybe<PriceListFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<PriceListFilter>>>;
+  contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
+  description_contains?: InputMaybe<Scalars['String']>;
+  description_exists?: InputMaybe<Scalars['Boolean']>;
+  description_not_contains?: InputMaybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
+  slug_contains?: InputMaybe<Scalars['String']>;
+  slug_exists?: InputMaybe<Scalars['Boolean']>;
+  slug_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  slug_not?: InputMaybe<Scalars['String']>;
+  slug_not_contains?: InputMaybe<Scalars['String']>;
+  slug_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  sys?: InputMaybe<SysFilter>;
+  title?: InputMaybe<Scalars['String']>;
+  title_contains?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not?: InputMaybe<Scalars['String']>;
+  title_not_contains?: InputMaybe<Scalars['String']>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type PriceListLinkingCollections = {
+  __typename?: 'PriceListLinkingCollections';
+  entryCollection?: Maybe<EntryCollection>;
+};
+
+
+export type PriceListLinkingCollectionsEntryCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+export enum PriceListOrder {
+  SlugAsc = 'slug_ASC',
+  SlugDesc = 'slug_DESC',
+  SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+  SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+  SysIdAsc = 'sys_id_ASC',
+  SysIdDesc = 'sys_id_DESC',
+  SysPublishedAtAsc = 'sys_publishedAt_ASC',
+  SysPublishedAtDesc = 'sys_publishedAt_DESC',
+  SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+  SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
+  TitleAsc = 'title_ASC',
+  TitleDesc = 'title_DESC'
+}
+
 export type Query = {
   __typename?: 'Query';
   _node?: Maybe<_Node>;
@@ -948,6 +1110,8 @@ export type Query = {
   packagesCollection?: Maybe<PackagesCollection>;
   portfolios?: Maybe<Portfolios>;
   portfoliosCollection?: Maybe<PortfoliosCollection>;
+  priceList?: Maybe<PriceList>;
+  priceListCollection?: Maybe<PriceListCollection>;
   quiz?: Maybe<Quiz>;
   quizAnswer?: Maybe<QuizAnswer>;
   quizAnswerCollection?: Maybe<QuizAnswerCollection>;
@@ -1043,6 +1207,23 @@ export type QueryPortfoliosCollectionArgs = {
   preview?: InputMaybe<Scalars['Boolean']>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<PortfoliosFilter>;
+};
+
+
+export type QueryPriceListArgs = {
+  id: Scalars['String'];
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type QueryPriceListCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<Array<InputMaybe<PriceListOrder>>>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PriceListFilter>;
 };
 
 
@@ -1951,6 +2132,9 @@ export type ImagesFieldsFragment = { __typename?: 'Images', sys: { __typename?: 
   ) | null, portfolioMobileImage?: (
     { __typename?: 'Asset' }
     & ImageFieldsFragment
+  ) | null, linksImage?: (
+    { __typename?: 'Asset' }
+    & ImageFieldsFragment
   ) | null };
 
 export type GetImagesQueryVariables = Exact<{
@@ -1994,6 +2178,19 @@ export type GetPortfoliosQueryVariables = Exact<{
 export type GetPortfoliosQuery = { __typename?: 'Query', portfoliosCollection?: { __typename?: 'PortfoliosCollection', items: Array<(
       { __typename?: 'Portfolios' }
       & PortfoliosFieldsFragment
+    ) | null> } | null };
+
+export type PriceListFieldsFragment = { __typename?: 'PriceList', title?: string | null, slug?: string | null, sys: { __typename?: 'Sys', id: string, spaceId: string }, description?: { __typename?: 'PriceListDescription', json: any } | null };
+
+export type GetPriceListQueryVariables = Exact<{
+  locale?: InputMaybe<Scalars['String']>;
+  preview?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+
+export type GetPriceListQuery = { __typename?: 'Query', priceListCollection?: { __typename?: 'PriceListCollection', items: Array<(
+      { __typename?: 'PriceList' }
+      & PriceListFieldsFragment
     ) | null> } | null };
 
 export type QuizAnswerFieldsFragment = { __typename?: 'QuizAnswer', value?: string | null, text?: string | null, pdfLongText?: string | null, sys: { __typename?: 'Sys', id: string }, pdfText?: { __typename?: 'QuizAnswerPdfText', json: any } | null, image?: (
@@ -2088,6 +2285,9 @@ export const ImagesFieldsFragmentDoc = gql`
   portfolioMobileImage {
     ...ImageFields
   }
+  linksImage {
+    ...ImageFields
+  }
 }
     `;
 export const PackagesFieldsFragmentDoc = gql`
@@ -2134,6 +2334,19 @@ export const PortfoliosFieldsFragmentDoc = gql`
   youtube
   shortDescription
   showPortfolio
+}
+    `;
+export const PriceListFieldsFragmentDoc = gql`
+    fragment PriceListFields on PriceList {
+  sys {
+    id
+    spaceId
+  }
+  title
+  slug
+  description {
+    json
+  }
 }
     `;
 export const QuizAnswerFieldsFragmentDoc = gql`
@@ -2214,6 +2427,15 @@ export const GetPortfoliosDocument = gql`
 }
     ${PortfoliosFieldsFragmentDoc}
 ${ImageFieldsFragmentDoc}`;
+export const GetPriceListDocument = gql`
+    query GetPriceList($locale: String, $preview: Boolean) {
+  priceListCollection(locale: $locale, preview: $preview) {
+    items {
+      ...PriceListFields
+    }
+  }
+}
+    ${PriceListFieldsFragmentDoc}`;
 export const GetQuizzesDocument = gql`
     query GetQuizzes($locale: String, $preview: Boolean) {
   quizCollection(locale: $locale, preview: $preview, limit: 5, order: order_ASC) {
@@ -2244,6 +2466,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     GetPortfolios(variables?: GetPortfoliosQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetPortfoliosQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetPortfoliosQuery>(GetPortfoliosDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetPortfolios', 'query', variables);
+    },
+    GetPriceList(variables?: GetPriceListQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetPriceListQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetPriceListQuery>(GetPriceListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetPriceList', 'query', variables);
     },
     GetQuizzes(variables?: GetQuizzesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetQuizzesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetQuizzesQuery>(GetQuizzesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetQuizzes', 'query', variables);
