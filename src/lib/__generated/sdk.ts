@@ -435,7 +435,6 @@ export type Images = Entry & _Node & {
   packagesMobileImage?: Maybe<Asset>;
   portfolioMobileImage?: Maybe<Asset>;
   portfoliosImage?: Maybe<Asset>;
-  priceListImage?: Maybe<Asset>;
   sys: Sys;
   title?: Maybe<Scalars['String']>;
 };
@@ -532,13 +531,6 @@ export type ImagesPortfoliosImageArgs = {
 
 
 /** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
-export type ImagesPriceListImageArgs = {
-  locale?: InputMaybe<Scalars['String']>;
-  preview?: InputMaybe<Scalars['Boolean']>;
-};
-
-
-/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/images) */
 export type ImagesTitleArgs = {
   locale?: InputMaybe<Scalars['String']>;
 };
@@ -567,7 +559,6 @@ export type ImagesFilter = {
   packagesMobileImage_exists?: InputMaybe<Scalars['Boolean']>;
   portfolioMobileImage_exists?: InputMaybe<Scalars['Boolean']>;
   portfoliosImage_exists?: InputMaybe<Scalars['Boolean']>;
-  priceListImage_exists?: InputMaybe<Scalars['Boolean']>;
   sys?: InputMaybe<SysFilter>;
   title?: InputMaybe<Scalars['String']>;
   title_contains?: InputMaybe<Scalars['String']>;
@@ -612,6 +603,7 @@ export type Packages = Entry & _Node & {
   description?: Maybe<PackagesDescription>;
   image?: Maybe<Asset>;
   linkedFrom?: Maybe<PackagesLinkingCollections>;
+  order?: Maybe<Scalars['Int']>;
   slug?: Maybe<Scalars['String']>;
   sys: Sys;
   title?: Maybe<Scalars['String']>;
@@ -634,6 +626,12 @@ export type PackagesImageArgs = {
 /** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/packages) */
 export type PackagesLinkedFromArgs = {
   allowedLocales?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/packages) */
+export type PackagesOrderArgs = {
+  locale?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -712,6 +710,15 @@ export type PackagesFilter = {
   description_exists?: InputMaybe<Scalars['Boolean']>;
   description_not_contains?: InputMaybe<Scalars['String']>;
   image_exists?: InputMaybe<Scalars['Boolean']>;
+  order?: InputMaybe<Scalars['Int']>;
+  order_exists?: InputMaybe<Scalars['Boolean']>;
+  order_gt?: InputMaybe<Scalars['Int']>;
+  order_gte?: InputMaybe<Scalars['Int']>;
+  order_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  order_lt?: InputMaybe<Scalars['Int']>;
+  order_lte?: InputMaybe<Scalars['Int']>;
+  order_not?: InputMaybe<Scalars['Int']>;
+  order_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   slug?: InputMaybe<Scalars['String']>;
   slug_contains?: InputMaybe<Scalars['String']>;
   slug_exists?: InputMaybe<Scalars['Boolean']>;
@@ -743,6 +750,8 @@ export type PackagesLinkingCollectionsEntryCollectionArgs = {
 };
 
 export enum PackagesOrder {
+  OrderAsc = 'order_ASC',
+  OrderDesc = 'order_DESC',
   SlugAsc = 'slug_ASC',
   SlugDesc = 'slug_DESC',
   SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
@@ -2148,7 +2157,7 @@ export type GetImagesQuery = { __typename?: 'Query', imagesCollection?: { __type
       & ImagesFieldsFragment
     ) | null> } | null };
 
-export type PackagesFieldsFragment = { __typename?: 'Packages', title?: string | null, slug?: string | null, sys: { __typename?: 'Sys', id: string, spaceId: string }, image?: (
+export type PackagesFieldsFragment = { __typename?: 'Packages', title?: string | null, slug?: string | null, order?: number | null, sys: { __typename?: 'Sys', id: string, spaceId: string }, image?: (
     { __typename?: 'Asset' }
     & ImageFieldsFragment
   ) | null, description?: { __typename?: 'PackagesDescription', json: any } | null, contentfulMetadata: { __typename?: 'ContentfulMetadata', tags: Array<{ __typename?: 'ContentfulTag', id?: string | null, name?: string | null } | null> } };
@@ -2310,6 +2319,7 @@ export const PackagesFieldsFragmentDoc = gql`
       name
     }
   }
+  order
 }
     `;
 export const PortfoliosFieldsFragmentDoc = gql`
@@ -2409,7 +2419,7 @@ export const GetImagesDocument = gql`
 ${ImageFieldsFragmentDoc}`;
 export const GetPackagesDocument = gql`
     query GetPackages($locale: String, $preview: Boolean) {
-  packagesCollection(locale: $locale, preview: $preview) {
+  packagesCollection(locale: $locale, preview: $preview, order: order_ASC) {
     items {
       ...PackagesFields
     }

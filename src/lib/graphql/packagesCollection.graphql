@@ -17,9 +17,10 @@ fragment PackagesFields on Packages {
       name
     }
   }
+  order
 }
 query GetPackages($locale: String, $preview: Boolean) {
-  packagesCollection(locale: $locale, preview: $preview) {
+  packagesCollection(locale: $locale, preview: $preview, order: order_ASC) {
     items {
       ...PackagesFields
     }

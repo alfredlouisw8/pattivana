@@ -7,18 +7,21 @@ import { getMenus } from '@src/app/helper/utils';
 import { ImagesFieldsFragment } from '@src/lib/__generated/sdk';
 import { motion } from 'framer-motion';
 import { listContainerVariants } from '@src/app/helper/animation';
+import { useEffect, useState } from 'react';
 
 interface MenuSectionProps {
   images: ImagesFieldsFragment | undefined | null;
 }
 export default function MenuSection({ images }: MenuSectionProps) {
-  let isMobile = false;
-
-  if (typeof window !== 'undefined') {
-    isMobile = window.innerWidth < 1024;
-  }
+  const [isMobile, setIsMobile] = useState(false);
 
   const menus = getMenus(images, isMobile);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsMobile(window.innerWidth < 1024);
+    }
+  }, []);
 
   return (
     <motion.div className="flex h-screen w-full flex-col lg:flex-row">

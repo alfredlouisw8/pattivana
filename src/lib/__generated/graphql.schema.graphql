@@ -356,7 +356,6 @@ type Images implements Entry & _Node {
   packagesMobileImage(locale: String, preview: Boolean): Asset
   portfolioMobileImage(locale: String, preview: Boolean): Asset
   portfoliosImage(locale: String, preview: Boolean): Asset
-  priceListImage(locale: String, preview: Boolean): Asset
   sys: Sys!
   title(locale: String): String
 }
@@ -384,7 +383,6 @@ input ImagesFilter {
   packagesMobileImage_exists: Boolean
   portfolioMobileImage_exists: Boolean
   portfoliosImage_exists: Boolean
-  priceListImage_exists: Boolean
   sys: SysFilter
   title: String
   title_contains: String
@@ -426,6 +424,7 @@ type Packages implements Entry & _Node {
   description(locale: String): PackagesDescription
   image(locale: String, preview: Boolean): Asset
   linkedFrom(allowedLocales: [String]): PackagesLinkingCollections
+  order(locale: String): Int
   slug(locale: String): String
   sys: Sys!
   title(locale: String): String
@@ -486,6 +485,15 @@ input PackagesFilter {
   description_exists: Boolean
   description_not_contains: String
   image_exists: Boolean
+  order: Int
+  order_exists: Boolean
+  order_gt: Int
+  order_gte: Int
+  order_in: [Int]
+  order_lt: Int
+  order_lte: Int
+  order_not: Int
+  order_not_in: [Int]
   slug: String
   slug_contains: String
   slug_exists: Boolean
@@ -508,6 +516,8 @@ type PackagesLinkingCollections {
 }
 
 enum PackagesOrder {
+  order_ASC
+  order_DESC
   slug_ASC
   slug_DESC
   sys_firstPublishedAt_ASC
