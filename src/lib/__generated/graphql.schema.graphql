@@ -671,6 +671,7 @@ type PriceList implements Entry & _Node {
   contentfulMetadata: ContentfulMetadata!
   description(locale: String): PriceListDescription
   linkedFrom(allowedLocales: [String]): PriceListLinkingCollections
+  order(locale: String): Int
   slug(locale: String): String
   sys: Sys!
   title(locale: String): String
@@ -730,6 +731,15 @@ input PriceListFilter {
   description_contains: String
   description_exists: Boolean
   description_not_contains: String
+  order: Int
+  order_exists: Boolean
+  order_gt: Int
+  order_gte: Int
+  order_in: [Int]
+  order_lt: Int
+  order_lte: Int
+  order_not: Int
+  order_not_in: [Int]
   slug: String
   slug_contains: String
   slug_exists: Boolean
@@ -752,6 +762,8 @@ type PriceListLinkingCollections {
 }
 
 enum PriceListOrder {
+  order_ASC
+  order_DESC
   slug_ASC
   slug_DESC
   sys_firstPublishedAt_ASC

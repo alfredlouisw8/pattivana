@@ -8,9 +8,10 @@ fragment PriceListFields on PriceList {
   description {
     json
   }
+  order
 }
 query GetPriceList($locale: String, $preview: Boolean) {
-  priceListCollection(locale: $locale, preview: $preview) {
+  priceListCollection(locale: $locale, preview: $preview, order: order_ASC) {
     items {
       ...PriceListFields
     }

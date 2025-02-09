@@ -970,6 +970,7 @@ export type PriceList = Entry & _Node & {
   contentfulMetadata: ContentfulMetadata;
   description?: Maybe<PriceListDescription>;
   linkedFrom?: Maybe<PriceListLinkingCollections>;
+  order?: Maybe<Scalars['Int']>;
   slug?: Maybe<Scalars['String']>;
   sys: Sys;
   title?: Maybe<Scalars['String']>;
@@ -985,6 +986,12 @@ export type PriceListDescriptionArgs = {
 /** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/priceList) */
 export type PriceListLinkedFromArgs = {
   allowedLocales?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/priceList) */
+export type PriceListOrderArgs = {
+  locale?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -1062,6 +1069,15 @@ export type PriceListFilter = {
   description_contains?: InputMaybe<Scalars['String']>;
   description_exists?: InputMaybe<Scalars['Boolean']>;
   description_not_contains?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<Scalars['Int']>;
+  order_exists?: InputMaybe<Scalars['Boolean']>;
+  order_gt?: InputMaybe<Scalars['Int']>;
+  order_gte?: InputMaybe<Scalars['Int']>;
+  order_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  order_lt?: InputMaybe<Scalars['Int']>;
+  order_lte?: InputMaybe<Scalars['Int']>;
+  order_not?: InputMaybe<Scalars['Int']>;
+  order_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   slug?: InputMaybe<Scalars['String']>;
   slug_contains?: InputMaybe<Scalars['String']>;
   slug_exists?: InputMaybe<Scalars['Boolean']>;
@@ -1093,6 +1109,8 @@ export type PriceListLinkingCollectionsEntryCollectionArgs = {
 };
 
 export enum PriceListOrder {
+  OrderAsc = 'order_ASC',
+  OrderDesc = 'order_DESC',
   SlugAsc = 'slug_ASC',
   SlugDesc = 'slug_DESC',
   SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
@@ -2189,7 +2207,7 @@ export type GetPortfoliosQuery = { __typename?: 'Query', portfoliosCollection?: 
       & PortfoliosFieldsFragment
     ) | null> } | null };
 
-export type PriceListFieldsFragment = { __typename?: 'PriceList', title?: string | null, slug?: string | null, sys: { __typename?: 'Sys', id: string, spaceId: string }, description?: { __typename?: 'PriceListDescription', json: any } | null };
+export type PriceListFieldsFragment = { __typename?: 'PriceList', title?: string | null, slug?: string | null, order?: number | null, sys: { __typename?: 'Sys', id: string, spaceId: string }, description?: { __typename?: 'PriceListDescription', json: any } | null };
 
 export type GetPriceListQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['String']>;
@@ -2357,6 +2375,7 @@ export const PriceListFieldsFragmentDoc = gql`
   description {
     json
   }
+  order
 }
     `;
 export const QuizAnswerFieldsFragmentDoc = gql`
@@ -2439,7 +2458,7 @@ export const GetPortfoliosDocument = gql`
 ${ImageFieldsFragmentDoc}`;
 export const GetPriceListDocument = gql`
     query GetPriceList($locale: String, $preview: Boolean) {
-  priceListCollection(locale: $locale, preview: $preview) {
+  priceListCollection(locale: $locale, preview: $preview, order: order_ASC) {
     items {
       ...PriceListFields
     }
