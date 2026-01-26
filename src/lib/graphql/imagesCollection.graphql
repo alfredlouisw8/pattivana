@@ -39,6 +39,12 @@ fragment ImagesFields on Images {
   linksImage {
     ...ImageFields
   }
+  articlesImage {
+    ...ImageFields
+  }
+  articlesMobileImage {
+    ...ImageFields
+  }
 }
 
 query GetImages($locale: String, $preview: Boolean) {

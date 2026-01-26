@@ -95,6 +95,13 @@ export const getMenus = (images, isMobile = false) => {
       description: 'Still confused where to begin? Start here and take the test!',
       show: true,
     },
+    {
+      link: '/articles',
+      image: isMobile ? images?.articlesMobileImage : images?.articlesImage,
+      title: 'Articles',
+      description: 'Article description',
+      show: true,
+    },
   ];
 };
 

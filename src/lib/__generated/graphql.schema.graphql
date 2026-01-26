@@ -1,18 +1,137 @@
 directive @contentSourceMaps on QUERY
 
+directive @contentfulSchemaMetadata(contentTypePublishedCounters: JSON) on SCHEMA
+
+directive @delegatedResourceLink(contentTypeId: String, field: JSON) on FIELD_DEFINITION | OBJECT
+
+directive @enumMapper(value: JSON) on ENUM_VALUE
+
+directive @featureFlag(featureName: String) on FIELD
+
+directive @fieldResolver(data: JSON, kind: String) on FIELD_DEFINITION
+
+directive @timeline(where: TimelineFilterInput!) on QUERY
+
+directive @typeIdentifier(contentTypeId: String) on OBJECT
+
+"""
+[See type definition](https://app.contentful.com/spaces/0zhpahbse7h4/content_types/articles)
+"""
+type Articles implements Entry & _Node {
+  _id: ID!
+  contentfulMetadata: ContentfulMetadata!
+  description(locale: String, useFallbackLocale: Boolean): ArticlesDescription
+  linkedFrom(allowedLocales: [String]): ArticlesLinkingCollections
+  slug(locale: String, useFallbackLocale: Boolean): String
+  sys: Sys!
+  thumbnail(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  title(locale: String, useFallbackLocale: Boolean): String
+}
+
+type ArticlesCollection {
+  items: [Articles]!
+  limit: Int!
+  skip: Int!
+  total: Int!
+}
+
+type ArticlesDescription {
+  json: JSON!
+  links: ArticlesDescriptionLinks!
+}
+
+type ArticlesDescriptionAssets {
+  block: [Asset]!
+  hyperlink: [Asset]!
+}
+
+type ArticlesDescriptionEntries {
+  block: [Entry]!
+  hyperlink: [Entry]!
+  inline: [Entry]!
+}
+
+type ArticlesDescriptionLinks {
+  assets: ArticlesDescriptionAssets!
+  entries: ArticlesDescriptionEntries!
+  resources: ArticlesDescriptionResources!
+}
+
+type ArticlesDescriptionResources {
+  block: [ArticlesDescriptionResourcesBlock!]!
+  hyperlink: [ArticlesDescriptionResourcesHyperlink!]!
+  inline: [ArticlesDescriptionResourcesInline!]!
+}
+
+type ArticlesDescriptionResourcesBlock implements ResourceLink {
+  sys: ResourceSys!
+}
+
+type ArticlesDescriptionResourcesHyperlink implements ResourceLink {
+  sys: ResourceSys!
+}
+
+type ArticlesDescriptionResourcesInline implements ResourceLink {
+  sys: ResourceSys!
+}
+
+input ArticlesFilter {
+  AND: [ArticlesFilter]
+  OR: [ArticlesFilter]
+  contentfulMetadata: ContentfulMetadataFilter
+  description_contains: String
+  description_exists: Boolean
+  description_not_contains: String
+  slug: String
+  slug_contains: String
+  slug_exists: Boolean
+  slug_in: [String]
+  slug_not: String
+  slug_not_contains: String
+  slug_not_in: [String]
+  sys: SysFilter
+  thumbnail_exists: Boolean
+  title: String
+  title_contains: String
+  title_exists: Boolean
+  title_in: [String]
+  title_not: String
+  title_not_contains: String
+  title_not_in: [String]
+}
+
+type ArticlesLinkingCollections {
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): EntryCollection
+}
+
+enum ArticlesOrder {
+  slug_ASC
+  slug_DESC
+  sys_firstPublishedAt_ASC
+  sys_firstPublishedAt_DESC
+  sys_id_ASC
+  sys_id_DESC
+  sys_publishedAt_ASC
+  sys_publishedAt_DESC
+  sys_publishedVersion_ASC
+  sys_publishedVersion_DESC
+  title_ASC
+  title_DESC
+}
+
 """Represents a binary file in a space. An asset can be any file type."""
 type Asset {
-  contentType(locale: String): String
+  contentType(locale: String, useFallbackLocale: Boolean): String
   contentfulMetadata: ContentfulMetadata!
-  description(locale: String): String
-  fileName(locale: String): String
-  height(locale: String): Int
+  description(locale: String, useFallbackLocale: Boolean): String
+  fileName(locale: String, useFallbackLocale: Boolean): String
+  height(locale: String, useFallbackLocale: Boolean): Int
   linkedFrom(allowedLocales: [String]): AssetLinkingCollections
-  size(locale: String): Int
+  size(locale: String, useFallbackLocale: Boolean): Int
   sys: Sys!
-  title(locale: String): String
-  url(locale: String, transform: ImageTransformOptions): String
-  width(locale: String): Int
+  title(locale: String, useFallbackLocale: Boolean): String
+  url(locale: String, transform: ImageTransformOptions, useFallbackLocale: Boolean): String
+  width(locale: String, useFallbackLocale: Boolean): Int
 }
 
 type AssetCollection {
@@ -92,12 +211,13 @@ input AssetFilter {
 }
 
 type AssetLinkingCollections {
-  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
-  imagesCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): ImagesCollection
-  packagesCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): PackagesCollection
-  portfoliosCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): PortfoliosCollection
-  quizAnswerCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): QuizAnswerCollection
-  specialDealsCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): SpecialDealsCollection
+  articlesCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): ArticlesCollection
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): EntryCollection
+  imagesCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): ImagesCollection
+  packagesCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): PackagesCollection
+  portfoliosCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): PortfoliosCollection
+  quizAnswerCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): QuizAnswerCollection
+  specialDealsCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): SpecialDealsCollection
 }
 
 enum AssetOrder {
@@ -210,6 +330,7 @@ enum EntryOrder {
 scalar HexColor
 
 enum ImageFormat {
+  """AVIF image format."""
   AVIF
 
   """JPG image format."""
@@ -342,22 +463,24 @@ input ImageTransformOptions {
 """
 type Images implements Entry & _Node {
   _id: ID!
-  contactImage(locale: String, preview: Boolean): Asset
+  articlesImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  articlesMobileImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  contactImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
   contentfulMetadata: ContentfulMetadata!
-  dealsImage(locale: String, preview: Boolean): Asset
-  dealsMobileImage(locale: String, preview: Boolean): Asset
-  homeImage(locale: String, preview: Boolean): Asset
+  dealsImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  dealsMobileImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  homeImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
   linkedFrom(allowedLocales: [String]): ImagesLinkingCollections
-  linksImage(locale: String, preview: Boolean): Asset
-  loveProfileImage(locale: String, preview: Boolean): Asset
-  loveProfileMobileImage(locale: String, preview: Boolean): Asset
-  menuImage(locale: String, preview: Boolean): Asset
-  packagesImage(locale: String, preview: Boolean): Asset
-  packagesMobileImage(locale: String, preview: Boolean): Asset
-  portfolioMobileImage(locale: String, preview: Boolean): Asset
-  portfoliosImage(locale: String, preview: Boolean): Asset
+  linksImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  loveProfileImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  loveProfileMobileImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  menuImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  packagesImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  packagesMobileImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  portfolioMobileImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  portfoliosImage(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
   sys: Sys!
-  title(locale: String): String
+  title(locale: String, useFallbackLocale: Boolean): String
 }
 
 type ImagesCollection {
@@ -370,6 +493,8 @@ type ImagesCollection {
 input ImagesFilter {
   AND: [ImagesFilter]
   OR: [ImagesFilter]
+  articlesImage_exists: Boolean
+  articlesMobileImage_exists: Boolean
   contactImage_exists: Boolean
   contentfulMetadata: ContentfulMetadataFilter
   dealsImage_exists: Boolean
@@ -394,7 +519,7 @@ input ImagesFilter {
 }
 
 type ImagesLinkingCollections {
-  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): EntryCollection
 }
 
 enum ImagesOrder {
@@ -421,13 +546,13 @@ scalar JSON
 type Packages implements Entry & _Node {
   _id: ID!
   contentfulMetadata: ContentfulMetadata!
-  description(locale: String): PackagesDescription
-  image(locale: String, preview: Boolean): Asset
+  description(locale: String, useFallbackLocale: Boolean): PackagesDescription
+  image(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
   linkedFrom(allowedLocales: [String]): PackagesLinkingCollections
-  order(locale: String): Int
-  slug(locale: String): String
+  order(locale: String, useFallbackLocale: Boolean): Int
+  slug(locale: String, useFallbackLocale: Boolean): String
   sys: Sys!
-  title(locale: String): String
+  title(locale: String, useFallbackLocale: Boolean): String
 }
 
 type PackagesCollection {
@@ -512,7 +637,7 @@ input PackagesFilter {
 }
 
 type PackagesLinkingCollections {
-  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): EntryCollection
 }
 
 enum PackagesOrder {
@@ -538,15 +663,15 @@ enum PackagesOrder {
 type Portfolios implements Entry & _Node {
   _id: ID!
   contentfulMetadata: ContentfulMetadata!
-  description(locale: String): PortfoliosDescription
-  image(locale: String, preview: Boolean): Asset
+  description(locale: String, useFallbackLocale: Boolean): PortfoliosDescription
+  image(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
   linkedFrom(allowedLocales: [String]): PortfoliosLinkingCollections
-  shortDescription(locale: String): String
-  showPortfolio(locale: String): Boolean
-  slug(locale: String): String
+  shortDescription(locale: String, useFallbackLocale: Boolean): String
+  showPortfolio(locale: String, useFallbackLocale: Boolean): Boolean
+  slug(locale: String, useFallbackLocale: Boolean): String
   sys: Sys!
-  title(locale: String): String
-  youtube(locale: String): String
+  title(locale: String, useFallbackLocale: Boolean): String
+  youtube(locale: String, useFallbackLocale: Boolean): String
 }
 
 type PortfoliosCollection {
@@ -639,7 +764,7 @@ input PortfoliosFilter {
 }
 
 type PortfoliosLinkingCollections {
-  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): EntryCollection
 }
 
 enum PortfoliosOrder {
@@ -669,12 +794,12 @@ enum PortfoliosOrder {
 type PriceList implements Entry & _Node {
   _id: ID!
   contentfulMetadata: ContentfulMetadata!
-  description(locale: String): PriceListDescription
+  description(locale: String, useFallbackLocale: Boolean): PriceListDescription
   linkedFrom(allowedLocales: [String]): PriceListLinkingCollections
-  order(locale: String): Int
-  slug(locale: String): String
+  order(locale: String, useFallbackLocale: Boolean): Int
+  slug(locale: String, useFallbackLocale: Boolean): String
   sys: Sys!
-  title(locale: String): String
+  title(locale: String, useFallbackLocale: Boolean): String
 }
 
 type PriceListCollection {
@@ -758,7 +883,7 @@ input PriceListFilter {
 }
 
 type PriceListLinkingCollections {
-  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): EntryCollection
 }
 
 enum PriceListOrder {
@@ -784,28 +909,31 @@ The 'Quality' type represents quality as whole numeric values between `1` and `1
 scalar Quality
 
 type Query {
-  _node(id: ID!, locale: String, preview: Boolean): _Node
-  asset(id: String!, locale: String, preview: Boolean): Asset
-  assetCollection(limit: Int = 100, locale: String, order: [AssetOrder], preview: Boolean, skip: Int = 0, where: AssetFilter): AssetCollection
-  entryCollection(limit: Int = 100, locale: String, order: [EntryOrder], preview: Boolean, skip: Int = 0, where: EntryFilter): EntryCollection
-  images(id: String!, locale: String, preview: Boolean): Images
-  imagesCollection(limit: Int = 100, locale: String, order: [ImagesOrder], preview: Boolean, skip: Int = 0, where: ImagesFilter): ImagesCollection
-  packages(id: String!, locale: String, preview: Boolean): Packages
-  packagesCollection(limit: Int = 100, locale: String, order: [PackagesOrder], preview: Boolean, skip: Int = 0, where: PackagesFilter): PackagesCollection
-  portfolios(id: String!, locale: String, preview: Boolean): Portfolios
-  portfoliosCollection(limit: Int = 100, locale: String, order: [PortfoliosOrder], preview: Boolean, skip: Int = 0, where: PortfoliosFilter): PortfoliosCollection
-  priceList(id: String!, locale: String, preview: Boolean): PriceList
-  priceListCollection(limit: Int = 100, locale: String, order: [PriceListOrder], preview: Boolean, skip: Int = 0, where: PriceListFilter): PriceListCollection
-  quiz(id: String!, locale: String, preview: Boolean): Quiz
-  quizAnswer(id: String!, locale: String, preview: Boolean): QuizAnswer
-  quizAnswerCollection(limit: Int = 100, locale: String, order: [QuizAnswerOrder], preview: Boolean, skip: Int = 0, where: QuizAnswerFilter): QuizAnswerCollection
-  quizCollection(limit: Int = 100, locale: String, order: [QuizOrder], preview: Boolean, skip: Int = 0, where: QuizFilter): QuizCollection
-  quizResult(id: String!, locale: String, preview: Boolean): QuizResult
-  quizResultCollection(limit: Int = 100, locale: String, order: [QuizResultOrder], preview: Boolean, skip: Int = 0, where: QuizResultFilter): QuizResultCollection
-  specialDeals(id: String!, locale: String, preview: Boolean): SpecialDeals
-  specialDealsCollection(limit: Int = 100, locale: String, order: [SpecialDealsOrder], preview: Boolean, skip: Int = 0, where: SpecialDealsFilter): SpecialDealsCollection
-  tag(id: String!, locale: String, preview: Boolean): Tag
-  tagCollection(limit: Int = 100, locale: String, order: [TagOrder], preview: Boolean, skip: Int = 0, where: TagFilter): TagCollection
+  _node(id: ID!, locale: String, preview: Boolean, useFallbackLocale: Boolean): _Node
+  _nodes(ids: [ID!]!, locale: String, preview: Boolean, useFallbackLocale: Boolean): [_Node]!
+  articles(id: String!, locale: String, preview: Boolean, useFallbackLocale: Boolean): Articles
+  articlesCollection(limit: Int = 100, locale: String, order: [ArticlesOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: ArticlesFilter): ArticlesCollection
+  asset(id: String!, locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
+  assetCollection(limit: Int = 100, locale: String, order: [AssetOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: AssetFilter): AssetCollection
+  entryCollection(limit: Int = 100, locale: String, order: [EntryOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: EntryFilter): EntryCollection
+  images(id: String!, locale: String, preview: Boolean, useFallbackLocale: Boolean): Images
+  imagesCollection(limit: Int = 100, locale: String, order: [ImagesOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: ImagesFilter): ImagesCollection
+  packages(id: String!, locale: String, preview: Boolean, useFallbackLocale: Boolean): Packages
+  packagesCollection(limit: Int = 100, locale: String, order: [PackagesOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: PackagesFilter): PackagesCollection
+  portfolios(id: String!, locale: String, preview: Boolean, useFallbackLocale: Boolean): Portfolios
+  portfoliosCollection(limit: Int = 100, locale: String, order: [PortfoliosOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: PortfoliosFilter): PortfoliosCollection
+  priceList(id: String!, locale: String, preview: Boolean, useFallbackLocale: Boolean): PriceList
+  priceListCollection(limit: Int = 100, locale: String, order: [PriceListOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: PriceListFilter): PriceListCollection
+  quiz(id: String!, locale: String, preview: Boolean, useFallbackLocale: Boolean): Quiz
+  quizAnswer(id: String!, locale: String, preview: Boolean, useFallbackLocale: Boolean): QuizAnswer
+  quizAnswerCollection(limit: Int = 100, locale: String, order: [QuizAnswerOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: QuizAnswerFilter): QuizAnswerCollection
+  quizCollection(limit: Int = 100, locale: String, order: [QuizOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: QuizFilter): QuizCollection
+  quizResult(id: String!, locale: String, preview: Boolean, useFallbackLocale: Boolean): QuizResult
+  quizResultCollection(limit: Int = 100, locale: String, order: [QuizResultOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: QuizResultFilter): QuizResultCollection
+  specialDeals(id: String!, locale: String, preview: Boolean, useFallbackLocale: Boolean): SpecialDeals
+  specialDealsCollection(limit: Int = 100, locale: String, order: [SpecialDealsOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: SpecialDealsFilter): SpecialDealsCollection
+  tag(id: String!, locale: String, preview: Boolean, useFallbackLocale: Boolean): Tag
+  tagCollection(limit: Int = 100, locale: String, order: [TagOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: TagFilter): TagCollection
 }
 
 """
@@ -813,11 +941,11 @@ type Query {
 """
 type Quiz implements Entry & _Node {
   _id: ID!
-  answersCollection(limit: Int = 100, locale: String, order: [QuizAnswersCollectionOrder], preview: Boolean, skip: Int = 0, where: QuizAnswerFilter): QuizAnswersCollection
+  answersCollection(limit: Int = 100, locale: String, order: [QuizAnswersCollectionOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean, where: QuizAnswerFilter): QuizAnswersCollection
   contentfulMetadata: ContentfulMetadata!
   linkedFrom(allowedLocales: [String]): QuizLinkingCollections
-  order(locale: String): Int
-  question(locale: String): String
+  order(locale: String, useFallbackLocale: Boolean): Int
+  question(locale: String, useFallbackLocale: Boolean): String
   sys: Sys!
 }
 
@@ -827,13 +955,13 @@ type Quiz implements Entry & _Node {
 type QuizAnswer implements Entry & _Node {
   _id: ID!
   contentfulMetadata: ContentfulMetadata!
-  image(locale: String, preview: Boolean): Asset
+  image(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
   linkedFrom(allowedLocales: [String]): QuizAnswerLinkingCollections
-  pdfLongText(locale: String): String
-  pdfText(locale: String): QuizAnswerPdfText
+  pdfLongText(locale: String, useFallbackLocale: Boolean): String
+  pdfText(locale: String, useFallbackLocale: Boolean): QuizAnswerPdfText
   sys: Sys!
-  text(locale: String): String
-  value(locale: String): String
+  text(locale: String, useFallbackLocale: Boolean): String
+  value(locale: String, useFallbackLocale: Boolean): String
 }
 
 type QuizAnswerCollection {
@@ -876,8 +1004,8 @@ input QuizAnswerFilter {
 }
 
 type QuizAnswerLinkingCollections {
-  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
-  quizCollection(limit: Int = 100, locale: String, order: [QuizAnswerLinkingCollectionsQuizCollectionOrder], preview: Boolean, skip: Int = 0): QuizCollection
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): EntryCollection
+  quizCollection(limit: Int = 100, locale: String, order: [QuizAnswerLinkingCollectionsQuizCollectionOrder], preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): QuizCollection
 }
 
 enum QuizAnswerLinkingCollectionsQuizCollectionOrder {
@@ -1005,7 +1133,7 @@ input QuizFilter {
 }
 
 type QuizLinkingCollections {
-  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): EntryCollection
 }
 
 enum QuizOrder {
@@ -1028,14 +1156,14 @@ enum QuizOrder {
 """
 type QuizResult implements Entry & _Node {
   _id: ID!
-  answers(locale: String): JSON
-  bride(locale: String): String
+  answers(locale: String, useFallbackLocale: Boolean): JSON
+  bride(locale: String, useFallbackLocale: Boolean): String
   contentfulMetadata: ContentfulMetadata!
-  groom(locale: String): String
+  groom(locale: String, useFallbackLocale: Boolean): String
   linkedFrom(allowedLocales: [String]): QuizResultLinkingCollections
   sys: Sys!
-  title(locale: String): String
-  whatsapp(locale: String): String
+  title(locale: String, useFallbackLocale: Boolean): String
+  whatsapp(locale: String, useFallbackLocale: Boolean): String
 }
 
 type QuizResultCollection {
@@ -1082,7 +1210,7 @@ input QuizResultFilter {
 }
 
 type QuizResultLinkingCollections {
-  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): EntryCollection
 }
 
 enum QuizResultOrder {
@@ -1119,12 +1247,12 @@ type ResourceSys {
 type SpecialDeals implements Entry & _Node {
   _id: ID!
   contentfulMetadata: ContentfulMetadata!
-  description(locale: String): SpecialDealsDescription
-  image(locale: String, preview: Boolean): Asset
+  description(locale: String, useFallbackLocale: Boolean): SpecialDealsDescription
+  image(locale: String, preview: Boolean, useFallbackLocale: Boolean): Asset
   linkedFrom(allowedLocales: [String]): SpecialDealsLinkingCollections
-  slug(locale: String): String
+  slug(locale: String, useFallbackLocale: Boolean): String
   sys: Sys!
-  title(locale: String): String
+  title(locale: String, useFallbackLocale: Boolean): String
 }
 
 type SpecialDealsCollection {
@@ -1200,7 +1328,7 @@ input SpecialDealsFilter {
 }
 
 type SpecialDealsLinkingCollections {
-  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): EntryCollection
 }
 
 enum SpecialDealsOrder {
@@ -1274,7 +1402,7 @@ type Tag implements Entry & _Node {
   _id: ID!
   contentfulMetadata: ContentfulMetadata!
   linkedFrom(allowedLocales: [String]): TagLinkingCollections
-  name(locale: String): String
+  name(locale: String, useFallbackLocale: Boolean): String
   sys: Sys!
 }
 
@@ -1300,7 +1428,7 @@ input TagFilter {
 }
 
 type TagLinkingCollections {
-  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0): EntryCollection
+  entryCollection(limit: Int = 100, locale: String, preview: Boolean, skip: Int = 0, useFallbackLocale: Boolean): EntryCollection
 }
 
 enum TagOrder {
@@ -1322,6 +1450,14 @@ Represents a taxonomy concept entity for finding and organizing content easily.
 """
 type TaxonomyConcept {
   id: String
+}
+
+input TimelineFilterInput {
+  """Preview content starting from a given release date"""
+  release_lte: String
+
+  """Preview content starting from a given timestamp"""
+  timestamp_lte: DateTime
 }
 
 interface _Node {

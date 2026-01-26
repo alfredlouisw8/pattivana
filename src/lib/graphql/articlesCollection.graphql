@@ -1,0 +1,67 @@
+fragment ArticlesFields on Articles {
+  sys {
+    id
+    spaceId
+  }
+  title
+  slug
+  thumbnail {
+    ...ImageFields
+  }
+}
+
+fragment ArticleDetailFields on Articles {
+  sys {
+    id
+    spaceId
+  }
+  title
+  slug
+  thumbnail {
+    ...ImageFields
+  }
+  description {
+    json
+    links {
+      assets {
+        block {
+          sys {
+            id
+          }
+          url
+          description
+          width
+          height
+        }
+      }
+      entries {
+        block {
+          sys {
+            id
+          }
+          __typename
+          # ... on YourEmbeddedEntryType {
+          #   title
+          #   summary
+          # }
+        }
+      }
+    }
+  }
+}
+
+query GetArticles($locale: String, $preview: Boolean) {
+  articlesCollection(locale: $locale, preview: $preview) {
+    items {
+      ...ArticlesFields
+    }
+  }
+}
+
+query GetArticleBySlug($slug: String!, $locale: String!, $preview: Boolean!) {
+  articlesCollection(where: { slug: $slug }, limit: 1, locale: $locale, preview: $preview) {
+    items {
+      ...ArticleDetailFields
+    }
+  }
+}
