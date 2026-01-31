@@ -29,8 +29,8 @@ export default function ArticleItem({ item, index }) {
           />
         </div>
 
-        <div className="flex flex-col gap-3">
-          <h2 className="text-lg lg:text-2xl">{item.title}</h2>
+        <div className="flex flex-col justify-center gap-3">
+          <h2 className="text-xl lg:text-3xl lg:leading-10">{item.title}</h2>
         </div>
       </div>
     </motion.div>

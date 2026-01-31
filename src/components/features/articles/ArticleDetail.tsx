@@ -28,12 +28,22 @@ export default function ArticleDetail({ article }) {
       )}
 
       {/* Rich Text */}
-      <div className="prose prose-sm max-w-none sm:prose-base lg:prose-lg">
+      <div className="prose prose-sm mb-8 max-w-none sm:prose-base lg:prose-lg">
         <CtfRichText
           json={description?.json}
           links={description?.links}
           className="text-sm sm:text-base"
         />
+      </div>
+
+      <div className="flex items-center justify-center">
+        <div
+          className="false w-fit cursor-pointer bg-cream-dark px-5 transition-all lg:px-7"
+          onClick={() => {
+            window.open('https://wa.me/628113339132', '_blank');
+          }}>
+          <p className="text-xl uppercase text-white lg:text-3xl">Contact Us</p>
+        </div>
       </div>
     </div>
   );

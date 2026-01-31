@@ -98,8 +98,8 @@ export const getMenus = (images, isMobile = false) => {
     {
       link: '/articles',
       image: isMobile ? images?.articlesMobileImage : images?.articlesImage,
-      title: 'Articles',
-      description: 'Article description',
+      title: 'Must Read',
+      description: 'These are the thoughts that we have expressed in writing about the importance of memories on your wedding day.',
       show: true,
     },
   ];

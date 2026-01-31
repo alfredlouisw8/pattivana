@@ -11,11 +11,11 @@ export default function ArticlesSection({ articles }) {
     <Template className="flex w-full flex-col justify-between lg:p-10">
       <div className="hidden justify-end lg:flex">
         <div className="flex flex-col gap-5">
-          <h1 className="text-right text-7xl text-primary">Articles</h1>
+          <h1 className="text-right text-7xl text-primary">Must Read</h1>
         </div>
       </div>
       <div className="sticky top-0  z-10 flex h-[82px] items-center border-b border-b-cream bg-cream-light pl-[5%] lg:hidden">
-        <h1 className="text-3xl text-primary">Articles</h1>
+        <h1 className="text-3xl text-primary">Must Read</h1>
       </div>
 
       <div
